@@ -9,7 +9,7 @@ Database Design:
 ARTIST:
 spotifyArtistID,
 artistName,
-artistPopularity,
+artistPopularity
 
 JUNCTION:
 junctionID,
@@ -62,3 +62,8 @@ acousticness,
 instrumentalness,
 liveness,
 valence
+
+
+
+Required functions to implement: 
+
