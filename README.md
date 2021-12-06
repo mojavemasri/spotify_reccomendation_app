@@ -88,3 +88,7 @@ app
 FUNCTIONS TO IMPLEMENT:\
 Print functions for all attributes in printRecords.py
 
+
+NOTES FOR THE FUTURE:\
+Add a user table?\
+Remove loudness from the attributes column(currently any new records inserted will have a 0 in that category)

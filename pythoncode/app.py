@@ -272,7 +272,7 @@ def getreccomendations():
             vibechoice = helper.get_choice([1,2,3,4])
             reccomendationObj =  reccomendation(playlistInput, maxpopularity, minpopularity, maxartistpopularity, \
             minartistpopularity, vibechoice)
-
+            reccomendedPlaylist = reccomendationObj.runGA()
 def menuoptions():
     print('''Menu Options:
             1) View library
