@@ -1,3 +1,5 @@
+import random
+from apihelper import apihelper
 
 class reccomendation():
 
@@ -33,15 +35,14 @@ class reccomendation():
         return initsamplePoolList, initsamplePool, sampleSize
 
 
-
     #USED TO GENERATE INITIAL SOLUTIONS
-    def genPop(popSize, numItems, playlist):
+    def genPop(popSize, numItems):
       population = []
       for _ in range(popSize):
         temp = []
         for _ in range(numItems):
           tempID = samplePoolList[random.randint(0,self.sampleSize-1)]
-          for k in playlist:
+          for k in self.playlist:
             if tempID == k:
               tempID = samplePoolList[random.randint(0,self.sampleSize-1)]
           temp.append(tempID)
@@ -49,6 +50,7 @@ class reccomendation():
       return population
 
 
+    
     #SELECTS RANDOM SOLUTTIONS FROM POPULATION
     #FIXED
     def roulette_selection(population, numParents):
@@ -142,7 +144,7 @@ class reccomendation():
 
 
 
-    def tournament_survival(population, numSurvive, playlist, playlistIndices, weight, sampleSize, playlistVars):
+    def tournament_survival(population, numSurvive, playlist, playlistAvg, weight, sampleSize, playlistVars):
       newpop = []
       playlistAvg = avgVal(playlistIndices)
       if len(population) < numSurvive:
@@ -172,14 +174,16 @@ class reccomendation():
 
     def calcVal(sol, playlistAvg, weight, playlistVars):
       avgTestSol = avgVal(sol)
-      avgVar = findVar(sol, avgTestSol)
+      avgVar = findVar(sol)
       diffList = compareVectors(playlistAvg, avgTestSol, weight)
-      varList = compareVectors(avgVar, playlistVars, [1,1,1,1,1,1,1,1,1,1,1,1])
+      varList = compareVectors(avgVar, playlistVars, [0,0,0,0,0,0,0])#CAN BE REPLACED WITH WEIGHT
       return(calcDistance(diffList)+calcDistance(avgVar))
 
     def compareVectors(s1, s2, weight):
       diffList = []
       if not len(s1) == len(s2):
+        return -1
+      if not len(s1) == len(weight):
         return -1
       for i in range(len(s2)):
         #print(f"i = {i}")
@@ -238,7 +242,7 @@ class reccomendation():
     def runGA():
         print(songList)
         print("--------INITIAL PLAYLIST----------\n")
-        prettyPrint(playlist)
+        prettyPrint(self.playlist)
         NUM_TRIALS = 500
         MUT_RATE = 0.1
         POP_SIZE = 2000
@@ -252,7 +256,7 @@ class reccomendation():
         MAX_RESETS = 100
         ACCURACY = 1.4
         currBestSol = []
-        varPlaylist = findVar(playlist)
+        varPlaylist = findVar(self.playlist)
         #['danceability', 'energy', 'speechiness', 'acousticness', 'liveness', 'valence','artistPopularity']
         WEIGHT = [0.5,0.5,0.5,0.5,0.5,0.5,0.5]
         print(varPlaylist)
@@ -264,10 +268,10 @@ class reccomendation():
         WEIGHT = normalizeArr(WEIGHT)
         print(WEIGHT)
         #print(pop)
-        updatepop = genPop(BASE_POP, 10, playlist)
+        updatepop = genPop(BASE_POP, 10)
         updatepop = roulette_selection(updatepop, NUM_PARENTS)
         updatepop = generateChildren(NUM_PARENTS, pop, MUT_RATE, NUM_CHILDREN, playlist)
-        playlistAvg = avgVal(playlist)
+        playlistAvg = avgVal(self.playlist)
         print(pop)
         resetcounter = 0
         currConverg = FIRSTCONVERG
@@ -279,7 +283,7 @@ class reccomendation():
           currBestVal = 0
           currBestSol = []
           for i in range(NUM_TRIALS):
-            updatepop = tournament_survival(updatepop, BASE_POP, playlistInit, playlistIndexes, WEIGHT, SAMPLE_SIZE, varPlaylist)
+            updatepop = tournament_survival(updatepop, BASE_POP, playlistInit, playlistAvg, WEIGHT, SAMPLE_SIZE, varPlaylist)
             random.shuffle(updatepop)
             updatepop = generateChildren(NUM_PARENTS, updatepop, MUT_RATE, NUM_CHILDREN, playlist)
             if(i%10 == 0):
@@ -319,7 +323,7 @@ class reccomendation():
           print("Adding new Pop, BEST SOLUTION: ")
           print(bestSol)
           prettyPrint(bestSol)
-          pop = genPop((POP_SIZE*2), len(playlistInit), playlistInit, SAMPLE_SIZE)
+          pop = genPop((POP_SIZE*2), 10, playlistInit)
           #print(pop)
           pop.append(bestSol)
           pop = roulette_selection(pop, (NUM_PARENTS*2))
