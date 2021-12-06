@@ -78,4 +78,5 @@ instrumentalness
 liveness
 valence
 
-FUNCTIONS TO IMPLEMENT:__
+FUNCTIONS TO IMPLEMENT:\
+Print functions for all attributes in printRecords.py
