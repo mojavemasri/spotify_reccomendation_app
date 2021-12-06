@@ -131,7 +131,7 @@ def viewlibrary():
     input("Press any key to continue")
     pass
 
-def editlibrary():
+def editlibrary(apihelp):
     print('''
     Would you like to:
     1)Insert a record
@@ -148,8 +148,14 @@ def editlibrary():
         ''')
         mediumchoice = helper.get_choice([1,2,3])
         if mediumchoice == 1:
+            trackID = helper.getURLFromUser(1)
+            enterRecord.addTrackToDatabase(trackID, apihelp)
         elif mediumchoice == 2:
+            albumID = helper.getURLFromUser(2)
+            enterRecord.addAlbumToDatabase(albumID, apihelp)
         elif mediumchoice == 3:
+            playlistID = helper.getURLFromUser(4)
+            enterRecord.addPlaylistToDatabase(playlistID, apihelp)
     elif typechoice == 2:
     elif typechoice == 3:
 def getreccomendations():
@@ -174,7 +180,8 @@ while True:
     choice = menuoptions()
     if choice == 1:
         viewlibrary()
-    #elif choice == 2:
+    elif choice == 2:
+        editlibrary(apihelp)
     #elif choice == 3:
     #elif choice == 4:
     elif choice == 5:

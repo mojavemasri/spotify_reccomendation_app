@@ -21,26 +21,12 @@ class enterRecord():
       playlistInfo = []
       counter = 0
       for tempdict in playlistArr:
-
         t = tempdict['id']
         if tempdict["is_local"]:
           continue
-        print(t)
+        #print(t)
         if uniqueTrack(t, trackArr):
-          tempt = getTrackInfo(tempdict)
-          insertAttributes(tempdict["id"], apihelp)
-          if uniqueAlbum(tempdict, albumArr):
-            tempalb = getAlbumInfo(tempdict)
-            if uniqueArtist(tempdict, artistArr):
-              tempartistdict = apihelp.getArtistDict(tempdict["artists"][0]["id"])
-              tempart = getArtistInfo(tempdict, tempartistdict)
-              for g in tempartistdict['genres']:
-                if uniqueGenre(g, genreArr):
-                  genreArr.append(g)
-                gajunction.append([tempdict["artists"][0]["id"], getGenreID(g, genreArr)])
-              artistArr.append(tempart)
-            albumArr.append(tempalb)
-          trackArr.append(tempt)
+            addTrackToDatabase(t, apihelp)
         ptjunction.append([playlistID, t, counter])
         counter += 1
       playlistDict = apihelp.getPlaylistDict(playlist)
@@ -48,230 +34,257 @@ class enterRecord():
       print(f"Playlist info: {playlistInfo}")
       #add items HERE to their respective databases. genreid,trackid,ptjunction, and gajunction should be autoincrement so u should take that into consideration
       #--------------------------------
-
+      #QUERY STATEMENT FOR PLAYLIST, PT JUNCTION
       #--------------------------------
       #this return statement wont be necessary if u r already adding the items to the database
       return[playlistInfo, trackArr, albumArr, artistArr, genreArr, gajunction, ptjunction]
+    def addTrackToDatabase(trackID, apihelp):
+        if uniqueTrack(trackID):
+            trackdict = apihelp.getTrackDict(trackID)
+            tempt = getTrackInfo(trackdict)
+            insertAttributes(trackdict["id"], apihelp)
+            if uniqueAlbum(trackdict, albumArr):
+              tempalb = getAlbumInfo(trackdict)
+              if uniqueArtist(trackdict, artistArr):
+                tempartistdict = apihelp.getArtistDict(trackdict["artists"][0]["id"])
+                tempart = getArtistInfo(trackdict, tempartistdict)
+                for g in tempartistdict['genres']:
+                  if uniqueGenre(g, genreArr):
+                    #query statement for inserting genre g
+                    #genreArr.append(g)
+                  #querystatement for inserting gajunction [tempdict["artists"][0]["id"], getGenreID(g, genreArr)]
+                  #gajunction.append([tempdict["artists"][0]["id"], getGenreID(g, genreArr)])
+                #query statement to insert tempart
+                #artistArr.append(tempart)
+              #querystatement to insert tempalb
+              #albumArr.append(tempalb)
+            #querystatement to insert trackid
 
-      def addTrackToDatabase(trackID, apihelp):
+            #EXECUTE ALL THE ABOVE QUERY STATEMENTS
+        else:
+            pass
 
-      def insertAttributes(trackID, apihelp):
-          attrList = apihelp.getAudioAttributes(trackID)
-          #QUERY TO INSERT ATTR LIST
-
-
-      #given the artist dictionary, returns a list of genres the artist falls under
-      @staticmethod
-      def getGenreInfo(genreDict):
-        g = genreDict["genres"]
-        return g
-
-      #given the track dictionary, returns the corresponding album info
-      @staticmethod
-      def getAlbumInfo(trackDict):
-        alb = []
-        alb.append(trackDict["album"]["id"])
-        alb.append(trackDict["artists"][0]["id"])
-        alb.append(trackDict["album"]["name"])
-        alb.append(trackDict["album"]["total_tracks"])
-        alb.append(trackDict["album"]["album_type"])
-        alb.append(trackDict["album"]["release_date"])
-        return alb
-
-      #given the artist dictionary and the track dictionary, returns corresponding artist info
-      @staticmethod
-      def getArtistInfo(trackDict, artistDict):
-        art = []
-        art.append(trackDict["artists"][0]["id"])
-        art.append(trackDict["artists"][0]["name"])
-        art.append(artistDict["popularity"])
-        return art
-
-      #given the track dictionary, returns corresponding track info
-      @staticmethod
-      def getTrackInfo(trackDict):
-        t = []
-        t.append(trackDict["id"])
-        t.append(trackDict["album"]["id"])
-        t.append(trackDict["artists"][0]["id"])
-        t.append(trackDict["name"])
-        t.append(trackDict["duration_ms"])
-        t.append(trackDict["popularity"])
-        t.append(trackDict["explicit"])
-        return t
+    def addAlbumToDatabase(trackID, apihelp):
 
 
-      #given a spotify track ID, it will return the database track id
-      #needs to be integrated into database
-      @staticmethod
-      def getTrackID(track):
-        with open('tracks.csv', 'r') as fr:
+    def insertAttributes(trackID, apihelp):
+        attrList = apihelp.getAudioAttributes(trackID)
+        #QUERY TO INSERT ATTR LIST
+
+
+
+    #given the artist dictionary, returns a list of genres the artist falls under
+    @staticmethod
+    def getGenreInfo(genreDict):
+      g = genreDict["genres"]
+      return g
+
+    #given the track dictionary, returns the corresponding album info
+    @staticmethod
+    def getAlbumInfo(trackDict):
+      alb = []
+      alb.append(trackDict["album"]["id"])
+      alb.append(trackDict["artists"][0]["id"])
+      alb.append(trackDict["album"]["name"])
+      alb.append(trackDict["album"]["total_tracks"])
+      alb.append(trackDict["album"]["album_type"])
+      alb.append(trackDict["album"]["release_date"])
+      return alb
+
+    #given the artist dictionary and the track dictionary, returns corresponding artist info
+    @staticmethod
+    def getArtistInfo(trackDict, artistDict):
+      art = []
+      art.append(trackDict["artists"][0]["id"])
+      art.append(trackDict["artists"][0]["name"])
+      art.append(artistDict["popularity"])
+      return art
+
+    #given the track dictionary, returns corresponding track info
+    @staticmethod
+    def getTrackInfo(trackDict):
+      t = []
+      t.append(trackDict["id"])
+      t.append(trackDict["album"]["id"])
+      t.append(trackDict["artists"][0]["id"])
+      t.append(trackDict["name"])
+      t.append(trackDict["duration_ms"])
+      t.append(trackDict["popularity"])
+      t.append(trackDict["explicit"])
+      return t
+
+
+    #given a spotify track ID, it will return the database track id
+    #needs to be integrated into database
+    @staticmethod
+    def getTrackID(track):
+      with open('tracks.csv', 'r') as fr:
+        line = fr.readline()
+        line = fr.readline()
+        count = 0
+        while line:
+          #if count%1000 == 0:
+          #  print(f"line {count}")
+          #count += 1
+          tempID = line[line.index(',')+1:line.index(',') +23]
+          #print(tempID)
+          if track == tempID:
+            fr.close()
+            return line[0:line.index(',')-1]
           line = fr.readline()
-          line = fr.readline()
-          count = 0
-          while line:
-            #if count%1000 == 0:
-            #  print(f"line {count}")
-            #count += 1
-            tempID = line[line.index(',')+1:line.index(',') +23]
-            #print(tempID)
-            if track == tempID:
-              fr.close()
-              return line[0:line.index(',')-1]
-            line = fr.readline()
-        fr.close()
-      #given a genre name, it will return the genreID
-      #needs to be integrated into database
-      #when we integrate into the database we will remove the second arguement
-      @staticmethod
-      def getGenreID(g, genreArr):
+      fr.close()
+    #given a genre name, it will return the genreID
+    #needs to be integrated into database
+    #when we integrate into the database we will remove the second arguement
+    @staticmethod
+    def getGenreID(g, genreArr):
 
-        with open('genres.csv', 'r') as fr:
-          line = fr.readline()
-          line = fr.readline()
-          count = 0
-          while line:
-            #if count%1000 == 0:
-            #  print(f"line {count}")
+      with open('genres.csv', 'r') as fr:
+        line = fr.readline()
+        line = fr.readline()
+        count = 0
+        while line:
+          #if count%1000 == 0:
+          #  print(f"line {count}")
 
-            tempID = line[3:-1]+line[-1]
-            if g == tempID:
-              return count
-            count += 1
-            line = fr.readline()
-        fr.close()
-        for ga in genreArr:
-          if ga == g:
+          tempID = line[3:-1]+line[-1]
+          if g == tempID:
             return count
           count += 1
-        return count
+          line = fr.readline()
+      fr.close()
+      for ga in genreArr:
+        if ga == g:
+          return count
+        count += 1
+      return count
 
-      #given the track dictionary, it will determine whether or not it is a unique album
-      #this one can be written better
-      #needs to be integrated into database
-      #when we integrate into the database we will remove the second arguement
-      @staticmethod
-      def uniqueAlbum(tempdict, albumArr):
-        album = tempdict["album"]["id"]
-        for a in albumArr:
-          if a[0] == album:
+    #given the track dictionary, it will determine whether or not it is a unique album
+    #this one can be written better
+    #needs to be integrated into database
+    #when we integrate into the database we will remove the second arguement
+    @staticmethod
+    def uniqueAlbum(tempdict, albumArr):
+      album = tempdict["album"]["id"]
+      for a in albumArr:
+        if a[0] == album:
+          return False
+      with open('tracks.csv', 'r') as fr:
+        line = fr.readline()
+        line = fr.readline()
+        count = 0
+        while line:
+          #if count%1000 == 0:
+          #  print(f"line {count}")
+          #count += 1
+          tempID = line[0:22]
+          if album == tempID:
             return False
-        with open('tracks.csv', 'r') as fr:
           line = fr.readline()
-          line = fr.readline()
-          count = 0
-          while line:
-            #if count%1000 == 0:
-            #  print(f"line {count}")
-            #count += 1
-            tempID = line[0:22]
-            if album == tempID:
-              return False
-            line = fr.readline()
-        fr.close()
-        return True
+      fr.close()
+      return True
 
 
-      #given the track dictionary, it will determine whether or not it is a unique artist
-      #this one can be written better
-      #needs to be integrated into database
-      #when we integrate into the database we will remove the second arguement
-      @staticmethod
-      def uniqueArtist(tempdict, artistArr):
+    #given the track dictionary, it will determine whether or not it is a unique artist
+    #this one can be written better
+    #needs to be integrated into database
+    #when we integrate into the database we will remove the second arguement
+    @staticmethod
+    def uniqueArtist(tempdict, artistArr):
 
-        artist = tempdict["artists"][0]["id"]
-        for a in artistArr:
-          if a[0] == artist:
+      artist = tempdict["artists"][0]["id"]
+      for a in artistArr:
+        if a[0] == artist:
+          return False
+      with open('artists.csv', 'r') as fr:
+        line = fr.readline()
+        line = fr.readline()
+        count = 0
+        while line:
+          #if count%1000 == 0:
+          #  print(f"line {count}")
+          #count += 1
+          tempID = line[0:22]
+          if artist == tempID:
             return False
-        with open('artists.csv', 'r') as fr:
           line = fr.readline()
-          line = fr.readline()
-          count = 0
-          while line:
-            #if count%1000 == 0:
-            #  print(f"line {count}")
-            #count += 1
-            tempID = line[0:22]
-            if artist == tempID:
-              return False
-            line = fr.readline()
-        fr.close()
-        return True
+      fr.close()
+      return True
 
-      #given the genre name, it will determine whether or not it is a unique genre
-      #needs to be integrated into database
-      #when we integrate into the database we will remove the second arguement
-      @staticmethod
-      def uniqueGenre(genre, genreArr):
-        for g in genreArr:
-          if g[0] == genre:
+    #given the genre name, it will determine whether or not it is a unique genre
+    #needs to be integrated into database
+    #when we integrate into the database we will remove the second arguement
+    @staticmethod
+    def uniqueGenre(genre, genreArr):
+      for g in genreArr:
+        if g[0] == genre:
+          return False
+      with open('genres.csv', 'r') as fr:
+        line = fr.readline()
+        line = fr.readline()
+        count = 0
+        while line:
+          #if count%1000 == 0:
+          #  print(f"line {count}")
+          #count += 1
+          tempID = line[3:-1]+line[-1]
+          if genre == tempID:
             return False
-        with open('genres.csv', 'r') as fr:
           line = fr.readline()
-          line = fr.readline()
-          count = 0
-          while line:
-            #if count%1000 == 0:
-            #  print(f"line {count}")
-            #count += 1
-            tempID = line[3:-1]+line[-1]
-            if genre == tempID:
-              return False
-            line = fr.readline()
-        fr.close()
-        return True
+      fr.close()
+      return True
 
-      #given the spotify trackID, it will determine whether or not it is a unique track
-      #needs to be integrated into database
-      #when we integrate into the database we will remove the second arguement
-      @staticmethod
-      def uniqueTrack(track, trackArr):
-        for t in trackArr:
-          if t[1] == track:
+    #given the spotify trackID, it will determine whether or not it is a unique track
+    #needs to be integrated into database
+    #when we integrate into the database we will remove the second arguement
+    @staticmethod
+    def uniqueTrack(track, trackArr):
+      for t in trackArr:
+        if t[1] == track:
+          return False
+      with open('tracks.csv', 'r') as fr:
+        line = fr.readline()
+        line = fr.readline()
+        count = 0
+        while line:
+          #if count%1000 == 0:
+          #  print(f"line {count}")
+          #count += 1
+          tempID = line[line.index(',')+1:line.index(',') +23]
+          #print(tempID)
+          if track == tempID:
             return False
-        with open('tracks.csv', 'r') as fr:
           line = fr.readline()
-          line = fr.readline()
-          count = 0
-          while line:
-            #if count%1000 == 0:
-            #  print(f"line {count}")
-            #count += 1
-            tempID = line[line.index(',')+1:line.index(',') +23]
-            #print(tempID)
-            if track == tempID:
-              return False
-            line = fr.readline()
-        fr.close()
-        return True
+      fr.close()
+      return True
 
 
-      #given the spotify playlistID, it will determine whether or not it is a unique playlist
-      #needs to be integrated into database
-      @staticmethod
-      def uniquePlaylist(playlist):
-        with open('playlists.csv', 'r') as fr:
+    #given the spotify playlistID, it will determine whether or not it is a unique playlist
+    #needs to be integrated into database
+    @staticmethod
+    def uniquePlaylist(playlist):
+      with open('playlists.csv', 'r') as fr:
+        line = fr.readline()
+        line = fr.readline()
+        count = 0
+        while line:
+          #if count%1000 == 0:
+          #  print(f"line {count}")
+          #count += 1
+          tempID = line[0:22]
+          if playlist == tempID:
+            return False
           line = fr.readline()
-          line = fr.readline()
-          count = 0
-          while line:
-            #if count%1000 == 0:
-            #  print(f"line {count}")
-            #count += 1
-            tempID = line[0:22]
-            if playlist == tempID:
-              return False
-            line = fr.readline()
-        fr.close()
-        return True
+      fr.close()
+      return True
 
 
-      #WE NEED TO REWRITE THE FOLLOWING IN TERMS OF OUR DATABASE:
-      #addPlaylistToDatabase(MOVED TO enterRecord)
-      #getTrackID
-      #getGenreID
-      #uniqueAlbum
-      #uniqueArtist
-      #uniqueGenre
-      #uniqueTrack
-      #uniquePlaylist
+    #WE NEED TO REWRITE THE FOLLOWING IN TERMS OF OUR DATABASE:
+    #addPlaylistToDatabase(MOVED TO enterRecord)
+    #getTrackID
+    #getGenreID
+    #uniqueAlbum
+    #uniqueArtist
+    #uniqueGenre
+    #uniqueTrack
+    #uniquePlaylist
