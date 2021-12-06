@@ -81,7 +81,8 @@ valence
 FILES LEFT TO IMPLEMENT:\
 Reccomendation algo(Youssef)\
 Database commands \
-app \
+app
+
 
 
 FUNCTIONS TO IMPLEMENT:\
