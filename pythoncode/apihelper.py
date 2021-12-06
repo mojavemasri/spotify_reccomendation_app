@@ -167,6 +167,21 @@ class apihelper():
         attrList.append(results["valence"])
         return attrList
 
+    #given an albumID, get the albumDictionary
+    def getAlbumDict(albumID):
+        import requests
+
+        headers = {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': f'Bearer {authToken}',
+        }
+
+        response = requests.get(f'https://api.spotify.com/v1/albums/{albumID}/tracks', headers=headers)
+        return(response.json())
+
+    def getAuthToken():
+        return authToken
     #given a test token, returns whether or not it is valid
     @staticmethod
     def testToken(token):

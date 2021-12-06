@@ -1,7 +1,7 @@
 from helper import helper
 from apihelper import apihelper
 from printRecord import printRecord
-from enterRecord import enterRecord
+from modifyRecord import modifyRecord
 
 def startscreen():
     print("")
@@ -37,8 +37,9 @@ def viewlibrary():
             4) Genres
             5) Playlists
             6) Users(NOT IMPLEMENTED YET IT WONT LET YOU CHOOSE THIS)
+            7) Return to main menu
     ''')
-    typechoice = helper.get_choice([1,2,3,4,5])
+    typechoice = helper.get_choice([1,2,3,4,5,7])
     if typechoice == 1:
         print('''
         Would you like to:
@@ -63,8 +64,9 @@ def viewlibrary():
         Would you like to:
         1)Enter the album Spotify url to display your album
         2)Enter an artist Spotify url and print all of their (database) albums
-        3)Enter the name of the album and search for it''')
-        searchChoice = helper.get_choice([1,2,3])
+        3)Enter the name of the album and search for it
+        4) Return to main menu''')
+        searchChoice = helper.get_choice([1,2,3, 4])
         if searchChoice == 1:
             albumID = helper.getURLFromUser(2)
             printRecord.printFancyAlbum(albumID)
@@ -87,8 +89,9 @@ def viewlibrary():
         print('''
         Would you like to:
         1)Enter the Spotify url to display your artist
-        2)Enter the name of the artist and search for it''')
-        searchChoice = helper.get_choice([1,2])
+        2)Enter the name of the artist and search for it
+        3) Return to main menu''')
+        searchChoice = helper.get_choice([1,2, 3])
         if searchChoice == 1:
             artistID = helper.getURLFromUser(3)
             printRecord.printFancyArtist(artistID)
@@ -112,7 +115,8 @@ def viewlibrary():
         print('''
         Would you like to:
         1)Enter the Spotify url to display your playlist
-        2)Enter the name of the playlist and search for it''')
+        2)Enter the name of the playlist and search for it
+        3) Return to main menu''')
         searchChoice = helper.get_choice([1,2])
         if searchChoice == 1:
             playlistID = helper.getURLFromUser(5)
@@ -137,6 +141,7 @@ def editlibrary(apihelp):
     1)Insert a record
     2)Update a record
     3)Delete a record
+    4) Return to main menu
     ''')
     typechoice = helper.get_choice([1,2,3])
     if typechoice == 1:
@@ -145,19 +150,45 @@ def editlibrary(apihelp):
         1)Enter a song
         2)Enter an album
         3)Enter a playlist
+        4) Return to main menu
         ''')
         mediumchoice = helper.get_choice([1,2,3])
         if mediumchoice == 1:
             trackID = helper.getURLFromUser(1)
-            enterRecord.addTrackToDatabase(trackID, apihelp)
+            modifyRecord.addTrackToDatabase(trackID, apihelp)
         elif mediumchoice == 2:
             albumID = helper.getURLFromUser(2)
-            enterRecord.addAlbumToDatabase(albumID, apihelp)
+            modifyRecord.addAlbumToDatabase(albumID, apihelp)
         elif mediumchoice == 3:
             playlistID = helper.getURLFromUser(4)
-            enterRecord.addPlaylistToDatabase(playlistID, apihelp)
+            modifyRecord.addPlaylistToDatabase(playlistID, apihelp)
     elif typechoice == 2:
+        print('''
+        Would you like to:
+        1)Update a playlist's name
+        2)Update a playlist's content
+        3) Return to main menu
+        ''')
+        updateChoice = helper.get_choice([1,2,3])
+        if updateChoice = 1:
+            playlistID = helper.getURLFromUser(4)
+            #QUERY TO CHANGE PLAYLIST NAME GIVEN ID
+        elif updateChoice = 2:
+            playlistID = helper.getURLFromUser(4)
+            modifyRecord.updatePlaylist(playlistID, apihelp)
     elif typechoice == 3:
+        print('''
+        Delete is only supported for playlists
+        ''')
+        print('''
+        Would you like to:
+        1)Enter the url of the playlist you would like to delete
+        2) Return to main menu
+        ''')
+        updateChoice = helper.get_choice([1,2])
+        playlistID = helper.getURLFromUser(4)
+        modifyRecord.updatePlaylist(playlistID, apihelp)
+
 def getreccomendations():
 
 def menuoptions():
