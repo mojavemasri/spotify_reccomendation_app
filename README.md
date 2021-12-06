@@ -77,3 +77,14 @@ acousticness
 instrumentalness
 liveness
 valence
+
+FILES LEFT TO IMPLEMENT:\
+Reccomendation algo(Youssef)\
+Database commands \
+app
+
+
+
+FUNCTIONS TO IMPLEMENT:\
+Print functions for all attributes in printRecords.py
+
