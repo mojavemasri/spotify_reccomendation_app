@@ -1,10 +1,11 @@
 # module defines operations to use with sqlite3 database
-import sqlite3
+import mysql.connector as mysql
+
 
 
 class db_operations():
     def __init__(self,conn_path): # constructor with connection path to db
-        self.connection = sqlite3.connect(conn_path)
+        self.connection = mysql.connect(conn_path)
         self.cursor = self.connection.cursor()
         print("connection made..")
 
