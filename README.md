@@ -1,8 +1,13 @@
 # spotifyreccomendationapp
 NOTES:
-I added spotifySongID as well as songID. Up to your discretion if you want to use both or just one. I added it because the spotify ones are long and hard to read, and the only reason we would need it is to reference the spotify api
+I added spotifySongID as well as songID. Up to your discretion if you want to use both or just one. I added it because the spotify ones are long and hard to read, and the only reason we would need it is to reference the spotify api. The songid can be implemented in SQL with autoincrement pk
 
-The junction table is used because artist-genre is a many many relationship.
+The artist-genre junction table is used because artist-genre is a many many relationship.
+The playlist-track junction table is used because playlist-track is a many many relationship.
+
+genre and both the junction tables should also be implemented with autoincrement pk
+
+
 
 Database Design:
 
@@ -11,7 +16,7 @@ spotifyArtistID
 artistName
 artistPopularity
 
-JUNCTION:
+artistGenreJUNCTION:
 junctionID
 artistID
 genreID
@@ -50,9 +55,19 @@ userID
 songID
 listenLength
 
+PLAYLIST:
+playlistID
+playlistName
+numTracks
+
+PLAYLIST_TRACK_JUNCTION:
+juncID
+playlistID
+trackID
+trackPlace
+
 
 SONG_ATTRIBUTES:
-songID
 spotifySongID
 danceability
 energy
