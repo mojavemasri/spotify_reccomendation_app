@@ -19,32 +19,45 @@ class reccomendation():
 
     @staticmethod
     def initializeSamplePool(maxpopularity, minpopularity, maxartistpopularity,minartistpopularity, vibechoice):
+        if vibechoice == 1:
+            print(1)
+        elif vibechoice == 2:
+            print(2)
+        elif vibechoice == 3:
+            print(3)
+        elif vibechoice == 4:
+            print(4)
         #QUERY THAT RETURNS SONG ATTRIBUTES ARTIST POPULARITY, and NUM ITEMS RETURNED
         #LIMIT AT 1000
+        #NORMALIZE ARTIST POPULARITY BY /100
         return initsamplePoolList, initsamplePool, sampleSize
 
-    def genPop(popSize, numItems, playlistItemsIndex,sampleSize):
+
+
+    #USED TO GENERATE INITIAL SOLUTIONS
+    def genPop(popSize, numItems, playlist):
       population = []
       for _ in range(popSize):
         temp = []
-        for i in range(numItems):
-          tempInt = random.randint(0,sampleSize-1)
-          for k in playlistItemsIndex:
-            if tempInt == k:
-              tempInt = random.randint(0,sampleSize-1)
-          temp.append(tempInt)
+        for _ in range(numItems):
+          tempID = samplePoolList[random.randint(0,self.sampleSize-1)]
+          for k in playlist:
+            if tempID == k:
+              tempID = samplePoolList[random.randint(0,self.sampleSize-1)]
+          temp.append(tempID)
         population.append(temp)
       return population
 
+
+    #SELECTS RANDOM SOLUTTIONS FROM POPULATION
+    #FIXED
     def roulette_selection(population, numParents):
-      popSize = len(population)
-      if popSize < numParents:
-        return population
       parentSelect = []
       numParents = int(numParents)
       for _ in range (numParents):
         parentSelect.append(population.pop(random.randint(0,len(population)-1)))
       return parentSelect
+
 
     def simpleCrossover(p1,p2):
 
@@ -77,27 +90,27 @@ class reccomendation():
 
       return c1,c2
 
-    def simpleMutation(sol, mut, playlistItemsIndex, sampleSize):
+    def simpleMutation(sol, mut, playlist):
       for i in range(len(sol)):
         if random.random() < mut:
-          sol[0][i] = simpleMutateVal(playlistItemsIndex, sampleSize)
+          sol[0][i] = simpleMutateVal(playlist)
 
         if random.random() < mut:
-          sol[1][i] = simpleMutateVal(playlistItemsIndex,sampleSize)
+          sol[1][i] = simpleMutateVal(playlist)
       return sol
 
-    def simpleMutateVal(playlistItemsIndex, sampleSize):
+    def simpleMutateVal(playlist):
       validMut = False
       while not validMut:
-        tempInt = random.randint(0,sampleSize-1)
+        tempVal = self.samplePoolList[random.randint(0,self.sampleSize-1)]
         validMut = True
-        for k in playlistItemsIndex:
-          if tempInt == k:
+        for k in playlist:
+          if tempVal == k:
             validMut = False
             break
-      return tempInt
+      return tempVal
 
-    def generateChildren(numParents, population, mut, numChildren, playlistItemsIndex, sampleSize):
+    def generateChildren(numParents, population, mut, numChildren, playlistItemsIndex):
       #print(f"Population length = {len(population)}")
       #print(f"numParents = {numParents}")
 
@@ -111,7 +124,7 @@ class reccomendation():
         p1 = parentList[i]
         p2 = parentList[i+1]
         sol = simpleCrossover(p1,p2)
-        mutsol= simpleMutation(sol,mut, playlistItemsIndex, sampleSize)
+        mutsol= simpleMutation(sol,mut, playlistItemsIndex)
         childPopulation.append(mutsol[0])
         childPopulation.append(mutsol[1])
       childPopulation = roulette_selection(childPopulation, numChildren)
@@ -149,31 +162,12 @@ class reccomendation():
       else:
         return s2
 
-    def avgVal(solIndices):
-      avgList = [0,0,0,0,0,0,0,0,0,0,0,0]
-      sol = []
-      for s in solIndices:
-        #print(s)
-        #print(songList[s])
-        #print(masterRef[songList[s]])
-        #print(f"len master ref: {len(masterRef[songList[s]])}")
-        sol.append(masterRef[songList[s]])
-      for i in range(len(sol)):
-        avgList[0] += sol[i]['danceability']
-        avgList[1] += sol[i]['energy']
-        avgList[2] += (sol[i]['key'])
-        avgList[3] += sol[i]['loudness']
-        avgList[4] += sol[i]['mode']
-        avgList[5] += sol[i]['speechiness']
-        avgList[6] += sol[i]['acousticness']
-        avgList[7] += sol[i]['instrumentalness']
-        avgList[8] += sol[i]['liveness']
-        avgList[9] += sol[i]['valence']
-        avgList[10] += sol[i]['tempo']
-        avgList[11] += sol[i]['duration_ms']
-      for i in range(len(avgList)):
-        avgList[i] /= len(sol)
-      #print(f"len avg list: {len(avgList)}")
+    def avgVal(sol):
+      avgList = [0,0,0,0,0,0,0]
+      numSongs = len(sol)
+      for s in sol:
+          for i in range(len(samplePool[s])):
+              avgList[i] += ((samplePool[s][i])/numSongs)
       return avgList
 
     def calcVal(sol, playlistAvg, weight, playlistVars):
@@ -199,26 +193,13 @@ class reccomendation():
       return diffList
 
 
-    def findVar(playlistIndexes, avgVals):
-      varList = [0,0,0,0,0,0,0,0,0,0,0,0]
-      sol = []
-      for t in playlistIndexes:
-        sol.append(masterRef[songList[t]])
-      for i in range(len(sol)):
-        varList[0] += (sol[i]['danceability'] - avgVals[0])**2
-        varList[1] += (sol[i]['energy']- avgVals[1])**2
-        varList[2] += ((sol[i]['key'])- avgVals[2])**2
-        varList[3] += ((sol[i]['loudness']- avgVals[3])**2)
-        varList[4] += (sol[i]['mode']- avgVals[4])**2
-        varList[5] += (sol[i]['speechiness']- avgVals[5])**2
-        varList[6] += (sol[i]['acousticness']- avgVals[6])**2
-        varList[7] += (sol[i]['instrumentalness']- avgVals[7])**2
-        varList[8] += (sol[i]['liveness']- avgVals[8])**2
-        varList[9] += (sol[i]['valence']- avgVals[9])**2
-        varList[10] += (sol[i]['tempo']- avgVals[10])**2
-        varList[11] += (sol[i]['duration_ms']- avgVals[11])**2
-      for j in range(len(varList)):
-        varList[j] /= (len(sol)- 1)
+    def findVar(sol):
+      varList = [0,0,0,0,0,0,0]
+      avgVals = avgVal(sol)
+      numSongs = len(sol)
+      for s in sol:
+          for i in range(len(samplePool[s])):
+              varList[i] += (((samplePool[s][i] - avgVal[i])**2)/(numSongs-1))
       return varList
 
 
@@ -237,33 +218,27 @@ class reccomendation():
       return vector
 
 
-
+    @staticmethod
     def prettyPrint(sol):
-      import requests
-
-      headers = {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-          'Authorization': f'Bearer {AuthToken}',
-      }
-
-      params = (
-          ('market', 'US'),
-      )
-      counter = 1
+        counter = 0
       for song in sol:
-        #findIndex(songList[song])
-        response = requests.get(f'https://api.spotify.com/v1/tracks/{songList[song]}', headers=headers, params=params)
-
-        respDict = response.json()
+        #QUERY TO GET SONG NAME AND ARTIST NAME GIVEN SONG ID
         print(f"Track {counter}: {respDict['artists'][0]['name']} - {respDict['name']}")
         counter+=1
 
-
+#NEW ATTRIBUTES
+#danceability
+#energy
+#speechiness
+#acousticness
+#instrumentalness
+#liveness
+#valence
+#artistPopularity
     def runGA():
         print(songList)
         print("--------INITIAL PLAYLIST----------\n")
-        prettyPrint(playlistIndexes)
+        prettyPrint(playlist)
         NUM_TRIALS = 500
         MUT_RATE = 0.1
         POP_SIZE = 2000
@@ -277,9 +252,9 @@ class reccomendation():
         MAX_RESETS = 100
         ACCURACY = 1.4
         currBestSol = []
-        varPlaylist = findVar(playlistIndexes, avgVal(playlistIndexes))
-        #['danceability', 'energy', 'key', 'loudness', 'mode', 'speechiness', 'acousticness', 'instrumentalness', 'liveness', 'valence','tempo','duration_ms']
-        WEIGHT = [0.5,0.5,0.075,0.075,0.05,0.175,0.7,0.5,0.6,1.2,0.1,0.00025]
+        varPlaylist = findVar(playlist)
+        #['danceability', 'energy', 'speechiness', 'acousticness', 'liveness', 'valence','artistPopularity']
+        WEIGHT = [0.5,0.5,0.5,0.5,0.5,0.5,0.5]
         print(varPlaylist)
         for w in range(len(WEIGHT)):
           if varPlaylist[w] < 0.002:
@@ -288,18 +263,12 @@ class reccomendation():
             WEIGHT[w] *= (varPlaylist[w] ** -1)
         WEIGHT = normalizeArr(WEIGHT)
         print(WEIGHT)
-
-        pop = genPop(POP_SIZE, len(playlistInit), playlistInit, SAMPLE_SIZE)
         #print(pop)
-        pop = roulette_selection(pop, NUM_PARENTS)
-        updatepop = generateChildren(NUM_PARENTS, pop, MUT_RATE, NUM_CHILDREN, playlistIndexes, SAMPLE_SIZE)
-
-
-        playlistAvg = avgVal(playlistIndexes)
+        updatepop = genPop(BASE_POP, 10, playlist)
+        updatepop = roulette_selection(updatepop, NUM_PARENTS)
+        updatepop = generateChildren(NUM_PARENTS, pop, MUT_RATE, NUM_CHILDREN, playlist)
+        playlistAvg = avgVal(playlist)
         print(pop)
-        pop = roulette_selection(pop, NUM_PARENTS)
-        updatepop = generateChildren(NUM_PARENTS, pop, MUT_RATE, NUM_CHILDREN, playlistIndexes, SAMPLE_SIZE)
-        pop = genPop(POP_SIZE, len(playlistInit), playlistInit, SAMPLE_SIZE)
         resetcounter = 0
         currConverg = FIRSTCONVERG
 
@@ -310,10 +279,9 @@ class reccomendation():
           currBestVal = 0
           currBestSol = []
           for i in range(NUM_TRIALS):
-
             updatepop = tournament_survival(updatepop, BASE_POP, playlistInit, playlistIndexes, WEIGHT, SAMPLE_SIZE, varPlaylist)
             random.shuffle(updatepop)
-            updatepop = generateChildren(NUM_PARENTS, updatepop, MUT_RATE, NUM_CHILDREN, playlistIndexes, SAMPLE_SIZE)
+            updatepop = generateChildren(NUM_PARENTS, updatepop, MUT_RATE, NUM_CHILDREN, playlist)
             if(i%10 == 0):
               print(f"i == {i}")
               convNum = 0
@@ -357,7 +325,7 @@ class reccomendation():
           pop = roulette_selection(pop, (NUM_PARENTS*2))
 
           random.shuffle(pop)
-          pop = generateChildren((NUM_PARENTS*2), pop, MUT_RATE, (NUM_CHILDREN*2), playlistIndexes, SAMPLE_SIZE)
+          pop = generateChildren((NUM_PARENTS*2), pop, MUT_RATE, (NUM_CHILDREN*2), playlist)
           print(len(updatepop))
           updatepop = pop
           print(len(updatepop))
