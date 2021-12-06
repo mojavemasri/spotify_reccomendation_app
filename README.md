@@ -78,5 +78,11 @@ instrumentalness
 liveness
 valence
 
+FILES LEFT TO IMPLEMENT:\
+Reccomendation(Youssef)\
+Database commands\
+
+
 FUNCTIONS TO IMPLEMENT:\
 Print functions for all attributes in printRecords.py
+
