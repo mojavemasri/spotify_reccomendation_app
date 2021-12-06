@@ -1,4 +1,5 @@
-
+import requests
+import json
 class apihelper():
     def __init__(self, authToken):
         self.authToken = authToken
@@ -141,6 +142,30 @@ class apihelper():
           print(f"{str(response)}, {artistID}")
       result = response.json()
       return result
+
+    #given a track id, get relevant track audio attributes
+    def getAudioAttributes(trackID):
+        import requests
+
+        headers = {
+    'Accept': 'application/json',
+    'Content-Type': 'application/json',
+    'Authorization': f'Bearer {authToken}',
+    }
+
+        response = requests.get(f'https://api.spotify.com/v1/audio-features/{trackID}', headers=headers)
+        results =  response.json()
+        attrList = []
+        attrList.append(results["id"])
+        attrList.append(results["danceability"])
+        attrList.append(results["energy"])
+        attrList.append(0)
+        attrList.append(results["speechiness"])
+        attrList.append(results["acousticness"])
+        attrList.append(results["instrumentalness"])
+        attrList.append(results["liveness"])
+        attrList.append(results["valence"])
+        return attrList
 
     #given a test token, returns whether or not it is valid
     @staticmethod

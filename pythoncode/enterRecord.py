@@ -5,12 +5,12 @@ class enterRecord():
     #and it will add each new record to a list
     #we still need to add this to a database
     @staticmethod
-    def addPlaylistToDatabase(playlist):
+    def addPlaylistToDatabase(playlist, apihelp):
       if playlist[0:10] == 'https://op':
         playlistID = playlist[34:56]
       else:
         playlistID = playlist
-      playlistArr = returnPlaylistTracks(playlist)
+      playlistArr = apihelp.returnPlaylistTracks(playlist)
       print(playlistArr)
       gajunction = []
       ptjunction = []
@@ -28,10 +28,11 @@ class enterRecord():
         print(t)
         if uniqueTrack(t, trackArr):
           tempt = getTrackInfo(tempdict)
+          insertAttributes(tempdict["id"], apihelp)
           if uniqueAlbum(tempdict, albumArr):
             tempalb = getAlbumInfo(tempdict)
             if uniqueArtist(tempdict, artistArr):
-              tempartistdict = getArtistDict(tempdict["artists"][0]["id"])
+              tempartistdict = apihelp.getArtistDict(tempdict["artists"][0]["id"])
               tempart = getArtistInfo(tempdict, tempartistdict)
               for g in tempartistdict['genres']:
                 if uniqueGenre(g, genreArr):
@@ -42,7 +43,7 @@ class enterRecord():
           trackArr.append(tempt)
         ptjunction.append([playlistID, t, counter])
         counter += 1
-      playlistDict = getPlaylistDict(playlist)
+      playlistDict = apihelp.getPlaylistDict(playlist)
       playlistInfo = [playlistID, playlistDict["name"], str(len(playlistDict["tracks"]["items"]))]
       print(f"Playlist info: {playlistInfo}")
       #add items HERE to their respective databases. genreid,trackid,ptjunction, and gajunction should be autoincrement so u should take that into consideration
@@ -51,6 +52,14 @@ class enterRecord():
       #--------------------------------
       #this return statement wont be necessary if u r already adding the items to the database
       return[playlistInfo, trackArr, albumArr, artistArr, genreArr, gajunction, ptjunction]
+
+      def addTrackToDatabase(trackID, apihelp):
+
+      def insertAttributes(trackID, apihelp):
+          attrList = apihelp.getAudioAttributes(trackID)
+          #QUERY TO INSERT ATTR LIST
+
+
       #given the artist dictionary, returns a list of genres the artist falls under
       @staticmethod
       def getGenreInfo(genreDict):
