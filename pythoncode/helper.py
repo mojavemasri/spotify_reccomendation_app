@@ -8,6 +8,38 @@ import ast
 
 class helper():
 
+    #takes in a spotify url and an item type and returns if it is a valid url
+    # 1: track
+    # 2: album
+    # 3: artist
+    # 4: playlist
+    @staticmethod
+    def checkURL(url, itemtype):
+        if not url[0:25] == 'https://open.spotify.com/':
+            return False
+        elif itemtype == 1:
+            if not url[25:30] == "track":
+                return False
+            else:
+                return True
+        elif itemtype == 2:
+            if not url[25:30] == "album":
+                return False
+            else:
+                return True
+        elif itemtype == 3:
+            if not url[25:31] == "artist":
+                return False
+            else:
+                return True
+        elif itemtype == 4:
+            if not url[25:33] == "playlist":
+                return False
+            else:
+                return True
+        else:
+            return False
+
     # function checks for user input given a list of choices
     @staticmethod
     def get_choice(lst):

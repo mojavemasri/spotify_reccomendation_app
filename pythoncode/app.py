@@ -1,6 +1,6 @@
 from helper import helper
 from apihelper import apihelper
-from printRecords import printRecords
+from printRecord import printRecord
 
 def startscreen():
     print("")
@@ -45,11 +45,29 @@ def viewlibrary():
         2)Enter the name of the song and search for it''')
         searchChoice = helper.get_choice([1,2,3,4,5])
         if searchChoice == 1:
-
+            url = ""
+            while True
+                url = input("Enter url:")
+                if helper.checkURL(url, 1):
+                    break
+                else:
+                    print("Invalid url, please try again")
+            trackID = url[url.index('track/')+6:url.index('?') ]
+            printRecord.printFancyTrack(trackID)
+        if searchChoice == 2:
+            searchName = input("Enter name:")
+            #query resulting in list of all spotifyTrackIDs of records containing similar name
+            queryResult = []
+            for q in queryResult:
+                printRecord.printSimpleTrack(trackID)
     elif typechoice == 2:
     elif typechoice == 3:
     elif typechoice == 4:
     elif typechoice == 5:
+
+    print("Redirecting back to main menu, keep track of any useful information")
+    input("Press any key to continue")
+    pass
 
 def editlibrary():
 
