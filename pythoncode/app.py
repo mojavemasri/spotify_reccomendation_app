@@ -190,6 +190,88 @@ def editlibrary(apihelp):
         modifyRecord.updatePlaylist(playlistID, apihelp)
 
 def getreccomendations():
+    print('''Menu Options:
+            1) Enter the playlist URL you would like to get reccomendations for
+            2) Return to main menu
+        ''')
+        menu1choice = helper.get_choice([1,2])
+        if menu1choice == 1:
+            playlistID = helper.getURLFromUser(4)
+            #CHECK IF PLAYLIST IS IN DATABASE AND IF IT ISN'T THEN ADD IT
+            #QUERY TO GET THE SONG ID FROM ALL THE JUNCTION INPUTS WITH THIS PLAYLIST ID
+            playlistInput = []
+            print('''What is the maximum popularity you would like for the playlist reccs(1-100)
+                    For reference:
+                    popularity of HEY YA! by OUTKAST: 81
+                    popularity of MARIPOSA by RADIANT CHILD: 49
+                    popularty of OCEANIC FEEL by MOLLY LEWIS: 11
+                ''')
+            maxpopularity = 101
+            while maxpopularity > 100 or maxpopularity < 1:
+                maxpopularityinput = input("Enter choice")
+                if maxpopularityinput.isnumeric():
+                    maxpopularity = round(float(maxpopularityinput))
+                    if maxpopularity > 100 or maxpopularity < 1:
+                        print("Invalid choice, must be between 1-100")
+                else:
+                    print("input a numerical value")
+            print(f"Setting maxpopularity as {maxpopularity}...")
+            print('''What is the minimum popularity you would like for the playlist reccs(1-100)
+                    For reference:
+                    popularity of HEY YA! by OUTKAST: 81
+                    popularity of MARIPOSA by RADIANT CHILD: 49
+                    popularty of OCEANIC FEEL by MOLLY LEWIS: 11
+                ''')
+            minpopularity = 101
+            while minpopularity > maxpopularity or minpopularity < 1:
+                minpopularityinput = input("Enter choice")
+                if minpopularityinput.isnumeric():
+                    minpopularity = round(float(minpopularityinput))
+                    if minpopularity > maxpopularity or maxpopularity < 1:
+                        print(f"Invalid input, must be between 1-{maxpopularity}")
+                else:
+                    print("Invalid input, input a numerical value")
+            print(f"Setting minpopularity as {minpopularity}...")
+            print('''What is the maximum artist popularity you would like for the playlist reccs(1-100)
+                    For reference:
+                    popularity of OUTKAST: 76
+                    popularity of HIATUS KAIYOTE: 60
+                    popularty of JAI PAUL: 50
+                ''')
+            maxartistpopularity = 101
+            while maxartistpopularity > 100 or maxartistpopularity < 1:
+                maxartistpopularityinput = input("Enter choice")
+                if maxartistpopularityinput.isnumeric():
+                    maxartistpopularity = round(float(maxartistpopularityinput))
+                    if maxartistpopularity > 100 or maxartistpopularity < 1:
+                        print("Invalid choice, must be between 1-100")
+                else:
+                    print("input a numerical value")
+            print(f"Setting maxartistpopularity as {maxartistpopularity}...")
+            print('''What is the minimum artist popularity you would like for the playlist reccs(1-100)
+                    For reference:
+                    popularity of OUTKAST: 76
+                    popularity of HIATUS KAIYOTE: 60
+                    popularty of JAI PAUL: 50
+                ''')
+            minartistpopularity = 101
+            while minartistpopularity > maxartistpopularity or minartistpopularity < 1:
+                minartistpopularityinput = input("Enter choice")
+                if minartistpopularityinput.isnumeric():
+                    minartistpopularity = round(float(minartistpopularityinput))
+                    if minartistpopularity > maxartistpopularity or maxartistpopularity < 1:
+                        print(f"Invalid input, must be between 1-{maxartistpopularity}")
+                else:
+                    print("Invalid input, input a numerical value")
+            print(f"Setting minartistpopularity as {minartistpopularity}...")
+            print(f'''Would you like a:
+                    1)Morning shower(danceable and joyous)
+                    2)Evening Drive playlist(chill and somber)
+                    3)Night club(high energy)
+                    4)Picnic music(ethereal and subdued)''')
+            vibechoice = helper.get_choice([1,2,3,4])
+            reccomendationObj =  reccomendation(playlistInput, maxpopularity, minpopularity, maxartistpopularity, \
+            minartistpopularity, vibechoice)
 
 def menuoptions():
     print('''Menu Options:

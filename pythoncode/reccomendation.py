@@ -1,6 +1,28 @@
 
 class reccomendation():
-    SAMPLE_SIZE = len(songList)
+
+#NEW ATTRIBUTES
+#danceability
+#energy
+#speechiness
+#acousticness
+#instrumentalness
+#liveness
+#valence
+#artistPopularity
+
+
+    def __init__(self, playlist, maxpopularity, minpopularity, maxartistpopularity, \
+    minartistpopularity, vibechoice):
+        self.playlist = playlist
+        self.samplePoolList, self.samplePool, self.sampleSize = initializeSamplePool(maxpopularity, minpopularity, maxartistpopularity, minartistpopularity, vibechoice)
+
+    @staticmethod
+    def initializeSamplePool(maxpopularity, minpopularity, maxartistpopularity,minartistpopularity, vibechoice):
+        #QUERY THAT RETURNS SONG ATTRIBUTES ARTIST POPULARITY, and NUM ITEMS RETURNED
+        #LIMIT AT 1000
+        return initsamplePoolList, initsamplePool, sampleSize
+
     def genPop(popSize, numItems, playlistItemsIndex,sampleSize):
       population = []
       for _ in range(popSize):
@@ -96,6 +118,7 @@ class reccomendation():
       population = childPopulation + population
 
       return population
+
 
     def checkDupID(sol, playlistIndexes, sampleSize):
       for j in range(len(sol)):
