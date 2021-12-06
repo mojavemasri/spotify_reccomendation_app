@@ -79,8 +79,9 @@ liveness
 valence
 
 FILES LEFT TO IMPLEMENT:\
-Reccomendation(Youssef)\
-Database commands\
+Reccomendation algo(Youssef)\
+Database commands \
+app \
 
 
 FUNCTIONS TO IMPLEMENT:\
