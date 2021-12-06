@@ -116,1032 +116,2245 @@ genreID, genreName
 114, conscious hip hop
 115, west coast rap
 116, brit funk
-117, chillhop
-118, focus beats
-119, lo-fi beats
-120, british soul
-121, jazz blues
-122, emo rap
-123, miami hip hop
-124, latin
-125, latin alternative
-126, latin pop
-127, mexican pop
-128, rock en espanol
-129, veracruz indie
-130, meme rap
-131, brooklyn indie
-132, east coast hip hop
-133, hardcore hip hop
-134, channel islands indie
-135, vapor soul
-136, chillwave
-137, electropop
-138, metropopolis
-139, g funk
-140, gangster rap
-141, country rock
-142, folk
-143, folk rock
-144, mellow gold
-145, roots rock
-146, baroque pop
-147, sunshine pop
-148, k-pop
-149, k-rap
-150, korean pop
-151, korean r&b
-152, glitchcore
-153, hyperpop
-154, lovers rock
-155, rock steady
-156, uk alternative pop
-157, atl hip hop
-158, plugg
-159, ambient folk
-160, classic uk pop
-161, omaha indie
-162, avant-garde jazz
-163, cool jazz
-164, free improvisation
-165, free jazz
-166, jazz clarinet
-167, jazz saxophone
-168, chamber pop
-169, piano rock
-170, experimental pop
-171, kiwi rock
-172, neo-psychedelic
-173, australian r&b
-174, indie jazz
-175, shiver pop
-176, australian electropop
-177, dirty south rap
-178, old school atlanta hip hop
-179, southern hip hop
-180, philly indie
-181, hard bop
-182, jazz funk
-183, vocal jazz
-184, alternative emo
-185, charlotte nc indie
-186, dreamo
-187, emo
-188, midwest emo
-189, north carolina emo
-190, virginia hip hop
-191, abstract beats
-192, wonky
-193, bossa nova
-194, brazilian jazz
-195, lounge
-196, samba-jazz
-197, toronto rap
-198, arab pop
-199, classic arab pop
-200, dabke
-201, lebanese pop
-202, philly soul
-203, souldies
-204, oxford indie
-205, chicago soul
-206, southern soul
-207, contemporary r&b
-208, electronica
-209, new wave pop
-210, sophisti-pop
-211, trip hop
-212, australian reggae fusion
-213, swing
-214, memphis soul
-215, soul blues
-216, gospel soul
-217, chill r&b
-218, afrobeat
-219, bay area indie
-220, instrumental funk
-221, psychedelic soul
-222, gothic rock
-223, new romantic
-224, new wave
-225, scottish new wave
-226, synthpop
-227, brooklyn drill
-228, malaysian pop
-229, contemporary vocal jazz
-230, jazz pop
-231, neo mellow
-232, tempe indie
-233, nyc pop
-234, viral pop
-235, arkansas country
-236, outlaw country
-237, belly dance
-238, north carolina hip hop
-239, scandinavian r&b
-240, swedish soul
-241, chicago rap
-242, experimental r&b
-243, seattle indie
-244, irish indie rock
-245, garage rock
-246, alternative pop rock
-247, jazz piano
-248, experimental folk
-249, mpb
-250, samba
-251, tropicalia
-252, velha guarda
-253, madchester
-254, uk post-punk
-255, folktronica
-256, korean indie rock
-257, dutch pop
-258, diva house
-259, hip house
-260, vocal house
-261, latin jazz
-262, bedroom soul
-263, psychedelic pop
-264, australian psych
-265, pop punk
-266, pop soul
-267, classic afrobeat
-268, boy band
-269, hollywood
-270, bubblegrunge
-271, compositional ambient
-272, experimental
-273, experimental ambient
-274, glam rock
-275, minimalism
-276, jazz rap
-277, turntablism
-278, jazz harp
-279, space age pop
-280, post-punk
-281, alternative dance
-282, neo-synthpop
-283, new rave
-284, shimmer pop
-285, elephant 6
-286, lo-fi emo
-287, noise pop
-288, olympia wa indie
-289, synth funk
-290, vapor twitch
-291, uk contemporary r&b
-292, japanese jazz
-293, soul jazz
-294, alt z
-295, finnish soul
-296, retro soul
-297, c86
-298, dreamgaze
-299, nu gaze
-300, shoegaze
-301, ohio hip hop
-302, eau claire indie
-303, uk alternative hip hop
-304, ann arbor indie
-305, funk rock
-306, detroit indie
-307, protopunk
-308, australian singer-songwriter
-309, perth indie
-310, deep new americana
-311, dfw rap
-312, american shoegaze
-313, garage psych
-314, indie punk
-315, electric blues
-316, lilith
-317, soft rock
-318, alaska indie
-319, girl group
-320, new jack swing
-321, austin americana
-322, minneapolis indie
-323, portland indie
-324, okc indie
-325, seattle hip hop
-326, tulsa indie
-327, boom bap
-328, golden age hip hop
-329, queens hip hop
-330, classical
-331, classical era
-332, vintage hollywood
-333, brazilian indie
-334, brazilian rock
-335, new americana
-336, north carolina indie
-337, north carolina roots
-338, vermont indie
-339, p funk
-340, new jersey indie
-341, canadian hip hop
-342, deep underground hip hop
-343, indie pop rap
-344, jazz guitar
-345, smooth jazz
-346, yacht rock
-347, j-ambient
-348, japanese electronic
-349, japanese idm
-350, japanese jazztronica
-351, shibuya-kei
-352, trap soul
-353, japanese chillhop
-354, sad lo-fi
-355, australian indie
-356, double drumming
-357, microtonal
-358, neo r&b
-359, argentine indie
-360, latintronica
-361, nuevo folklore argentino
-362, honky tonk
-363, traditional country
-364, yodeling
-365, electro
-366, vocal harmony group
-367, afro r&b
-368, ghanaian alternative
-369, ghanaian pop
-370, aesthetic rap
-371, florida rap
-372, vapor trap
-373, indiana hip hop
-374, taiwan indie
-375, chill pop
-376, colombian pop
-377, harlem renaissance
-378, pittsburgh rap
-379, contemporary country
-380, country dawn
-381, texas country
-382, drill
-383, viral rap
-384, vaporwave
-385, bergen indie
-386, norwegian indie
-387, houston rap
-388, mississippi hip hop
-389, la pop
-390, miami indie
-391, dark trap
-392, folk punk
-393, manchester indie
-394, violao
-395, dutch hip hop
-396, tropical house
-397, brighton indie
-398, cali rap
-399, women's music
-400, deep adult standards
-401, doo-wop
-402, rhythm and blues
-403, arab folk
-404, syrian pop
-405, 21st century classical
-406, choral
-407, nordic contemporary classical
-408, argentine alternative rock
-409, argentine rock
-410, chilean indie
-411, latin rock
-412, manso indie
-413, rock nacional
-414, math rock
-415, sheffield indie
-416, filter house
-417, disco house
-418, nu disco
-419, brazilian boogie
-420, classic country pop
-421, country
-422, nashville sound
-423, soda pop
-424, etherpop
-425, japanese alternative rock
-426, classic soundtrack
-427, vintage italian soundtrack
-428, south carolina indie
-429, torch song
-430, nubian traditional
-431, sudanese pop
-432, candy pop
-433, uk pop
-434, classic city pop
-435, j-rock
-436, japanese indie pop
-437, japanese r&b
-438, japanese shoegaze
-439, brazilian classical
-440, latin classical
-441, classic girl group
-442, grunge
-443, italian library music
-444, library music
-445, sad rap
-446, industrial hip hop
-447, battle rap
-448, acoustic rock
-449, indie surf
-450, surf punk
-451, vegas indie
-452, europop
-453, scandipop
-454, swedish electropop
-455, swedish pop
-456, dream smp
-457, indie anthem-folk
-458, k-indie
-459, korean indie folk
-460, australian shoegaze
-461, blues rock
-462, garage pop
-463, oc indie
-464, new orleans rap
-465, old school hip hop
-466, arabic jazz
-467, canadian modern jazz
-468, harlem hip hop
-469, vancouver indie
-470, alternative metal
-471, progressive metal
-472, jazz vibraphone
-473, japanese electropop
-474, vaudeville
-475, canadian indie
-476, canadian rock
-477, canadian indie folk
-478, lo-fi cover
-479, psicodelia brasileira
-480, modern funk
-481, progressive jazz fusion
-482, italian disco
-483, electric bass
-484, new jersey rap
-485, bolero
-486, mexican rock-and-roll
-487, ranchera
-488, social media pop
-489, drone folk
-490, mod revival
-491, northern irish punk
-492, pub rock
-493, punk
-494, ska
-495, background jazz
-496, modern jazz piano
-497, stride
-498, slowcore
-499, newcastle nsw indie
-500, easy listening
-501, hyphy
-502, west coast trap
-503, glitch
-504, glitch hop
-505, intelligent dance music
-506, jazztronica
-507, classic japanese jazz
-508, exotica
-509, laboratorio
-510, collage pop
-511, future funk
-512, uk dance
-513, uk contemporary jazz
-514, political hip hop
-515, slam poetry
-516, athens indie
-517, italian soundtrack
-518, soundtrack
-519, traditional funk
-520, indian indie
-521, kolkata indie
-522, jazz flute
-523, australian indie folk
-524, afropop
-525, ethio-jazz
-526, gen z singer-songwriter
-527, spiritual jazz
-528, austindie
-529, modern psychedelic folk
-530, future garage
-531, spirituals
-532, traditional soul
-533, atlanta indie
-534, instrumental soul
-535, barbadian pop
-536, deconstructed club
-537, fluxwork
-538, hauntology
-539, microhouse
-540, 5th wave emo
-541, modern power pop
-542, asheville indie
-543, indie psych-pop
-544, shimmer psych
-545, boom bap espanol
-546, trap latino
-547, rockabilly
-548, j-acoustic
-549, classic moroccan pop
-550, gnawa
-551, rai
-552, victoria bc indie
-553, electra
-554, float house
-555, early romantic era
-556, polish classical
-557, canto popular uruguayo
-558, uk garage
-559, alt-idol
-560, city pop
-561, nyc rap
-562, latinx alternative
-563, belgian new wave
-564, modern alternative pop
-565, ambient pop
-566, indian electronic
-567, new delhi indie
-568, san diego indie
-569, japanese alternative pop
-570, tin pan alley
-571, vintage jazz
-572, a cappella
-573, egyptian pop
-574, edm
-575, electro house
-576, house
-577, progressive house
-578, acid rock
-579, hard rock
-580, atl trap
-581, jazz double bass
-582, chamber psych
-583, gospel
-584, gospel r&b
-585, classical soprano
-586, opera
-587, operatic pop
-588, london indie
-589, chanson
-590, french rock
-591, ye ye
-592, buffalo hip hop
-593, upstate ny rap
-594, irish singer-songwriter
-595, irish rock
-596, japanese boom bap
-597, israeli indie
-598, indonesian r&b
-599, russian pop
-600, experimental rock
-601, krautrock
-602, space rock
-603, grungegaze
-604, nz pop
-605, classic j-rock
-606, japanese dream pop
-607, german indie
-608, alternative americana
-609, anime score
-610, j-pop
-611, japanese folk
-612, japanese singer-songwriter
-613, korean city pop
-614, tennessee hip hop
-615, classic dubstep
-616, uk bass
-617, chamber folk
-618, london rap
-619, british folk
-620, new weird america
-621, psychedelic folk
-622, glitchbreak
-623, modern blues
-624, phonk
-625, cantautor
-626, pop romantico
-627, trova
-628, british singer-songwriter
-629, jazz brass
-630, sydney indie
-631, bulgarian electronic
-632, deep house
-633, minimal tech house
-634, tech house
-635, alternative country
-636, solo wave
-637, boogaloo
-638, cosmic american
-639, canadian post-rock
-640, instrumental post-rock
-641, folklore argentino
-642, folklore surero
-643, guitarra argentina
-644, musica andina
-645, nueva cancion
-646, zamba
-647, japanese classical
-648, japanese contemporary classical
-649, japanese soundtrack
-650, outsider
-651, zolo
-652, movie tunes
-653, chicano rap
-654, latin hip hop
-655, texas latin rap
-656, art punk
-657, jazz catala
-658, reggae fusion
-659, leeds indie
-660, bow pop
-661, french soundtrack
-662, charlottesville indie
-663, uk post-punk revival
-664, british jazz
-665, ecm-style jazz
-666, norwegian contemporary jazz
-667, swedish jazz
-668, anime lo-fi
-669, afro psych
-670, jazz trio
-671, blues
-672, british blues
-673, lo-fi house
-674, pixie
-675, pop emo
-676, new orleans jazz
-677, indie emo
-678, australian indie rock
-679, canadian electropop
-680, grave wave
-681, theme
-682, scottish singer-songwriter
-683, early reggae
-684, gbvfi
-685, black americana
-686, modern blues rock
-687, underground rap
-688, piano blues
-689, brazilian experimental
-690, nova musica carioca
-691, danish electropop
-692, sasscore
-693, scream rap
-694, skramz
-695, popping
-696, asian american hip hop
-697, classic hungarian pop
-698, classic hungarian rock
-699, ethereal wave
-700, scottish indie
-701, ukg revival
-702, italian classical piano
-703, early avant garde
-704, early modern classical
-705, impressionism
-706, post-romantic era
-707, american primitive
-708, fingerstyle
-709, traditional blues
-710, grime
-711, j-rap
-712, tape club
-713, reggae
-714, roots reggae
-715, jawaiian
-716, nz hip hop
-717, nz reggae
-718, pacific islands pop
-719, melbourne indie
-720, dance rock
-721, bassline
-722, afghan pop
-723, canadian singer-songwriter
-724, modern indie pop
-725, slap house
-726, french pop
-727, nouvelle chanson francaise
-728, downtempo
-729, uk americana
-730, portsmouth indie
-731, dance-punk
-732, electronic rock
-733, birmingham metal
-734, metal
-735, stoner rock
-736, uk doom metal
-737, deep free jazz
-738, italian experimental
-739, french synthpop
-740, experimental classical
-741, icelandic classical
-742, icelandic experimental
-743, nordic soundtrack
-744, heartland rock
-745, traditional folk
-746, kansas indie
-747, disney
-748, belarusian indie
-749, russian post-punk
-750, sovietwave
-751, taiwan classical performance
-752, oklahoma country
-753, baltimore indie
-754, arab alternative
-755, lebanese indie
-756, modern dream pop
-757, australian pop
-758, libyan pop
-759, desi pop
-760, filmi
-761, modern bollywood
-762, popgaze
-763, san diego rap
-764, modern folk rock
-765, albuquerque indie
-766, indie electropop
-767, uk hip hop
-768, denver indie
-769, electronic trap
-770, children's music
-771, brazilian soul
-772, dixieland
-773, classic bollywood
-774, gqom
-775, french jazz
-776, indie shoegaze
-777, nz folk
-778, nz singer-songwriter
-779, folk-pop
-780, healing
-781, new age
-782, synthesizer
-783, swedish electronic
-784, swedish house
-785, swedish synthpop
-786, louisiana blues
-787, new orleans blues
-788, swamp pop
-789, british modern classical
-790, egyptian hip hop
-791, acoustic pop
-792, complextro
-793, pop dance
-794, progressive electro house
-795, japanese guitar
-796, japanese math rock
-797, japanese post-rock
-798, pop edm
-799, boston indie
-800, boston rock
-801, new england emo
-802, experimental indie rock
-803, noise rock
-804, dub
-805, orlando indie
-806, k-rock
-807, korean dream pop
-808, gauze pop
-809, eurodance
-810, italo house
-811, future bass
-812, wave
-813, bc underground hip hop
-814, canadian trap
-815, witch house
-816, japanese psychedelic
-817, proto-techno
-818, rock independant francais
-819, classic italian pop
-820, swedish americana
-821, swedish singer-songwriter
-822, minnesota hip hop
-823, samba de roda
-824, gothenburg indie
-825, swedish indie pop
-826, broken beat
-827, milwaukee hip hop
-828, saskatchewan indie
-829, south african jazz
-830, world
-831, socal indie
-832, rva indie
-833, ectofolk
-834, indiecoustica
-835, experimental guitar
-836, gamecore
-837, jacksonville indie
-838, san antonio rap
-839, hammond organ
-840, jazz organ
-841, nz electronic
-842, nz jazz
-843, australian hip hop
-844, eugene indie
-845, experimental house
-846, icelandic indie
-847, one-person band
-848, northern irish indie
-849, alabama rap
-850, avant-garde
-851, atlanta bass
-852, indian jazz
-853, experimental indie
-854, nova mpb
-855, pop lgbtq+ brasileira
-856, rochester mn indie
-857, minecraft
-858, phoenix indie
-859, japanese post-punk
-860, nu jazz
-861, uk funky
-862, classic house
-863, leicester indie
-864, rhode island rap
-865, comedy rap
-866, comic
-867, new orleans indie
-868, nu-metalcore
-869, vintage french electronic
-870, london on indie
-871, jazz violin
-872, polish jazz
-873, pittsburgh indie
-874, queercore
-875, riot grrrl
-876, japanese old school hip hop
-877, cambridgeshire indie
-878, psychedelic doom
-879, retro metal
-880, stoner metal
-881, swedish stoner rock
-882, canadian psychedelic
-883, moog
-884, dallas indie
-885, desi hip hop
-886, j-indie
-887, neoclassicism
-888, mexican indie
-889, tijuana indie
-890, french shoegaze
-891, neo-classical
-892, african-american classical
-893, appalachian folk
-894, jazz quartet
-895, denton tx indie
-896, kentucky hip hop
-897, lo-fi chill
-898, classic swedish pop
-899, swedish indie rock
-900, toronto indie
-901, neoclassical darkwave
-902, irish hip hop
-903, acid jazz
-904, japanese indie rock
-905, afro dancehall
-906, azonto
-907, nigerian hip hop
-908, nigerian pop
-909, liquid funk
-910, swedish indie folk
-911, cartoon
-912, choro
-913, pagode
-914, pop nacional antigas
-915, indie triste
-916, bossa nova jazz
-917, spytrack
-918, kawaii future bass
-919, cuban rumba
-920, musica tradicional cubana
-921, american 21st century classical
-922, contemporary choir
-923, idol kayo
-924, vapor house
-925, british indie rock
-926, britpop
-927, isle of wight indie
-928, south carolina hip hop
-929, anime
-930, japanese new wave
-931, techno kayo
-932, jovem guarda
-933, livetronica
-934, nashville indie
-935, azeri traditional
-936, nasheed
-937, buffalo ny indie
-938, american modern classical
-939, darbuka
-940, jazz house
-941, crunk
-942, memphis hip hop
-943, deep smooth jazz
-944, shaabi
-945, mahraganat
-946, brass band
-947, second line
-948, street band
-949, reggae rock
-950, balearic
-951, oud
-952, jangle pop
-953, power pop
-954, hawaiian
-955, chicago bop
-956, chicago drill
-957, modern southern rock
-958, roots americana
-959, underground power pop
-960, liverpool indie
-961, psychedelic folk rock
-962, no wave
-963, alabama indie
-964, multidisciplinary
-965, opm
-966, pinoy indie
-967, pinoy reggae
-968, pinoy rock
-969, wisconsin indie
-970, jazz boom bap
-971, instrumental stoner rock
-972, japanese psychedelic rock
-973, palestinian pop
-974, palestinian traditional
-975, bolero mexicano
-976, experimental jazz
-977, glitch pop
-978, vapor pop
-979, boston folk
-980, country road
-981, lo-fi jazzhop
-982, german techno
-983, nashville singer-songwriter
-984, progressive bluegrass
-985, surf music
-986, peruvian indie
-987, ccm
-988, christian alternative rock
-989, christian music
-990, worship
-991, classic canadian rock
-992, garage rock revival
-993, american contemporary classical
-994, contemporary classical
-995, somali pop
-996, braindance
-997, uk experimental electronic
-998, indie dream pop
-999, memphis indie
-1000, ambeat
-1001, pop reggaeton
-1002, reggaeton
-1003, alternative pop
-1004, australian alternative pop
-1005, musica popular mineira
-1006, manguebeat
-1007, samba-rock
-1008, soul flow
-1009, abstract
-1010, drill and bass
-1011, dub techno
-1012, black punk
-1013, detroit rock
-1014, aussietronica
-1015, newcastle indie
-1016, indonesian jazz
-1017, indonesian pop
-1018, french post-punk
-1019, anglican liturgy
-1020, early music
-1021, english renaissance
-1022, renaissance
-1023, american folk revival
-1024, old-time
-1025, protest folk
-1026, electroclash
-1027, deathrock
-1028, egyptian alternative
-1029, puerto rican indie
-1030, classic j-pop
-1031, boston hip hop
-1032, dutch indie
-1033, icelandic rock
-1034, background music
-1035, chill out
-1036, nashville americana
-1037, virginia indie
-1038, abstract hip hop
-1039, st louis rap
-1040, bounce
-1041, native american
-1042, danish pop
-1043, tennessee experimental
-1044, cyberpunk
-1045, bronx hip hop
-1046, deep punk rock
-1047, pennsylvania hardcore
-1048, hamburg hip hop
-1049, celtic rock
-1050, alte
-1051, industrial
-1052, synth punk
-1053, experimental vocal
-1054, icelandic pop
-1055, icelandic singer-songwriter
-1056, brazilian hip hop
-1057, moombahton
-1058, ninja
-1059, irish pop
-1060, detroit trap
-1061, gypsy jazz
-1062, japanese vgm
-1063, otacore
-1064, sound team
-1065, classic opm
-1066, rap conscient
-1067, detroit house
-1068, detroit techno
-1069, techno
-1070, psychedelic jazz fusion
-1071, grand rapids indie
-1072, twee pop
-1073, asbury park indie
-1074, stomp and whittle
-1075, english indie rock
-1076, british experimental
-1077, sacramento indie
-1078, kc indie
-1079, canadian folk
-1080, modern indie folk
-1081, newfoundland indie
-1082, manitoba indie
-1083, lancaster pa indie
-1084, australian garage punk
-1085, ambient worship
-1086, vintage schlager
-1087, classical tenor
-1088, italian tenor
-1089, michigan folk
-1090, michigan indie
-1091, indie cordoba
-1092, big beat
-1093, oc rap
-1094, rap latina
-1095, swancore
-1096, melodic hardcore
-1097, dutch r&b
-1098, bass trap
-1099, el paso indie
-1100, anthem emo
-1101, diy emo
-1102, canadian pop punk
-1103, canadian punk
-1104, nu metal
-1105, post-grunge
-1106, rap metal
-1107, reading indie
-1108, socal pop punk
-1109, slc indie
-1110, danish alternative rock
-1111, danish post-punk
-1112, australian rock
-1113, south african alternative
-1114, supergroup
-1115, sinogaze
-1116, funk metal
-1117, math pop
-1118, mexican classic rock
-1119, japanese garage rock
-1120, jam band
-1121, minimal techno
-1122, happy hardcore
-1123, melodic techno
-1124, organic electronic
-1125, persian alternative
-1126, deep euro house
-1127, organic house
-1128, minimal melodic techno
-1129, ethnotronica
-1130, classic korean pop
-1131, korean singer-songwriter
-1132, danish indie pop
-1133, australian dance
-1134, dc hardcore
-1135, post-hardcore
-1136, french psychedelic
-1137, british electroacoustic
-1138, british soundtrack
-1139, italian opera
-1140, italian romanticism
-1141, late romantic era
-1142, banjo
-1143, country blues
-1144, rock keyboard
-1145, kundiman
+117, focus beats
+118, lo-fi beats
+119, british soul
+120, jazz blues
+121, emo rap
+122, miami hip hop
+123, latin
+124, latin alternative
+125, latin pop
+126, mexican pop
+127, rock en espanol
+128, veracruz indie
+129, meme rap
+130, brooklyn indie
+131, east coast hip hop
+132, hardcore hip hop
+133, channel islands indie
+134, vapor soul
+135, chillwave
+136, electropop
+137, metropopolis
+138, g funk
+139, gangster rap
+140, country rock
+141, folk
+142, folk rock
+143, mellow gold
+144, roots rock
+145, baroque pop
+146, sunshine pop
+147, k-pop
+148, k-rap
+149, korean pop
+150, korean r&b
+151, glitchcore
+152, hyperpop
+153, lovers rock
+154, rock steady
+155, uk alternative pop
+156, atl hip hop
+157, plugg
+158, ambient folk
+159, classic uk pop
+160, omaha indie
+161, avant-garde jazz
+162, cool jazz
+163, free improvisation
+164, free jazz
+165, jazz clarinet
+166, jazz saxophone
+167, chamber pop
+168, piano rock
+169, experimental pop
+170, kiwi rock
+171, neo-psychedelic
+172, australian r&b
+173, indie jazz
+174, shiver pop
+175, australian electropop
+176, dirty south rap
+177, old school atlanta hip hop
+178, southern hip hop
+179, philly indie
+180, hard bop
+181, jazz funk
+182, vocal jazz
+183, alternative emo
+184, charlotte nc indie
+185, dreamo
+186, emo
+187, midwest emo
+188, north carolina emo
+189, virginia hip hop
+190, abstract beats
+191, wonky
+192, bossa nova
+193, brazilian jazz
+194, lounge
+195, samba-jazz
+196, toronto rap
+197, arab pop
+198, classic arab pop
+199, dabke
+200, lebanese pop
+201, philly soul
+202, souldies
+203, oxford indie
+204, chicago soul
+205, southern soul
+206, contemporary r&b
+207, electronica
+208, new wave pop
+209, sophisti-pop
+210, trip hop
+211, australian reggae fusion
+212, swing
+213, memphis soul
+214, soul blues
+215, gospel soul
+216, chill r&b
+217, afrobeat
+218, bay area indie
+219, instrumental funk
+220, psychedelic soul
+221, gothic rock
+222, new romantic
+223, new wave
+224, scottish new wave
+225, synthpop
+226, brooklyn drill
+227, malaysian pop
+228, contemporary vocal jazz
+229, jazz pop
+230, neo mellow
+231, tempe indie
+232, nyc pop
+233, viral pop
+234, arkansas country
+235, outlaw country
+236, belly dance
+237, north carolina hip hop
+238, scandinavian r&b
+239, swedish soul
+240, chicago rap
+241, experimental r&b
+242, seattle indie
+243, irish indie rock
+244, garage rock
+245, alternative pop rock
+246, jazz piano
+247, experimental folk
+248, mpb
+249, samba
+250, tropicalia
+251, velha guarda
+252, madchester
+253, uk post-punk
+254, folktronica
+255, korean indie rock
+256, dutch pop
+257, diva house
+258, hip house
+259, vocal house
+260, latin jazz
+261, bedroom soul
+262, psychedelic pop
+263, australian psych
+264, pop punk
+265, pop soul
+266, classic afrobeat
+267, boy band
+268, hollywood
+269, bubblegrunge
+270, compositional ambient
+271, experimental
+272, experimental ambient
+273, glam rock
+274, minimalism
+275, jazz rap
+276, turntablism
+277, jazz harp
+278, space age pop
+279, post-punk
+280, alternative dance
+281, neo-synthpop
+282, new rave
+283, shimmer pop
+284, elephant 6
+285, lo-fi emo
+286, noise pop
+287, olympia wa indie
+288, synth funk
+289, vapor twitch
+290, uk contemporary r&b
+291, soul jazz
+292, alt z
+293, finnish soul
+294, retro soul
+295, c86
+296, dreamgaze
+297, nu gaze
+298, shoegaze
+299, ohio hip hop
+300, eau claire indie
+301, uk alternative hip hop
+302, ann arbor indie
+303, funk rock
+304, detroit indie
+305, protopunk
+306, australian singer-songwriter
+307, perth indie
+308, deep new americana
+309, dfw rap
+310, american shoegaze
+311, garage psych
+312, indie punk
+313, electric blues
+314, lilith
+315, soft rock
+316, alaska indie
+317, girl group
+318, new jack swing
+319, austin americana
+320, minneapolis indie
+321, portland indie
+322, okc indie
+323, seattle hip hop
+324, tulsa indie
+325, boom bap
+326, golden age hip hop
+327, queens hip hop
+328, classical
+329, classical era
+330, vintage hollywood
+331, brazilian indie
+332, brazilian rock
+333, new americana
+334, north carolina indie
+335, north carolina roots
+336, vermont indie
+337, p funk
+338, new jersey indie
+339, canadian hip hop
+340, deep underground hip hop
+341, indie pop rap
+342, jazz guitar
+343, smooth jazz
+344, yacht rock
+345, j-ambient
+346, japanese electronic
+347, japanese idm
+348, japanese jazztronica
+349, shibuya-kei
+350, trap soul
+351, japanese chillhop
+352, sad lo-fi
+353, australian indie
+354, double drumming
+355, microtonal
+356, neo r&b
+357, argentine indie
+358, latintronica
+359, nuevo folklore argentino
+360, honky tonk
+361, traditional country
+362, yodeling
+363, electro
+364, vocal harmony group
+365, afro r&b
+366, ghanaian alternative
+367, ghanaian pop
+368, aesthetic rap
+369, florida rap
+370, vapor trap
+371, indiana hip hop
+372, taiwan indie
+373, chill pop
+374, colombian pop
+375, japanese jazz
+376, harlem renaissance
+377, pittsburgh rap
+378, contemporary country
+379, country dawn
+380, texas country
+381, drill
+382, viral rap
+383, vaporwave
+384, bergen indie
+385, norwegian indie
+386, houston rap
+387, mississippi hip hop
+388, la pop
+389, miami indie
+390, dark trap
+391, folk punk
+392, manchester indie
+393, violao
+394, dutch hip hop
+395, tropical house
+396, brighton indie
+397, cali rap
+398, women's music
+399, deep adult standards
+400, doo-wop
+401, arab folk
+402, syrian pop
+403, 21st century classical
+404, choral
+405, nordic contemporary classical
+406, argentine alternative rock
+407, argentine rock
+408, chilean indie
+409, latin rock
+410, manso indie
+411, rock nacional
+412, math rock
+413, sheffield indie
+414, filter house
+415, disco house
+416, nu disco
+417, brazilian boogie
+418, classic country pop
+419, country
+420, nashville sound
+421, soda pop
+422, etherpop
+423, japanese alternative rock
+424, classic soundtrack
+425, vintage italian soundtrack
+426, south carolina indie
+427, torch song
+428, nubian traditional
+429, sudanese pop
+430, candy pop
+431, uk pop
+432, classic city pop
+433, j-rock
+434, japanese indie pop
+435, japanese r&b
+436, japanese shoegaze
+437, brazilian classical
+438, latin classical
+439, classic girl group
+440, grunge
+441, italian library music
+442, library music
+443, sad rap
+444, industrial hip hop
+445, battle rap
+446, acoustic rock
+447, indie surf
+448, surf punk
+449, vegas indie
+450, europop
+451, scandipop
+452, swedish electropop
+453, swedish pop
+454, dream smp
+455, indie anthem-folk
+456, k-indie
+457, korean indie folk
+458, australian shoegaze
+459, blues rock
+460, oc indie
+461, new orleans rap
+462, old school hip hop
+463, arabic jazz
+464, canadian modern jazz
+465, harlem hip hop
+466, vancouver indie
+467, alternative metal
+468, progressive metal
+469, jazz vibraphone
+470, japanese electropop
+471, vaudeville
+472, canadian indie
+473, canadian rock
+474, canadian indie folk
+475, lo-fi cover
+476, psicodelia brasileira
+477, modern funk
+478, progressive jazz fusion
+479, italian disco
+480, electric bass
+481, new jersey rap
+482, bolero
+483, mexican rock-and-roll
+484, ranchera
+485, social media pop
+486, drone folk
+487, mod revival
+488, northern irish punk
+489, pub rock
+490, punk
+491, background jazz
+492, modern jazz piano
+493, stride
+494, slowcore
+495, rhythm and blues
+496, newcastle nsw indie
+497, easy listening
+498, hyphy
+499, west coast trap
+500, glitch
+501, glitch hop
+502, intelligent dance music
+503, jazztronica
+504, classic japanese jazz
+505, exotica
+506, laboratorio
+507, collage pop
+508, future funk
+509, uk dance
+510, uk contemporary jazz
+511, political hip hop
+512, slam poetry
+513, athens indie
+514, italian soundtrack
+515, soundtrack
+516, traditional funk
+517, indian indie
+518, kolkata indie
+519, jazz flute
+520, australian indie folk
+521, afropop
+522, ethio-jazz
+523, gen z singer-songwriter
+524, spiritual jazz
+525, austindie
+526, modern psychedelic folk
+527, future garage
+528, spirituals
+529, traditional soul
+530, atlanta indie
+531, chillhop
+532, instrumental soul
+533, barbadian pop
+534, deconstructed club
+535, fluxwork
+536, hauntology
+537, microhouse
+538, 5th wave emo
+539, modern power pop
+540, asheville indie
+541, indie psych-pop
+542, shimmer psych
+543, boom bap espanol
+544, trap latino
+545, rockabilly
+546, j-acoustic
+547, classic moroccan pop
+548, gnawa
+549, rai
+550, victoria bc indie
+551, electra
+552, float house
+553, early romantic era
+554, polish classical
+555, canto popular uruguayo
+556, uk garage
+557, alt-idol
+558, city pop
+559, nyc rap
+560, latinx alternative
+561, belgian new wave
+562, modern alternative pop
+563, ambient pop
+564, indian electronic
+565, new delhi indie
+566, san diego indie
+567, japanese alternative pop
+568, tin pan alley
+569, vintage jazz
+570, a cappella
+571, egyptian pop
+572, edm
+573, electro house
+574, house
+575, progressive house
+576, acid rock
+577, hard rock
+578, atl trap
+579, jazz double bass
+580, chamber psych
+581, gospel
+582, gospel r&b
+583, classical soprano
+584, opera
+585, operatic pop
+586, london indie
+587, chanson
+588, ye ye
+589, buffalo hip hop
+590, upstate ny rap
+591, irish singer-songwriter
+592, irish rock
+593, japanese boom bap
+594, israeli indie
+595, indonesian r&b
+596, russian pop
+597, experimental rock
+598, krautrock
+599, space rock
+600, grungegaze
+601, nz pop
+602, classic j-rock
+603, japanese dream pop
+604, german indie
+605, alternative americana
+606, anime score
+607, j-pop
+608, japanese folk
+609, japanese singer-songwriter
+610, korean city pop
+611, tennessee hip hop
+612, classic dubstep
+613, uk bass
+614, chamber folk
+615, london rap
+616, british folk
+617, new weird america
+618, psychedelic folk
+619, glitchbreak
+620, modern blues
+621, phonk
+622, cantautor
+623, pop romantico
+624, trova
+625, british singer-songwriter
+626, jazz brass
+627, sydney indie
+628, bulgarian electronic
+629, deep house
+630, minimal tech house
+631, tech house
+632, alternative country
+633, solo wave
+634, boogaloo
+635, cosmic american
+636, canadian post-rock
+637, instrumental post-rock
+638, folklore argentino
+639, folklore surero
+640, guitarra argentina
+641, musica andina
+642, nueva cancion
+643, zamba
+644, japanese classical
+645, japanese contemporary classical
+646, japanese soundtrack
+647, outsider
+648, zolo
+649, movie tunes
+650, chicano rap
+651, latin hip hop
+652, texas latin rap
+653, art punk
+654, jazz catala
+655, reggae fusion
+656, leeds indie
+657, bow pop
+658, french soundtrack
+659, charlottesville indie
+660, uk post-punk revival
+661, british jazz
+662, ecm-style jazz
+663, swedish jazz
+664, anime lo-fi
+665, afro psych
+666, jazz trio
+667, blues
+668, british blues
+669, lo-fi house
+670, pixie
+671, pop emo
+672, new orleans jazz
+673, indie emo
+674, australian indie rock
+675, canadian electropop
+676, grave wave
+677, theme
+678, scottish singer-songwriter
+679, early reggae
+680, gbvfi
+681, black americana
+682, modern blues rock
+683, underground rap
+684, piano blues
+685, brazilian experimental
+686, nova musica carioca
+687, danish electropop
+688, sasscore
+689, scream rap
+690, skramz
+691, popping
+692, asian american hip hop
+693, classic hungarian pop
+694, classic hungarian rock
+695, ethereal wave
+696, scottish indie
+697, ukg revival
+698, italian classical piano
+699, early avant garde
+700, early modern classical
+701, impressionism
+702, post-romantic era
+703, american primitive
+704, fingerstyle
+705, traditional blues
+706, grime
+707, j-rap
+708, tape club
+709, reggae
+710, roots reggae
+711, jawaiian
+712, nz hip hop
+713, nz reggae
+714, pacific islands pop
+715, melbourne indie
+716, dance rock
+717, bassline
+718, afghan pop
+719, canadian singer-songwriter
+720, modern indie pop
+721, slap house
+722, french pop
+723, french rock
+724, nouvelle chanson francaise
+725, downtempo
+726, uk americana
+727, portsmouth indie
+728, dance-punk
+729, electronic rock
+730, birmingham metal
+731, metal
+732, stoner rock
+733, uk doom metal
+734, deep free jazz
+735, italian experimental
+736, french synthpop
+737, experimental classical
+738, icelandic classical
+739, icelandic experimental
+740, nordic soundtrack
+741, heartland rock
+742, traditional folk
+743, kansas indie
+744, disney
+745, belarusian indie
+746, russian post-punk
+747, sovietwave
+748, taiwan classical performance
+749, oklahoma country
+750, baltimore indie
+751, arab alternative
+752, lebanese indie
+753, modern dream pop
+754, australian pop
+755, libyan pop
+756, desi pop
+757, filmi
+758, modern bollywood
+759, popgaze
+760, san diego rap
+761, modern folk rock
+762, albuquerque indie
+763, indie electropop
+764, uk hip hop
+765, denver indie
+766, electronic trap
+767, children's music
+768, brazilian soul
+769, dixieland
+770, classic bollywood
+771, gqom
+772, french jazz
+773, indie shoegaze
+774, nz folk
+775, nz singer-songwriter
+776, folk-pop
+777, healing
+778, new age
+779, synthesizer
+780, swedish electronic
+781, swedish house
+782, swedish synthpop
+783, louisiana blues
+784, new orleans blues
+785, swamp pop
+786, british modern classical
+787, egyptian hip hop
+788, acoustic pop
+789, complextro
+790, pop dance
+791, progressive electro house
+792, japanese guitar
+793, japanese math rock
+794, japanese post-rock
+795, pop edm
+796, boston indie
+797, boston rock
+798, new england emo
+799, experimental indie rock
+800, noise rock
+801, dub
+802, ska
+803, orlando indie
+804, k-rock
+805, korean dream pop
+806, gauze pop
+807, eurodance
+808, italo house
+809, future bass
+810, wave
+811, bc underground hip hop
+812, canadian trap
+813, witch house
+814, japanese psychedelic
+815, proto-techno
+816, rock independant francais
+817, classic italian pop
+818, swedish americana
+819, swedish singer-songwriter
+820, minnesota hip hop
+821, samba de roda
+822, gothenburg indie
+823, swedish indie pop
+824, broken beat
+825, milwaukee hip hop
+826, saskatchewan indie
+827, south african jazz
+828, world
+829, socal indie
+830, rva indie
+831, ectofolk
+832, indiecoustica
+833, experimental guitar
+834, gamecore
+835, jacksonville indie
+836, san antonio rap
+837, hammond organ
+838, jazz organ
+839, nz electronic
+840, nz jazz
+841, australian hip hop
+842, eugene indie
+843, experimental house
+844, icelandic indie
+845, one-person band
+846, northern irish indie
+847, alabama rap
+848, avant-garde
+849, atlanta bass
+850, indian jazz
+851, experimental indie
+852, nova mpb
+853, pop lgbtq+ brasileira
+854, rochester mn indie
+855, minecraft
+856, phoenix indie
+857, japanese post-punk
+858, nu jazz
+859, uk funky
+860, classic house
+861, leicester indie
+862, rhode island rap
+863, comedy rap
+864, comic
+865, new orleans indie
+866, nu-metalcore
+867, vintage french electronic
+868, london on indie
+869, jazz violin
+870, polish jazz
+871, pittsburgh indie
+872, queercore
+873, riot grrrl
+874, japanese old school hip hop
+875, cambridgeshire indie
+876, psychedelic doom
+877, retro metal
+878, stoner metal
+879, swedish stoner rock
+880, canadian psychedelic
+881, moog
+882, dallas indie
+883, desi hip hop
+884, j-indie
+885, neoclassicism
+886, mexican indie
+887, tijuana indie
+888, french shoegaze
+889, neo-classical
+890, african-american classical
+891, appalachian folk
+892, jazz quartet
+893, denton tx indie
+894, kentucky hip hop
+895, lo-fi chill
+896, classic swedish pop
+897, swedish indie rock
+898, toronto indie
+899, neoclassical darkwave
+900, irish hip hop
+901, acid jazz
+902, japanese indie rock
+903, afro dancehall
+904, azonto
+905, nigerian hip hop
+906, nigerian pop
+907, liquid funk
+908, swedish indie folk
+909, cartoon
+910, choro
+911, pagode
+912, pop nacional antigas
+913, indie triste
+914, bossa nova jazz
+915, spytrack
+916, kawaii future bass
+917, cuban rumba
+918, musica tradicional cubana
+919, american 21st century classical
+920, contemporary choir
+921, idol kayo
+922, vapor house
+923, british indie rock
+924, britpop
+925, isle of wight indie
+926, south carolina hip hop
+927, anime
+928, japanese new wave
+929, techno kayo
+930, jovem guarda
+931, livetronica
+932, nashville indie
+933, azeri traditional
+934, nasheed
+935, buffalo ny indie
+936, american modern classical
+937, darbuka
+938, jazz house
+939, crunk
+940, memphis hip hop
+941, deep smooth jazz
+942, shaabi
+943, mahraganat
+944, brass band
+945, second line
+946, street band
+947, reggae rock
+948, balearic
+949, oud
+950, jangle pop
+951, power pop
+952, hawaiian
+953, chicago bop
+954, chicago drill
+955, modern southern rock
+956, roots americana
+957, underground power pop
+958, liverpool indie
+959, psychedelic folk rock
+960, no wave
+961, alabama indie
+962, multidisciplinary
+963, opm
+964, pinoy indie
+965, pinoy reggae
+966, pinoy rock
+967, wisconsin indie
+968, jazz boom bap
+969, instrumental stoner rock
+970, japanese psychedelic rock
+971, palestinian pop
+972, palestinian traditional
+973, bolero mexicano
+974, experimental jazz
+975, glitch pop
+976, vapor pop
+977, boston folk
+978, country road
+979, lo-fi jazzhop
+980, german techno
+981, nashville singer-songwriter
+982, progressive bluegrass
+983, surf music
+984, peruvian indie
+985, ccm
+986, christian alternative rock
+987, christian music
+988, worship
+989, classic canadian rock
+990, garage rock revival
+991, american contemporary classical
+992, contemporary classical
+993, somali pop
+994, braindance
+995, uk experimental electronic
+996, indie dream pop
+997, memphis indie
+998, ambeat
+999, pop reggaeton
+1000, reggaeton
+1001, alternative pop
+1002, australian alternative pop
+1003, musica popular mineira
+1004, manguebeat
+1005, samba-rock
+1006, soul flow
+1007, abstract
+1008, drill and bass
+1009, dub techno
+1010, black punk
+1011, detroit rock
+1012, aussietronica
+1013, newcastle indie
+1014, indonesian jazz
+1015, indonesian pop
+1016, french post-punk
+1017, anglican liturgy
+1018, early music
+1019, english renaissance
+1020, renaissance
+1021, american folk revival
+1022, old-time
+1023, protest folk
+1024, electroclash
+1025, deathrock
+1026, egyptian alternative
+1027, puerto rican indie
+1028, classic j-pop
+1029, boston hip hop
+1030, dutch indie
+1031, icelandic rock
+1032, background music
+1033, chill out
+1034, nashville americana
+1035, virginia indie
+1036, abstract hip hop
+1037, st louis rap
+1038, bounce
+1039, native american
+1040, danish pop
+1041, tennessee experimental
+1042, cyberpunk
+1043, bronx hip hop
+1044, deep punk rock
+1045, pennsylvania hardcore
+1046, hamburg hip hop
+1047, celtic rock
+1048, alte
+1049, industrial
+1050, synth punk
+1051, experimental vocal
+1052, icelandic pop
+1053, icelandic singer-songwriter
+1054, brazilian hip hop
+1055, moombahton
+1056, ninja
+1057, irish pop
+1058, detroit trap
+1059, gypsy jazz
+1060, japanese vgm
+1061, otacore
+1062, sound team
+1063, classic opm
+1064, rap conscient
+1065, detroit house
+1066, detroit techno
+1067, techno
+1068, psychedelic jazz fusion
+1069, grand rapids indie
+1070, twee pop
+1071, asbury park indie
+1072, stomp and whittle
+1073, english indie rock
+1074, british experimental
+1075, sacramento indie
+1076, kc indie
+1077, canadian folk
+1078, modern indie folk
+1079, newfoundland indie
+1080, manitoba indie
+1081, lancaster pa indie
+1082, australian garage punk
+1083, ambient worship
+1084, vintage schlager
+1085, classical tenor
+1086, italian tenor
+1087, michigan folk
+1088, michigan indie
+1089, indie cordoba
+1090, big beat
+1091, oc rap
+1092, rap latina
+1093, swancore
+1094, melodic hardcore
+1095, dutch r&b
+1096, bass trap
+1097, el paso indie
+1098, anthem emo
+1099, diy emo
+1100, canadian pop punk
+1101, canadian punk
+1102, nu metal
+1103, post-grunge
+1104, rap metal
+1105, reading indie
+1106, socal pop punk
+1107, slc indie
+1108, danish alternative rock
+1109, danish post-punk
+1110, australian rock
+1111, south african alternative
+1112, supergroup
+1113, sinogaze
+1114, funk metal
+1115, math pop
+1116, mexican classic rock
+1117, japanese garage rock
+1118, jam band
+1119, minimal techno
+1120, happy hardcore
+1121, melodic techno
+1122, organic electronic
+1123, persian alternative
+1124, deep euro house
+1125, organic house
+1126, minimal melodic techno
+1127, ethnotronica
+1128, classic korean pop
+1129, korean singer-songwriter
+1130, danish indie pop
+1131, australian dance
+1132, dc hardcore
+1133, post-hardcore
+1134, french psychedelic
+1135, british electroacoustic
+1136, british soundtrack
+1137, italian opera
+1138, italian romanticism
+1139, late romantic era
+1140, banjo
+1141, country blues
+1142, rock keyboard
+1143, kundiman
+1145, blackgaze
+1146, doomgaze
+1147, dream pop
+1148, nu gaze
+1149, post-rock
+1150, album rock
+1151, art rock
+1152, beatlesque
+1153, canadian psychedelic
+1154, classic rock
+1155, glam rock
+1156, progressive rock
+1157, symphonic rock
+1158, ambient post-rock
+1159, nordic post-rock
+1160, alternative rock
+1161, anti-folk
+1162, indie rock
+1163, modern rock
+1164, permanent wave
+1165, rock
+1166, alternative rock
+1167, east coast hip hop
+1168, golden age hip hop
+1169, hip hop
+1170, old school hip hop
+1171, rap
+1172, rap rock
+1173, atmospheric post-metal
+1174, atmospheric sludge
+1175, doom metal
+1176, drone metal
+1177, dub metal
+1178, post-doom metal
+1179, post-hardcore
+1180, post-metal
+1181, post-rock
+1182, progressive sludge
+1183, sludge metal
+1184, glitch hop
+1185, wonky
+1186, ambient black metal
+1187, atmospheric black metal
+1188, autonomous black metal
+1189, black metal
+1190, dungeon synth
+1191, metal
+1192, norwegian black metal
+1193, norwegian metal
+1194, pagan black metal
+1195, tolkien metal
+1196, british post-rock
+1197, cosmic post-rock
+1198, post-rock
+1199, alternative rock
+1200, emo
+1201, freak folk
+1202, gbvfi
+1203, indie rock
+1204, lo-fi
+1205, math rock
+1206, post-hardcore
+1207, alternative dance
+1208, art pop
+1209, big beat
+1210, electronica
+1211, trip hop
+1212, nyc rap
+1213, pop rap
+1214, rap
+1215, southern hip hop
+1216, trap
+1217, alternative hip hop
+1218, escape room
+1219, psychedelic hip hop
+1220, underground hip hop
+1221, virginia hip hop
+1222, birmingham hip hop
+1223, grime
+1224, uk garage
+1225, art pop
+1226, electronica
+1227, glitch pop
+1228, indie rock
+1229, oxford indie
+1230, brooklyn indie
+1231, chillwave
+1232, indietronica
+1233, edmonton indie
+1234, alternative rock
+1235, britpop
+1236, garage rock
+1237, leicester indie
+1238, modern rock
+1239, rock
+1240, alternative dance
+1241, alternative rock
+1242, indie rock
+1243, modern rock
+1244, new rave
+1245, rock
+1246, cyberpunk
+1247, dreampunk
+1248, hardvapour
+1249, slushwave
+1250, vaporwave
+1251, british experimental
+1252, british industrial
+1253, dark jazz
+1254, drone
+1255, dub metal
+1256, experimental
+1257, experimental rock
+1258, industrial
+1259, new isolationism
+1260, post-punk
+1261, ritual ambient
+1262, uk experimental electronic
+1263, mathcore
+1264, modern rock
+1265, noise rock
+1266, post-hardcore
+1267, rhode island indie
+1268, sasscore
+1269, synthwave
+1270, doomgaze
+1271, one-person band
+1272, post-doom metal
+1273, bath indie
+1274, funk
+1275, modern alternative rock
+1276, modern blues rock
+1277, modern rock
+1278, rock
+1279, ambient
+1280, electronica
+1281, intelligent dance music
+1282, scottish electronic
+1283, trip hop
+1284, alternative dance
+1285, electronica
+1286, folktronica
+1287, indie soul
+1288, intelligent dance music
+1289, new rave
+1290, danish alternative rock
+1291, danish rock
+1292, dream pop
+1293, melancholia
+1294, experimental
+1295, industrial
+1296, album rock
+1297, art rock
+1298, classic rock
+1299, instrumental rock
+1300, jazz fusion
+1301, jazz rock
+1302, progressive rock
+1303, psychedelic rock
+1304, rock
+1305, symphonic rock
+1306, zolo
+1307, alternative metal
+1308, french death metal
+1309, french metal
+1310, metal
+1311, nu metal
+1312, progressive groove metal
+1313, garage psych
+1314, philly indie
+1315, chicago rap
+1316, conscious hip hop
+1317, gangster rap
+1318, hip hop
+1319, political hip hop
+1320, pop rap
+1321, rap
+1322, southern hip hop
+1323, doom metal
+1324, psychedelic doom
+1325, sludge metal
+1326, space rock
+1327, stoner metal
+1328, stoner rock
+1329, uk doom metal
+1330, alternative dance
+1331, indie rock
+1332, modern alternative rock
+1333, modern rock
+1334, new rave
+1335, oxford indie
+1336, rock
+1337, freak folk
+1338, art pop
+1339, chillwave
+1340, collage pop
+1341, dream pop
+1342, experimental pop
+1343, freak folk
+1344, garage psych
+1345, indie rock
+1346, noise pop
+1347, atmospheric black metal
+1348, blackgaze
+1349, post-metal
+1350, usbm
+1351, american shoegaze
+1352, dream pop
+1353, dreamgaze
+1354, dreamo
+1355, grungegaze
+1356, indie shoegaze
+1357, nu gaze
+1358, shoegaze
+1359, alternative rock
+1360, art rock
+1361, dream pop
+1362, emo
+1363, experimental
+1364, experimental rock
+1365, indie rock
+1366, louisville underground
+1367, math rock
+1368, post-hardcore
+1369, post-punk
+1370, post-rock
+1371, slowcore
+1372, experimental
+1373, experimental rock
+1374, industrial
+1375, post-punk
+1376, uk post-punk
+1377, doom metal
+1378, drone
+1379, drone metal
+1380, dub metal
+1381, experimental
+1382, experimental rock
+1383, gaian doom
+1384, j-metal
+1385, japanese post-rock
+1386, japanese psychedelic
+1387, japanese psychedelic rock
+1388, noise rock
+1389, post-doom metal
+1390, post-hardcore
+1391, post-metal
+1392, stoner metal
+1393, stoner rock
+1394, art pop
+1395, chamber pop
+1396, indie pop
+1397, lilith
+1398, permanent wave
+1399, piano rock
+1400, pop rock
+1401, singer-songwriter
+1402, hip hop
+1403, rap
+1404, aesthetic rap
+1405, alternative dance
+1406, australian alternative rock
+1407, australian dance
+1408, collage pop
+1409, electronica
+1410, indietronica
+1411, new rave
+1412, psychedelic hip hop
+1413, alternative r&b
+1414, chill r&b
+1415, dance pop
+1416, pop
+1417, pop r&b
+1418, pop rap
+1419, r&b
+1420, urban contemporary
+1421, canadian contemporary r&b
+1422, canadian pop
+1423, dance pop
+1424, pop
+1425, r&b
+1426, funk
+1427, indie soul
+1428, neo soul
+1429, soul
+1430, r&b en espanol
+1431, ambient pop
+1432, downtempo
+1433, electronica
+1434, trip hop
+1435, j-poprock
+1436, j-rock
+1437, japanese alternative pop
+1438, japanese alternative rock
+1439, japanese dream pop
+1440, shibuya-kei
+1441, art pop
+1442, shimmer pop
+1443, downtempo
+1444, dream pop
+1445, indietronica
+1446, indie rock
+1447, modern rock
+1448, stomp and holler
+1449, chamber pop
+1450, alternative rock
+1451, anti-folk
+1452, dream pop
+1453, freak folk
+1454, indie rock
+1455, lo-fi
+1456, melancholia
+1457, art pop
+1458, norwegian pop
+1459, metropopolis
+1460, nottingham indie
+1461, anti-folk
+1462, indie folk
+1463, indie pop
+1464, indie rock
+1465, melancholia
+1466, omaha indie
+1467, stomp and holler
+1468, modern alternative rock
+1469, uk contemporary r&b
+1470, gainesville indie
+1471, indie psych-pop
+1472, barbadian pop
+1473, stomp and holler
+1474, swedish americana
+1475, swedish country
+1476, transpop
+1477, la pop
+1478, desi pop
+1479, folk-pop
+1480, hindi indie
+1481, indian indie
+1482, indian singer-songwriter
+1483, art pop
+1484, electro-pop francais
+1485, electropop
+1486, metropopolis
+1487, shimmer pop
+1488, art pop
+1489, chamber pop
+1490, chamber psych
+1491, chillwave
+1492, electropop
+1493, experimental pop
+1494, freak folk
+1495, indie pop
+1496, indie rock
+1497, seattle indie
+1498, electropop
+1499, nyc pop
+1500, art pop
+1501, bubblegrunge
+1502, indie pop
+1503, indie rock
+1504, small room
+1505, english indie rock
+1506, english indie rock
+1507, york indie
+1508, cornwall indie
+1509, cork indie
+1510, indie folk
+1511, irish indie
+1512, irish pop
+1513, vapor soul
+1514, modern dream pop
+1515, chamber pop
+1516, eau claire indie
+1517, indie folk
+1518, indie pop
+1519, new americana
+1520, stomp and holler
+1521, bristol indie
+1522, chamber psych
+1523, freak folk
+1524, indie folk
+1525, ambient folk
+1526, art pop
+1527, chamber pop
+1528, chamber psych
+1529, dunedin indie
+1530, freak folk
+1531, indie folk
+1532, nz folk
+1533, nz pop
+1534, nz singer-songwriter
+1535, indie folk
+1536, irish singer-songwriter
+1537, neo mellow
+1538, stomp and holler
+1539, scottish indie
+1540, bedroom pop
+1541, indie pop
+1542, deep euro house
+1543, english indie rock
+1544, modern alternative rock
+1545, modern rock
+1546, rock
+1547, modern dream pop
+1548, irish indie
+1549, northern irish indie
+1550, canadian folk
+1551, canadian indie
+1552, canadian singer-songwriter
+1553, deep new americana
+1554, indie folk
+1555, lilith
+1556, new americana
+1557, pei indie
+1558, alternative country
+1559, art pop
+1560, deep latin alternative
+1561, freak folk
+1562, indie soul
+1563, ambient
+1564, art pop
+1565, deconstructed club
+1566, drone
+1567, electra
+1568, experimental pop
+1569, fourth world
+1570, gauze pop
+1571, grave wave
+1572, hauntology
+1573, mandible
+1574, microhouse
+1575, outsider house
+1576, art pop
+1577, indie pop
+1578, indie rock
+1579, art pop
+1580, chamber pop
+1581, dream pop
+1582, freak folk
+1583, indie folk
+1584, indie pop
+1585, indie rock
+1586, melancholia
+1587, new jersey indie
+1588, stomp and holler
+1589, art pop
+1590, indie folk
+1591, indie pop
+1592, small room
+1593, indie soul
+1594, vapor soul
+1595, chillwave
+1596, wonky
+1597, compositional ambient
+1598, electronica
+1599, neo-classical
+1600, neoclassical darkwave
+1601, aussietronica
+1602, bergen indie
+1603, norske viser
+1604, norwegian indie
+1605, eau claire indie
+1606, indie folk
+1607, stomp and holler
+1608, wisconsin indie
+1609, 21st century classical
+1610, american 21st century classical
+1611, future bass
+1612, lo-fi beats
+1613, downtempo
+1614, electronica
+1615, ninja
+1616, nu jazz
+1617, chillwave
+1618, indie dream pop
+1619, vancouver indie
+1620, chillwave
+1621, dream pop
+1622, idaho indie
+1623, indie rock
+1624, shimmer pop
+1625, stomp and holler
+1626, alternative country
+1627, chamber pop
+1628, freak folk
+1629, indie folk
+1630, indie rock
+1631, new americana
+1632, stomp and holler
+1633, australian electropop
+1634, australian pop
+1635, indie folk
+1636, indie pop
+1637, new americana
+1638, stomp and holler
+1639, australian alternative pop
+1640, icelandic indie
+1641, neo-classical
+1642, ambient
+1643, ambient pop
+1644, art pop
+1645, chamber psych
+1646, chillwave
+1647, compositional ambient
+1648, dream pop
+1649, drone
+1650, electra
+1651, experimental pop
+1652, fourth world
+1653, freak folk
+1654, melancholia
+1655, indie pop
+1656, la indie
+1657, irish pop
+1658, irish rock
+1659, melancholia
+1660, compositional ambient
+1661, folktronica
+1662, icelandic electronic
+1663, icelandic indie
+1664, indietronica
+1665, post-rock
+1666, indie dream pop
+1667, indie quebecois
+1668, alternative rock
+1669, art pop
+1670, art rock
+1671, chamber pop
+1672, chamber psych
+1673, dream pop
+1674, duluth indie
+1675, freak folk
+1676, indie rock
+1677, melancholia
+1678, slowcore
+1679, ambient pop
+1680, ambient
+1681, art pop
+1682, compositional ambient
+1683, drift
+1684, drone
+1685, fourth world
+1686, freak folk
+1687, intelligent dance music
+1688, post-rock
+1689, ambient
+1690, compositional ambient
+1691, drift
+1692, drone
+1693, neo-classical
+1694, post-rock
+1695, stomp and flutter
+1696, uzbek pop
+1697, boston indie
+1698, chamber pop
+1699, indie dream pop
+1700, ambient pop
+1701, electra
+1702, compositional ambient
+1703, dream pop
+1704, ethereal wave
+1705, icelandic rock
+1706, melancholia
+1707, nordic post-rock
+1708, post-rock
+1709, experimental indie
+1710, experimental pop
+1711, icelandic indie
+1712, ambient folk
+1713, chamber pop
+1714, alternative americana
+1715, chamber pop
+1716, freak folk
+1717, indie folk
+1718, indie pop
+1719, indie rock
+1720, new americana
+1721, stomp and holler
+1722, swedish americana
+1723, chillwave
+1724, shiver pop
+1725, vapor soul
+1726, compositional ambient
+1727, icelandic pop
+1728, post-rock
+1729, indie folk
+1730, irish singer-songwriter
+1731, new americana
+1732, shimmer pop
+1733, malmo indie
+1734, swedish singer-songwriter
+1735, chamber folk
+1736, pop folk
+1737, newcastle nsw indie
+1738, indie psych-pop
+1739, ambient
+1740, compositional ambient
+1741, neo-classical
+1742, nu age
+1743, dutch indie
+1744, australian shoegaze
+1745, shimmer pop
+1746, anti-folk
+1747, deep new americana
+1748, indie folk
+1749, modern folk rock
+1750, new americana
+1751, stomp and holler
+1752, britpop
+1753, pop rock
+1754, rock
+1755, soundtrack
+1756, alternative r&b
+1757, art pop
+1758, electropop
+1759, indie poptimism
+1760, pop
+1761, vapor soul
+1762, baroque pop
+1763, chillwave
+1764, experimental pop
+1765, freak folk
+1766, indie garage rock
+1767, new jersey indie
+1768, alternative hip hop
+1769, experimental hip hop
+1770, psychedelic hip hop
+1771, drill and bass
+1772, glitch hop
+1773, intelligent dance music
+1774, ninja
+1775, uk bass
+1776, wonky
+1777, bossa nova
+1778, brazilian indie
+1779, mpb
+1780, psicodelia brasileira
+1781, samba
+1782, samba-rock
+1783, tropicalia
+1784, bossa nova
+1785, brazilian jazz
+1786, mpb
+1787, bubblegrunge
+1788, small room
+1789, italian library music
+1790, jazz funk
+1791, spytrack
+1792, vintage italian soundtrack
+1793, brooklyn indie
+1794, indie jazz
+1795, alternative r&b
+1796, chill r&b
+1797, indie r&b
+1798, bossa nova
+1799, brazilian jazz
+1800, choro
+1801, jazz guitar
+1802, mpb
+1803, samba
+1804, samba-jazz
+1805, velha guarda
+1806, violao
+1807, bossa nova
+1808, brazilian indie
+1809, mpb
+1810, nova mpb
+1811, rock baiano
+1812, samba
+1813, tropicalia
+1814, rare groove
+1815, abstract idm
+1816, ambient
+1817, compositional ambient
+1818, drift
+1819, neo-classical
+1820, hungarian classical piano
+1821, soundtrack
+1822, ambient
+1823, compositional ambient
+1824, drone
+1825, fourth world
+1826, neo-classical
+1827, compositional ambient
+1828, j-ambient
+1829, japanese classical
+1830, japanese piano
+1831, neo-classical
+1832, british contemporary classical
+1833, british soundtrack
+1834, compositional ambient
+1835, soundtrack
+1836, j-ambient
+1837, ambient
+1838, art pop
+1839, fourth world
+1840, j-ambient
+1841, anime score
+1842, j-ambient
+1843, japanese soundtrack
+1844, j-ambient
+1845, japanese jazz fusion
+1846, japanese soundtrack
+1847, alternative dance
+1848, alternative rock
+1849, baroque pop
+1850, canadian indie
+1851, indie pop
+1852, indie rock
+1853, modern rock
+1854, new rave
+1855, permanent wave
+1856, quebec indie
+1857, rock
+1858, stomp and holler
+1859, soundtrack
+1860, brooklyn indie
+1861, modern chamber music
+1862, classical
+1863, early modern classical
+1864, neoclassicism
+1865, russian modern classical
+1866, electronica
+1867, wonky
+1868, ambient
+1869, compositional ambient
+1870, drift
+1871, drone
+1872, nu age
+1873, ambient
+1874, compositional ambient
+1875, drone
+1876, dutch experimental
+1877, mandible
+1878, new isolationism
+1879, nu age
+1880, sound art
+1881, warm drone
+1882, compositional ambient
+1883, modern cello
+1884, nu age
+1885, ambient
+1886, compositional ambient
+1887, dark jazz
+1888, drift
+1889, drone
+1890, norwegian experimental
+1891, nu age
+1892, neo-classical
+1893, compositional ambient
+1894, neo-classical
+1895, ambient
+1896, compositional ambient
+1897, drone
+1898, pop ambient
+1899, ambient
+1900, compositional ambient
+1901, drone
+1902, neo-classical
+1903, post-rock
+1904, ambient
+1905, american contemporary classical
+1906, art pop
+1907, art rock
+1908, compositional ambient
+1909, drone
+1910, fourth world
+1911, minimalism
+1912, ambient
+1913, australian ambient
+1914, australian experimental
+1915, compositional ambient
+1916, neo-classical
+1917, compositional ambient
+1918, dark jazz
+1919, double drumming
+1920, electronica
+1921, neo-classical
+1922, ninja
+1923, nu jazz
+1924, ambient
+1925, compositional ambient
+1926, drift
+1927, drone
+1928, warm drone
+1929, ambient
+1930, australian experimental
+1931, compositional ambient
+1932, drone
+1933, icelandic classical
+1934, icelandic experimental
+1935, mandible
+1936, soundtrack
+1937, ambient post-rock
+1938, compositional ambient
+1939, drone
+1940, warm drone
+1941, breakcore
+1942, drill and bass
+1943, intelligent dance music
+1944, ambient
+1945, art pop
+1946, art rock
+1947, berlin school
+1948, compositional ambient
+1949, drone
+1950, experimental
+1951, fourth world
+1952, krautrock
+1953, ambient
+1954, compositional ambient
+1955, dark jazz
+1956, drift
+1957, drone
+1958, experimental ambient
+1959, new isolationism
+1960, nu age
+1961, sound art
+1962, warm drone
+1963, ambient
+1964, art pop
+1965, compositional ambient
+1966, drift
+1967, drone
+1968, fourth world
+1969, hauntology
+1970, intelligent dance music
+1971, microhouse
+1972, new isolationism
+1973, post-rock
+1974, sound art
+1975, ambient
+1976, compositional ambient
+1977, drone
+1978, neo-classical
+1979, post-rock
+1980, australian ambient
+1981, compositional ambient
+1982, neo-classical
+1983, ambient
+1984, compositional ambient
+1985, dark jazz
+1986, drone
+1987, neo-classical
+1988, nu age
+1989, compositional ambient
+1990, neo-classical
+1991, neo-classical
+1992, ambient
+1993, art pop
+1994, canadian experimental
+1995, compositional ambient
+1996, dream pop
+1997, drone
+1998, electronica
+1999, experimental
+2000, fourth world
+2001, freak folk
+2002, intelligent dance music
+2003, microhouse
+2004, new isolationism
+2005, warm drone
+2006, american contemporary classical
+2007, avant-garde
+2008, classical
+2009, contemporary classical
+2010, experimental
+2011, classical
+2012, finnish classical
+2013, impressionism
+2014, post-romantic era
+2015, american modern classical
+2016, classical
+2017, classical performance
+2018, orchestral performance
+2019, classical
+2020, late romantic era
+2021, norwegian classical
+2022, classical
+2023, early romantic era
+2024, german romanticism
+2025, classical
+2026, early modern classical
+2027, impressionism
+2028, italian romanticism
+2029, neoclassicism
+2030, post-romantic era
+2031, classical
+2032, early romantic era
+2033, german romanticism
+2034, classical
+2035, french romanticism
+2036, late romantic era
+2037, classical
+2038, german opera
+2039, german romanticism
+2040, late romantic era
+2041, classical
+2042, early modern classical
+2043, impressionism
+2044, post-romantic era
+2045, classical
+2046, late romantic era
+2047, austro-german modernism
+2048, classical
+2049, early modern classical
+2050, early modern classical
+2051, impressionism
+2052, classical
+2053, neoclassicism
+2054, classical
+2055, czech classical
+2056, late romantic era
+2057, classical
+2058, post-romantic era
+2059, classical
+2060, classical era
+2061, early romantic era
+2062, classical
+2063, post-romantic era
+2064, russian romanticism
+2065, ukrainian classical
+2066, classical
+2067, early modern classical
+2068, neoclassicism
+2069, british modern classical
+2070, classical
+2071, early modern classical
+2072, czech classical
+2073, early modern classical
+2074, post-romantic era
+2075, austro-german modernism
+2076, avant-garde
+2077, classical
+2078, early modern classical
+2079, serialism
+2080, classical
+2081, compositional ambient
+2082, russian modern classical
+2083, avant-garde
+2084, classical
+2085, compositional ambient
+2086, contemporary classical
+2087, hungarian contemporary classical
+2088, laboratorio
+2089, ambient folk
+2090, indie folk
+2091, late romantic era
+2092, russian romanticism
+2093, classical
+2094, french opera
+2095, french romanticism
+2096, late romantic era
+2097, american modern classical
+2098, classical
+2099, early modern classical
+2100, tin pan alley
+2101, classical
+2102, italian opera
+2103, italian romanticism
+2104, classical
+2105, late romantic era
+2106, russian romanticism
+2107, baroque
+2108, classical
+2109, early music
+2110, german baroque
+2111, british modern classical
+2112, classical
+2113, late romantic era
+2114, victorian britain
+2115, avant-garde
+2116, classical
+2117, contemporary classical
+2118, early modern classical
+2119, laboratorio
+2120, rai
+2121, rap algerien
+2122, bass trap
+2123, traprun
+2124, j-pop
+2125, big room
+2126, electra
+2127, future bass
+2128, melodic dubstep
+2129, pop edm
+2130, christian metalcore
+2131, melodic metalcore
+2132, metalcore
+2133, progressive metalcore
+2134, g-house
+2135, french indietronica
+2136, k-pop
+2137, korean ost
+2138, drill francais
+2139, french hip hop
+2140, pop urbaine
+2141, rap francais
+2142, alt z
+2143, swedish drill
+2144, swedish hip hop
+2145, swedish trap pop
+2146, contemporary country
+2147, country
+2148, anime rock
+2149, j-pixie
+2150, vocaloid
+2151, bass house
+2152, deep groove house
+2153, edm
+2154, electro house
+2155, house
+2156, melbourne bounce
+2157, pop dance
+2158, progressive house
+2159, deep euro house
+2160, hamburg electronic
+2161, minimal techno
+2162, organic house
+2163, tech house
+2164, lithuanian edm
+2165, edm
+2166, future bass
+2167, melodic dubstep
+2168, pop dance
+2169, pop edm
+2170, vapor twitch
+2171, russian hip hop
+2172, otacore
+2173, ukrainian electronic
+2174, british singer-songwriter
+2175, indie anthem-folk
+2176, indie folk
+2177, dominican pop
+2178, german tech house
+2179, sad lo-fi
+2180, sad lo-fi
+2181, k-rap
+2182, melodic rap
+2183, pop rap
+2184, rap
+2185, trap
+2186, vapor trap
+2187, k-pop
+2188, k-pop boy group
+2189, uk alternative hip hop
+2190, underground hip hop
+2191, vapor trap
+2192, afghan pop
+2193, persian pop
+2194, mexican indie
+2195, azonto
+2196, christian afrobeat
+2197, ghanaian alternative
+2198, italian pop
+2199, arabic jazz
+2200, gen z singer-songwriter
+2201, russian electronic
+2202, russian hip hop
+2203, russian rock
+2204, russian synthpop
+2205, art pop
+2206, electropop
+2207, escape room
+2208, persian electronic
+2209, mainland chinese pop
+2210, deep underground hip hop
+2211, new jersey underground rap
+2212, israeli pop
+2213, slowcore
+2214, cali rap
+2215, kansas hip hop
+2216, brostep
+2217, canadian electronic
+2218, edm
+2219, electro house
+2220, electronic trap
+2221, electropop
+2222, filthstep
+2223, future bass
+2224, melodic dubstep
+2225, pop dance
+2226, pop edm
+2227, dance pop
+2228, eurodance
+2229, europop
+2230, hands up
+2231, italo dance
+2232, pop dance
+2233, deep german hip hop
+2234, german hip hop
+2235, german trap
+2236, german underground rap
+2237, kurdish hip hop
+2238, bass trap
+2239, edm
+2240, electronic trap
+2241, electropop
+2242, future bass
+2243, pop edm
+2244, vapor twitch
+2245, german techno
+2246, progressive house
+2247, trance
+2248, uplifting trance
+2249, deep euro house
+2250, ethnotronica
+2251, organic house
+2252, tech house
+2253, chill r&b
+2254, edm
+2255, melodic dubstep
+2256, pop dance
+2257, pop edm
+2258, metalcore
+2259, swedish metalcore
+2260, art pop
+2261, chamber psych
+2262, freak folk
+2263, london indie
+2264, modern alternative rock
+2265, uk post-punk revival
+2266, alt z
+2267, alternative r&b
+2268, electropop
+2269, escape room
+2270, frauenrap
+2271, german hip hop
+2272, german pop
+2273, german viral rap
+2274, khaleeji iraqi
+2275, yaoi
+2276, neo-psychedelic
+2277, indie pop
+2278, nashville singer-songwriter
+2279, indiecoustica
+2280, stomp and holler
+2281, lo-fi indie
+2282, irish indie
+2283, bolero
+2284, classic peruvian pop
+2285, mexican rock-and-roll
+2286, pop romantico
+2287, portuguese indie
+2288, musica triste brasileira
+2289, ranchera
+2290, tropical
+2291, lo-fi indie
+2292, philly indie
+2293, funk
+2294, louisiana blues
+2295, new orleans blues
+2296, rock keyboard
+2297, roots rock
+2298, soul
+2299, southern soul
+2300, vintage hollywood
+2301, bossa nova
+2302, brazilian jazz
+2303, exotica
+2304, jazz guitar
+2305, lounge
+2306, violao
+2307, violao classico
+2308, jazz rap
+2309, bossa nova
+2310, fado
+2311, mpb
+2312, tropicalia
+2313, adult standards
+2314, classic rock
+2315, country rock
+2316, folk
+2317, folk rock
+2318, heartland rock
+2319, lilith
+2320, mellow gold
+2321, singer-songwriter
+2322, soft rock
+2323, bossa nova
+2324, mpb
+2325, samba
+2326, violao
+2327, bossa nova
+2328, mpb
+2329, nova mpb
+2330, italian library music
+2331, vintage italian soundtrack
+2332, bolero mexicano
+2333, bossa nova
+2334, choro
+2335, mpb
+2336, samba
+2337, velha guarda
+2338, bolero
+2339, bolero mexicano
+2340, mariachi
+2341, ranchera
+2342, bolero
+2343, bolero mexicano
+2344, bossa nova
+2345, mpb
+2346, musica popular mineira
+2347, samba
+2348, italian library music
+2349, vintage italian soundtrack
+2350, art pop
+2351, chamber psych
+2352, electra
+2353, electronica
+2354, electropop
+2355, escape room
+2356, experimental pop
+2357, indie soul
+2358, uk contemporary r&b
+2359, experimental hip hop
