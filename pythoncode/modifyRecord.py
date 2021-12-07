@@ -1,5 +1,7 @@
 from apihelper import apihelper
 from helper import helper
+from db_operations import db_operations
+
 class modifyRecord():
     #given a playlist id or url, it will figure out what is new in the list(new track, new artist, etc)
     #and it will add each new record to a list
@@ -45,13 +47,15 @@ class modifyRecord():
             trackdict = apihelp.getTrackDict(trackID)
             tempt = getTrackInfo(trackdict)
             insertAttributes(trackdict["id"], apihelp)
-            if uniqueAlbum(trackdict, albumArr):
+            albumID = trackdict["album"]["id"]
+            if uniqueAlbum(albumID):
               tempalb = getAlbumInfo(trackdict)
-              if uniqueArtist(trackdict, artistArr):
+              artistID = trackdict["artist"][0]["id"]
+              if uniqueArtist(artistID):
                 tempartistdict = apihelp.getArtistDict(trackdict["artists"][0]["id"])
                 tempart = getArtistInfo(trackdict, tempartistdict)
                 for g in tempartistdict['genres']:
-                  if uniqueGenre(g, genreArr):
+                  if uniqueGenre(g):
                     #query statement for inserting genre g
                     #genreArr.append(g)
                   #querystatement for inserting gajunction [tempdict["artists"][0]["id"], getGenreID(g, genreArr)]
@@ -153,52 +157,32 @@ class modifyRecord():
     #needs to be integrated into database
     #when we integrate into the database we will remove the second arguement
     @staticmethod
-    def getGenreID(g, genreArr):
-
-      with open('genres.csv', 'r') as fr:
-        line = fr.readline()
-        line = fr.readline()
-        count = 0
-        while line:
-          #if count%1000 == 0:
-          #  print(f"line {count}")
-
-          tempID = line[3:-1]+line[-1]
-          if g == tempID:
-            return count
-          count += 1
-          line = fr.readline()
-      fr.close()
-      for ga in genreArr:
-        if ga == g:
-          return count
-        count += 1
-      return count
+    def getGenreID(genre):
+      dbop = db_operations()
+      cursor = dbop.getCursor()
+      query = f'''Select genreID from genre
+                WHERE genreName = \'{genre}\'
+                LIMIT 1;'''
+      cursor.execute(query)
+      ID = cursor.fetchone()
+      return ID
 
     #given the track dictionary, it will determine whether or not it is a unique album
     #this one can be written better
     #needs to be integrated into database
     #when we integrate into the database we will remove the second arguement
     @staticmethod
-    def uniqueAlbum(tempdict, albumArr):
-      album = tempdict["album"]["id"]
-      for a in albumArr:
-        if a[0] == album:
+    def uniqueAlbum(albumID):
+      dbop = db_operations()
+      cursor = dbop.getCursor()
+      query = f'''Select Count(*) from album
+                WHERE albumID = \'{albumID}\';'''
+      cursor.execute(query)
+      count = cursor.fetchone()
+      if count[0] == 0:
+          return True
+      else:
           return False
-      with open('tracks.csv', 'r') as fr:
-        line = fr.readline()
-        line = fr.readline()
-        count = 0
-        while line:
-          #if count%1000 == 0:
-          #  print(f"line {count}")
-          #count += 1
-          tempID = line[0:22]
-          if album == tempID:
-            return False
-          line = fr.readline()
-      fr.close()
-      return True
 
 
     #given the track dictionary, it will determine whether or not it is a unique artist
@@ -206,95 +190,65 @@ class modifyRecord():
     #needs to be integrated into database
     #when we integrate into the database we will remove the second arguement
     @staticmethod
-    def uniqueArtist(tempdict, artistArr):
-
-      artist = tempdict["artists"][0]["id"]
-      for a in artistArr:
-        if a[0] == artist:
+    def uniqueArtist(artistID):
+      dbop = db_operations()
+      cursor = dbop.getCursor()
+      query = f'''Select Count(*) from artist
+                WHERE artist = \'{artistID}\';'''
+      cursor.execute(query)
+      count = cursor.fetchone()
+      if count[0] == 0:
+          return True
+      else:
           return False
-      with open('artists.csv', 'r') as fr:
-        line = fr.readline()
-        line = fr.readline()
-        count = 0
-        while line:
-          #if count%1000 == 0:
-          #  print(f"line {count}")
-          #count += 1
-          tempID = line[0:22]
-          if artist == tempID:
-            return False
-          line = fr.readline()
-      fr.close()
-      return True
 
     #given the genre name, it will determine whether or not it is a unique genre
     #needs to be integrated into database
     #when we integrate into the database we will remove the second arguement
     @staticmethod
-    def uniqueGenre(genre, genreArr):
-      for g in genreArr:
-        if g[0] == genre:
+    def uniqueGenre(genre):
+      dbop = db_operations()
+      cursor = dbop.getCursor()
+      query = f'''Select Count(*) from genre
+                WHERE genreName = \'{genre}\';'''
+      cursor.execute(query)
+      count = cursor.fetchone()
+      if count[0] == 0:
+          return True
+      else:
           return False
-      with open('genres.csv', 'r') as fr:
-        line = fr.readline()
-        line = fr.readline()
-        count = 0
-        while line:
-          #if count%1000 == 0:
-          #  print(f"line {count}")
-          #count += 1
-          tempID = line[3:-1]+line[-1]
-          if genre == tempID:
-            return False
-          line = fr.readline()
-      fr.close()
-      return True
 
     #given the spotify trackID, it will determine whether or not it is a unique track
     #needs to be integrated into database
     #when we integrate into the database we will remove the second arguement
     @staticmethod
-    def uniqueTrack(track, trackArr):
-      for t in trackArr:
-        if t[1] == track:
+    def uniqueTrack(trackID):
+      dbop = db_operations()
+      cursor = dbop.getCursor()
+      query = f'''Select Count(*) from track
+                WHERE trackID = \'{trackID}\';'''
+      cursor.execute(query)
+      count = cursor.fetchone()
+      if count[0] == 0:
+          return True
+      else:
           return False
-      with open('tracks.csv', 'r') as fr:
-        line = fr.readline()
-        line = fr.readline()
-        count = 0
-        while line:
-          #if count%1000 == 0:
-          #  print(f"line {count}")
-          #count += 1
-          tempID = line[line.index(',')+1:line.index(',') +23]
-          #print(tempID)
-          if track == tempID:
-            return False
-          line = fr.readline()
-      fr.close()
-      return True
 
 
     #given the spotify playlistID, it will determine whether or not it is a unique playlist
     #needs to be integrated into database
     @staticmethod
     def uniquePlaylist(playlist):
-      with open('playlists.csv', 'r') as fr:
-        line = fr.readline()
-        line = fr.readline()
-        count = 0
-        while line:
-          #if count%1000 == 0:
-          #  print(f"line {count}")
-          #count += 1
-          tempID = line[0:22]
-          if playlist == tempID:
-            return False
-          line = fr.readline()
-      fr.close()
-      return True
-
-
+      dbop = db_operations()
+      cursor = dbop.getCursor()
+      query = f'''Select Count(*) from playlist
+                WHERE playlistID = \'{playlist}\';'''
+      cursor.execute(query)
+      count = cursor.fetchone()
+      if count[0] == 0:
+          return True
+      else:
+          return False
     #WE NEED TO REWRITE THE FOLLOWING IN TERMS OF OUR DATABASE:
     #addPlaylistToDatabase(MOVED TO modifyRecord)
     #getTrackID
