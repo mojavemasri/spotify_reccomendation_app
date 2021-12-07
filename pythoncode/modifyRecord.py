@@ -8,42 +8,68 @@ class modifyRecord():
     #we still need to add this to a database
     @staticmethod
     def addPlaylistToDatabase(playlist, apihelp):
+      dbop = db_operations()
+      cursor = dbop.getCursor()
+      connection = dbop.getConnection()
       if playlist[0:10] == 'https://op':
         playlistID = playlist[34:56]
       else:
         playlistID = playlist
-      playlistArr = apihelp.returnPlaylistTracks(playlist)
-      print(playlistArr)
-      gajunction = []
-      ptjunction = []
-      trackArr = []
-      albumArr = []
-      artistArr = []
-      genreArr = []
-      playlistInfo = []
-      counter = 0
-      for tempdict in playlistArr:
-        t = tempdict['id']
-        if tempdict["is_local"]:
-          continue
-        #print(t)
-        if uniqueTrack(t, trackArr):
-            addTrackToDatabase(t, apihelp)
-        ptjunction.append([playlistID, t, counter])
-        counter += 1
-      playlistDict = apihelp.getPlaylistDict(playlist)
-      playlistInfo = [playlistID, playlistDict["name"], str(len(playlistDict["tracks"]["items"]))]
-      print(f"Playlist info: {playlistInfo}")
-      #add items HERE to their respective databases. genreid,trackid,ptjunction, and gajunction should be autoincrement so u should take that into consideration
-      #--------------------------------
-      #QUERY STATEMENT FOR PLAYLIST, PT JUNCTION
-      #--------------------------------
-      #this return statement wont be necessary if u r already adding the items to the database
-      return[playlistInfo, trackArr, albumArr, artistArr, genreArr, gajunction, ptjunction]
+      if uniquePlaylist(playlist):
+          playlistArr = apihelp.returnPlaylistTracks(playlistID)
+          playlistDict = apihelp.getPlaylistDict(playlistID)
+          playlistInfo = getPlaylistInfo(playlistDict)
+          if "\'" in playlistInfo[1]:
+              insertPlaylist[1] = insertPlaylist[1].replace("\'", "\\\'")
+              print(f"\,{insertPlaylist}")
+          query = f'''INSERT INTO playlist(playlistID , playlistName, numTracks)
+          Value (\'{playlistInfo[0]}\', \'{playlistInfo[1]}\', {playlistInfo[2]});'''
+          print(query)
+          try:
+              cursor.execute(query)
+          except mysql.connector.Error as e:
+              if e.errno == 1062:
+                 print(f"DUPLICATE ENTRY: {insertPlaylist}")
+              else:
+                 print(insertPlaylist[1])
+                 print(f"{e.msg}")
+          print(playlistArr)
+          counter = 0
+          countPlaylist =0
+
+          for tempdict in playlistArr:
+            t = tempdict['id']
+            if tempdict["is_local"]:
+              continue
+            #print(t)
+            if uniqueTrack(t):
+                addTrackToDatabase(t, apihelp)
+            query = f'''INSERT INTO ptjunction(playlistID , trackID, trackPlace)
+            Value (\'{playlistID}\', \'{t}\', {countPlaylist});'''
+            countPlaylist += 1
+            print(query)
+            try:
+                cursor.execute(query)
+            except mysql.connector.Error as e:
+                if e.errno == 1062:
+                   print(f"DUPLICATE ENTRY: {insertpt}")
+                else:
+                   print(f"{e.msg}")
+            counter += 1
+          #add items HERE to their respective databases. genreid,trackid,ptjunction, and gajunction should be autoincrement so u should take that into consideration
+          #--------------------------------
+          #QUERY STATEMENT FOR PLAYLIST, PT JUNCTION
+          #--------------------------------
+          #this return statement wont be necessary if u r already adding the items to the database
+          #return[playlistInfo, trackArr, albumArr, artistArr, genreArr, gajunction, ptjunction]
+          pass
 
     @staticmethod
     def addTrackToDatabase(trackID, apihelp):
         if uniqueTrack(trackID):
+            dbop = db_operations()
+            cursor = dbop.getCursor()
+            connection = dbop.getConnection()
             trackdict = apihelp.getTrackDict(trackID)
             tempt = getTrackInfo(trackdict)
             insertAttributes(trackdict["id"], apihelp)
@@ -55,18 +81,80 @@ class modifyRecord():
                 tempartistdict = apihelp.getArtistDict(trackdict["artists"][0]["id"])
                 tempart = getArtistInfo(trackdict, tempartistdict)
                 for g in tempartistdict['genres']:
-                  if uniqueGenre(g):
-                    #query statement for inserting genre g
-                    #genreArr.append(g)
+
+                    if "\'" in g:
+                        g = g.replace("\'", "\\\'")
+                        print(g)
+                    if uniqueGenre(g):
+                        query = f'''INSERT INTO genre(genreName) Value (\'{g}\')'''
+                        #print(query)
+                        try:
+                            cursor.execute(query)
+                        except mysql.connector.Error as e:
+                            if e.errno == 1062:
+                                for r in genreList:
+                                    if r[1] == g:
+                                        dupList.append([counter, r[0]])
+                                print(f"DUPLICATE ENTRY: {g}")
+                    genreID = getGenreID(g)
+                    query = f'''Insert INTO gajunction(genreID, artistID, gaUNIQUEID)
+                    VALUES ({genreID}, \'{artistID}\', \'{genreID}{artistID}\');'''
                   #querystatement for inserting gajunction [tempdict["artists"][0]["id"], getGenreID(g, genreArr)]
                   #gajunction.append([tempdict["artists"][0]["id"], getGenreID(g, genreArr)])
-                #query statement to insert tempart
-                #artistArr.append(tempart)
-              #querystatement to insert tempalb
-              #albumArr.append(tempalb)
+                if "\'" in tempArt[1]:
+                    tempArt[1] = tempArt[1].replace("\'", "\\\'")
+                    print(f"\,{tempArt}")
+                query = f'''INSERT INTO artist(artistID, artistName, artistPopularity)
+                Value (\'{tempArt[0]}\', \'{tempArt[1]}\', {tempArt[2]});'''
+                #print(query)
+                try:
+                    cursor.execute(query)
+                except mysql.connector.Error as e:
+                    if e.errno == 1062:
+                       print(f"DUPLICATE ENTRY: {insertArtist}")
+                    else:
+                       print(insertArtist[1])
+                       print(f"{e.msg}")
+              #insertArtists = row[1][1:-1] + row[1][-1]
+              if "\'" in tempalb[2]:
+                  tempalb[2] = tempalb[2].replace("\'", "\\\'")
+                  #print(f"\,{insertAlbum}")
+
+              #print(f"COMPARING {insertAlbum[-1]},{convertDate(insertAlbum[-1])}")
+              tempalb[-1] = helper.convertDate(tempalb[-1])
+              query = f'''INSERT INTO album(albumID, artistID, albumName, numTracks, albumType, releaseDate)
+              Value (\'{tempalb[0]}\', \'{tempalb[1]}\', \'{tempalb[2]}\', {tempalb[3]}, \'{tempalb[4]}\', \'{tempalb[5]}\');'''
+              #print(query)
+              try:
+                  cursor.execute(query)
+              except mysql.connector.Error as e:
+                  if e.errno == 1062:
+                     continue
+                     #print(f"DUPLICATE ENTRY: {insertAlbum}")
+                  else:
+                     #print(insertAlbum)
+                     #print(insertAlbum[-1])
+                     print(f"{e.msg}")
             #querystatement to insert trackid
 
-            #EXECUTE ALL THE ABOVE QUERY STATEMENTS
+            #insertArtists = row[1][1:-1] + row[1][-1]
+            if "\'" in tempt[4]:
+                tempt[4] = tempt[4].replace("\'", "\\\'")
+                print(f"\,{tempt}")
+            query = f'''INSERT INTO track(trackID , albumID, artistID, trackName, trackLength, trackPopularity, explicit)
+            Value (\'{tempt[1]}\', \'{tempt[2]}\', \'{tempt[3]}\', \'{tempt[4]}\', {tempt[5]}, {tempt[6]}, {tempt[7]});'''
+
+
+            #print(query)
+            try:
+                cursor.execute(query)
+            except mysql.connector.Error as e:
+                if e.errno == 1062:
+                   print(f"DUPLICATE ENTRY: {insertTrack}")
+                else:
+                   print(insertTrack[1])
+                   print(f"{e.msg}")
+            connection.commit()
         else:
             pass
 
@@ -87,6 +175,7 @@ class modifyRecord():
         addPlaylistToDatabase(playlistID, apihelp)
 
 
+#NEEDS TO BE IMPLEMENTED
     @staticmethod
     def hardDeletePlaylist(playlistID, apihelp):
         #query to remove all values from ptjunction where playlistID = playlistID
@@ -133,7 +222,13 @@ class modifyRecord():
       t.append(trackDict["explicit"])
       return t
 
-
+    @staticmethod
+    def getPlaylistInfo(playlistDict):
+       p = []
+       p.append(playlistDict["id"])
+       p.append(playlistDict["name"])
+       p.append(len(playlistDict["tracks"]["items"]))
+       return p
     #given a spotify track ID, it will return the database track id
     #needs to be integrated into database
     @staticmethod
@@ -165,7 +260,19 @@ class modifyRecord():
                 LIMIT 1;'''
       cursor.execute(query)
       ID = cursor.fetchone()
-      return ID
+      return ID[0]
+
+
+
+    @staticmethod
+    def getGenreID(genre,dbop):
+      cursor = dbop.getCursor()
+      query = f'''Select genreID from genre
+                WHERE genreName = \'{genre}\'
+                LIMIT 1;'''
+      cursor.execute(query)
+      ID = cursor.fetchone()
+      return ID[0]
 
     #given the track dictionary, it will determine whether or not it is a unique album
     #this one can be written better
