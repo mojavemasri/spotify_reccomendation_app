@@ -7,6 +7,9 @@ import mysql.connector
 import random
 from db_operations import db_operations
 from apihelper import apihelper
+
+
+
 def convertDate(date):
     if len(date) == 4:
         return (date+"-01-01")
@@ -37,11 +40,12 @@ def array2d(filename):
     rs = []
     f = open(filename,"r")
     records = f.readlines()
+    attr_num = len(records[0].split(","))
     for i in range(len(records)):
         if i != 0:
             inst = records[i].split(',')
             inst.append(i)
-            id = ord(inst[6][0])
+            id = ord(inst[attr_num][0])
             inst.append(id)
             rs.append(inst)
     return rs
@@ -108,10 +112,12 @@ def genreartistalbumtrackinput():
             counter += 1
 
     #UNCOMMENT TO COMMIT DATABASES
-    #connection.commit()
-    #query = '''SELECT Count(*) FROM genre'''
-    #print(dupList)
-    #cursor.execute(query)
+    connection.commit()
+    query = '''SELECT Count(*) FROM genre'''
+    print(dupList)
+    cursor.execute(query)
+
+
     counter = 0
     fr.close()
     with open('../csvs/artists.csv', 'r') as fr:
@@ -141,10 +147,10 @@ def genreartistalbumtrackinput():
                        print(f"{e.msg}")
             counter += 1
     #UNCOMMENT TO COMMIT DATABASES
-    #connection.commit()
-    #query = '''SELECT Count(*) FROM genre'''
-    #print(dupList)
-    #cursor.execute(query)
+    connection.commit()
+    query = '''SELECT Count(*) FROM genre'''
+    print(dupList)
+    cursor.execute(query)
 
     counter = 0
     fr.close()
@@ -178,7 +184,7 @@ def genreartistalbumtrackinput():
                        print(f"{e.msg}")
             counter += 1
     #UNCOMMENT TO COMMIT DATABASES
-    #connection.commit()
+    connection.commit()
 
     fr.close()
     with open('../csvs/tracks.csv', 'r') as fr:
@@ -212,7 +218,7 @@ def genreartistalbumtrackinput():
     print(cursor.fetchone())
 
     #UNCOMMENT TO COMMIT DATABASES
-    #connection.commit()
+    connection.commit()
     counter = 0
     fr.close()
 
@@ -301,5 +307,3 @@ def playlistInput():
     #connection.commit()
     counter = 0
     fr.close()
-
-playlistInput()
