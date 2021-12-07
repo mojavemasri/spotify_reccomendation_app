@@ -1,11 +1,22 @@
 # module defines operations to use with sqlite3 database
 import mysql.connector as mysql
+import creds
 
 
-
-class db_operations():
-    def __init__(self,conn_path): # constructor with connection path to db
+class db_operations:
+    # constructor with connection path to db
+    def __init__(self, conn_path):
         self.connection = mysql.connect(conn_path)
+        self.cursor = self.connection.cursor()
+        print("connection made..")
+
+
+    #constructor for localhost mysql database use personal creds.py file to access
+    def __init__(self):
+        self.connection = mysql.connect(user=creds.user, password=creds.pwd,
+                                        host='127.0.0.1',
+                                        database='spotifyDB')
+
         self.cursor = self.connection.cursor()
         print("connection made..")
 
@@ -36,7 +47,13 @@ class db_operations():
         self.cursor.execute(query)
         return self.cursor.fetchone()[0]
 
+    #function to return the cursor object
+    def getCursor(self):
+        return self.cursor;
 
+    #function to rreturn connector object
+    def getConnection(self):
+        return self.connection
 
     # function to return a single attribute values from table
     def single_attribute(self,query):

@@ -51,3 +51,17 @@ artistID VARCHAR(22) NOT NULL,
 CONSTRAINT FK_gaID_artistID FOREIGN KEY (artistID) REFERENCES artist(artistID),
 CONSTRAINT FK_ptID_genreID FOREIGN KEY (genreID) REFERENCES genre(genreID)
 );
+
+CREATE TABLE track_ATTRIBUTES
+(
+  trackID CHAR(22) PRIMARY KEY UNIQUE NOT NULL,
+  danceability FLOAT,
+  energy FLOAT,
+  loudness FLOAT,
+  speechiness FLOAT,
+  acousticness FLOAT,
+  instrumentalness FLOAT,
+  liveness FLOAT,
+  valence FLOAT
+
+);
