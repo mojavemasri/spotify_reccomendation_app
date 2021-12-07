@@ -7,9 +7,7 @@ import mysql.connector
 import random
 from db_operations import db_operations
 from apihelper import apihelper
-
-
-
+from modifyRecord import modifyRecord
 def convertDate(date):
     if len(date) == 4:
         return (date+"-01-01")
@@ -40,12 +38,11 @@ def array2d(filename):
     rs = []
     f = open(filename,"r")
     records = f.readlines()
-    attr_num = len(records[0].split(","))
     for i in range(len(records)):
         if i != 0:
             inst = records[i].split(',')
             inst.append(i)
-            id = ord(inst[attr_num][0])
+            id = ord(inst[6][0])
             inst.append(id)
             rs.append(inst)
     return rs
@@ -112,12 +109,10 @@ def genreartistalbumtrackinput():
             counter += 1
 
     #UNCOMMENT TO COMMIT DATABASES
-    connection.commit()
-    query = '''SELECT Count(*) FROM genre'''
-    print(dupList)
-    cursor.execute(query)
-
-
+    #connection.commit()
+    #query = '''SELECT Count(*) FROM genre'''
+    #print(dupList)
+    #cursor.execute(query)
     counter = 0
     fr.close()
     with open('../csvs/artists.csv', 'r') as fr:
@@ -147,10 +142,10 @@ def genreartistalbumtrackinput():
                        print(f"{e.msg}")
             counter += 1
     #UNCOMMENT TO COMMIT DATABASES
-    connection.commit()
-    query = '''SELECT Count(*) FROM genre'''
-    print(dupList)
-    cursor.execute(query)
+    #connection.commit()
+    #query = '''SELECT Count(*) FROM genre'''
+    #print(dupList)
+    #cursor.execute(query)
 
     counter = 0
     fr.close()
@@ -184,7 +179,7 @@ def genreartistalbumtrackinput():
                        print(f"{e.msg}")
             counter += 1
     #UNCOMMENT TO COMMIT DATABASES
-    connection.commit()
+    #connection.commit()
 
     fr.close()
     with open('../csvs/tracks.csv', 'r') as fr:
@@ -218,7 +213,7 @@ def genreartistalbumtrackinput():
     print(cursor.fetchone())
 
     #UNCOMMENT TO COMMIT DATABASES
-    connection.commit()
+    #connection.commit()
     counter = 0
     fr.close()
 
@@ -301,9 +296,52 @@ def playlistInput():
     while line:
         print(line)
         line = cursor.fetchone()
-
-
     #UNCOMMENT TO COMMIT DATABASES
     #connection.commit()
     counter = 0
     fr.close()
+
+def gaInput():
+    dbop = db_operations()
+    loopdbop = db_operations()
+    executeDB = db_operations()
+    executecursor = executeDB.getCursor()
+    executeconnection = executeDB.getConnection()
+    cursor = dbop.getCursor()
+    connection = dbop.getConnection()
+    apihelp =  apihelper('BQCJ2e14X1Ecgb46elZaPEXiYRPGAETidpXHZd2ZKYqXt4cJFwHQZetI1SU5_nkwx0yVJsiBUtNmeL6zIzq_oSaWzW5AL-E6cxT0EUiAIJw9RqzQkYARNudx1rCu-c3JVctm6BQpzK0Jr_UBoMo7CSMkhyPzFgqsOhWvEG2UFZE')
+    query = '''SELECT artistID FROM artist'''
+    cursor.execute(query)
+    line = cursor.fetchone()
+    queryList = []
+    counter = 0
+    while line:
+        if counter%10 == 0:
+            print(f"i = {counter}")
+        counter += 1
+        artistID = line[0]
+        artistDict = apihelp.getArtistDict(line[0])
+        for g in artistDict["genres"]:
+            genreName = g
+            if "\'" in genreName:
+                genreName = genreName.replace("\'", "\\\'")
+                print(genreName)
+            genreID = modifyRecord.getGenreID(genreName, loopdbop)
+            query = f'''Insert INTO gajunction(genreID, artistID, gaUNIQUEID)
+            VALUES ({genreID}, \'{artistID}\', \'{genreID}{artistID}\');'''
+            if counter%10 == 0:
+                print(query)
+            try:
+                executecursor.execute(query)
+                executeconnection.commit()
+            except mysql.connector.Error as e:
+                if e.errno == 1062:
+                   print(f"DUPLICATE ENTRY: {artistID}")
+                else:
+                   print("INVALID")
+                   print(f"{e.msg}")
+        line = cursor.fetchone()
+        #print(line)
+
+
+gaInput()
