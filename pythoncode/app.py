@@ -2,7 +2,7 @@ from helper import helper
 from apihelper import apihelper
 from printRecord import printRecord
 from modifyRecord import modifyRecord
-
+from db_operations import db_operations
 def startscreen():
     print("")
     print("")
@@ -44,7 +44,7 @@ def viewlibrary():
         print('''
         Would you like to:
         1)Enter the Spotify url to display your track
-        2)Enter the name of the song and search for it''')
+        2)Enter the name of the track and search for it''')
         searchChoice = helper.get_choice([1,2])
         if searchChoice == 1:
             trackID = helper.getURLFromUser(1)
@@ -57,7 +57,7 @@ def viewlibrary():
             for q in queryResult:
                 printRecord.printSimpleTrack(q[0])
             if len(queryResult) == 0:
-                print("Sorry, no songs of this record were found. Please try again.")
+                print("Sorry, no tracks of this record were found. Please try again.")
 
     elif typechoice == 2:
         print('''
@@ -147,7 +147,7 @@ def editlibrary(apihelp):
     if typechoice == 1:
         print('''
         Would you like to:
-        1)Enter a song
+        1)Enter a track
         2)Enter an album
         3)Enter a playlist
         4) Return to main menu
@@ -189,7 +189,9 @@ def editlibrary(apihelp):
         playlistID = helper.getURLFromUser(4)
         modifyRecord.updatePlaylist(playlistID, apihelp)
 
-def getreccomendations():
+def getreccomendations(apihelp):
+    dbop = db_operations()
+    cursor = dbop.getCursor()
     print('''Menu Options:
             1) Enter the playlist URL you would like to get reccomendations for
             2) Return to main menu
@@ -197,9 +199,15 @@ def getreccomendations():
         menu1choice = helper.get_choice([1,2])
         if menu1choice == 1:
             playlistID = helper.getURLFromUser(4)
-            #CHECK IF PLAYLIST IS IN DATABASE AND IF IT ISN'T THEN ADD IT
-            #QUERY TO GET THE SONG ID FROM ALL THE JUNCTION INPUTS WITH THIS PLAYLIST ID
-            playlistInput = []
+            modifyRecord.addPlaylistToDatabase(playlistID, apihelp)
+            query = f'''
+                Select trackID FROM ptjunction
+                WHERE playlistID = \'{playlistID}\';
+            '''
+            cursor.execute(query)
+            playlistInput = cursor.fetchall()
+            for i in range(len(playlistInput)):
+                playlistInput[i] = playlistInput[i][0]
             print('''What is the maximum popularity you would like for the playlist reccs(1-100)
                     For reference:
                     popularity of HEY YA! by OUTKAST: 81

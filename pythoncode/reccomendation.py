@@ -1,6 +1,6 @@
 import random
 from apihelper import apihelper
-
+from db_operations import db_operations
 class reccomendation():
 
 #NEW ATTRIBUTES
@@ -21,15 +21,61 @@ class reccomendation():
 
     @staticmethod
     def initializeSamplePool(maxpopularity, minpopularity, maxartistpopularity,minartistpopularity, vibechoice):
+        dbop = db_operations()
+        cursor = dbop.getCursor()
         if vibechoice == 1:
-            print(1)
+            query = f'''SELECT tA.trackID, tA.danceability, tA.energy, tA.speechiness, tA.acousticness, tA.instrumentalness, tA.liveness, tA.valence, a.artistPopularity
+                        FROM (track_ATTRIBUTES tA
+                       INNER JOIN tracks t ON tA.trackID = t.trackID) INNER JOIN artist a ON t.artistID = artistID
+                       WHERE t.trackPopularity <= {maxpopularity} AND t.trackPopularity >= {minpopularity}
+                       AND a.aristPopularity <= {maxartistpopularity} AND a.artistPopularity >= {minartistpopularity}
+                       AND tA.danceability >= 0.55 AND tA.valence >= 0.5
+                       LIMIT 1000;
+                    '''
         elif vibechoice == 2:
-            print(2)
+            query = f'''SELECT tA.trackID, tA.danceability, tA.energy, tA.speechiness, tA.acousticness, tA.instrumentalness, tA.liveness, tA.valence, a.artistPopularity
+                        FROM (track_ATTRIBUTES tA
+                       INNER JOIN tracks t ON tA.trackID = t.trackID) INNER JOIN artist a ON t.artistID = artistID
+                       WHERE t.trackPopularity <= {maxpopularity} AND t.trackPopularity >= {minpopularity}
+                       AND a.aristPopularity <= {maxartistpopularity} AND a.artistPopularity >= {minartistpopularity}
+                       AND tA.energy <= 0.55 AND tA.valence <= 0.5
+                       LIMIT 1000;
+                    '''
         elif vibechoice == 3:
-            print(3)
+            query = f'''SELECT tA.trackID, tA.danceability, tA.energy, tA.speechiness, tA.acousticness, tA.instrumentalness, tA.liveness, tA.valence, a.artistPopularity
+                        FROM (track_ATTRIBUTES tA
+                       INNER JOIN tracks t ON tA.trackID = t.trackID) INNER JOIN artist a ON t.artistID = artistID
+                       WHERE t.trackPopularity <= {maxpopularity} AND t.trackPopularity >= {minpopularity}
+                       AND a.aristPopularity <= {maxartistpopularity} AND a.artistPopularity >= {minartistpopularity}
+                       AND tA.energy >= 0.72
+                       LIMIT 1000;
+                    '''
         elif vibechoice == 4:
-            print(4)
-        #QUERY THAT RETURNS SONG ATTRIBUTES ARTIST POPULARITY, and NUM ITEMS RETURNED
+            query = f'''SELECT tA.trackID, tA.danceability, tA.energy, tA.speechiness, tA.acousticness, tA.instrumentalness, tA.liveness, tA.valence, a.artistPopularity
+                        FROM (track_ATTRIBUTES tA
+                       INNER JOIN tracks t ON tA.trackID = t.trackID) INNER JOIN artist a ON t.artistID = artistID
+                       WHERE t.trackPopularity <= {maxpopularity} AND t.trackPopularity >= {minpopularity}
+                       AND a.aristPopularity <= {maxartistpopularity} AND a.artistPopularity >= {minartistpopularity}
+                       AND tA.energy <= 0.55 AND tA.valence >= 0.5
+                       LIMIT 1000;
+                    '''
+        cursor.execute(query)
+        masterRef = cursor.fetchall()
+        sampleSize = len(masterRef)
+        initsamplePoolList = []
+        initsamplePool = {}
+        for m in masterRef:
+            initsamplePoolList.append(m[0])
+            tempattributeList = []
+            firstVal = True
+            for a in m:
+                if firstVal:
+                    tempID = a
+                    firstVal = False
+                else:
+                    tempattributeList.append(a)
+            initsamplePool[tempID] = tempattributeList
+        #QUERY THAT RETURNS track ATTRIBUTES ARTIST POPULARITY, and NUM ITEMS RETURNED
         #LIMIT AT 1000
         #NORMALIZE ARTIST POPULARITY BY /100
         return initsamplePoolList, initsamplePool, sampleSize
@@ -50,7 +96,7 @@ class reccomendation():
       return population
 
 
-    
+
     #SELECTS RANDOM SOLUTTIONS FROM POPULATION
     #FIXED
     def roulette_selection(population, numParents):
@@ -166,10 +212,10 @@ class reccomendation():
 
     def avgVal(sol):
       avgList = [0,0,0,0,0,0,0]
-      numSongs = len(sol)
+      numtracks = len(sol)
       for s in sol:
           for i in range(len(samplePool[s])):
-              avgList[i] += ((samplePool[s][i])/numSongs)
+              avgList[i] += ((samplePool[s][i])/numtracks)
       return avgList
 
     def calcVal(sol, playlistAvg, weight, playlistVars):
@@ -200,10 +246,10 @@ class reccomendation():
     def findVar(sol):
       varList = [0,0,0,0,0,0,0]
       avgVals = avgVal(sol)
-      numSongs = len(sol)
+      numtracks = len(sol)
       for s in sol:
           for i in range(len(samplePool[s])):
-              varList[i] += (((samplePool[s][i] - avgVal[i])**2)/(numSongs-1))
+              varList[i] += (((samplePool[s][i] - avgVal[i])**2)/(numtracks-1))
       return varList
 
 
@@ -225,8 +271,8 @@ class reccomendation():
     @staticmethod
     def prettyPrint(sol):
         counter = 0
-      for song in sol:
-        #QUERY TO GET SONG NAME AND ARTIST NAME GIVEN SONG ID
+      for track in sol:
+        #QUERY TO GET track NAME AND ARTIST NAME GIVEN track ID
         print(f"Track {counter}: {respDict['artists'][0]['name']} - {respDict['name']}")
         counter+=1
 
@@ -240,7 +286,7 @@ class reccomendation():
 #valence
 #artistPopularity
     def runGA():
-        print(songList)
+        print(trackList)
         print("--------INITIAL PLAYLIST----------\n")
         prettyPrint(self.playlist)
         NUM_TRIALS = 500
