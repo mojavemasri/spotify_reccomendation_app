@@ -344,7 +344,7 @@ def gaInput():
         #print(line)
 
 def featureInput():
-    dbop = db_operations.db_operations()
+    dbop = db_operations()
     cursor = dbop.getCursor()
     connection = dbop.getConnection()
     counter = 0
