@@ -1,6 +1,7 @@
 from apihelper import apihelper
 from helper import helper
 from db_operations import db_operations
+import mysql.connector
 
 class modifyRecord():
     #given a playlist id or url, it will figure out what is new in the list(new track, new artist, etc)
@@ -15,16 +16,16 @@ class modifyRecord():
         playlistID = playlist[34:56]
       else:
         playlistID = playlist
-      if uniquePlaylist(playlist):
+      if modifyRecord.uniquePlaylist(playlist):
           playlistArr = apihelp.returnPlaylistTracks(playlistID)
           playlistDict = apihelp.getPlaylistDict(playlistID)
-          playlistInfo = getPlaylistInfo(playlistDict)
+          playlistInfo = modifyRecord.getPlaylistInfo(playlistDict)
           if "\'" in playlistInfo[1]:
               insertPlaylist[1] = insertPlaylist[1].replace("\'", "\\\'")
               print(f"\,{insertPlaylist}")
           query = f'''INSERT INTO playlist(playlistID , playlistName, numTracks)
           Value (\'{playlistInfo[0]}\', \'{playlistInfo[1]}\', {playlistInfo[2]});'''
-          print(query)
+          #print(query)
           try:
               cursor.execute(query)
           except mysql.connector.Error as e:
@@ -42,12 +43,12 @@ class modifyRecord():
             if tempdict["is_local"]:
               continue
             #print(t)
-            if uniqueTrack(t):
-                addTrackToDatabase(t, apihelp)
+            if modifyRecord.uniqueTrack(t):
+                modifyRecord.addTrackToDatabase(t, apihelp)
             query = f'''INSERT INTO ptjunction(playlistID , trackID, trackPlace)
             Value (\'{playlistID}\', \'{t}\', {countPlaylist});'''
             countPlaylist += 1
-            print(query)
+            #print(query)
             try:
                 cursor.execute(query)
             except mysql.connector.Error as e:
@@ -66,26 +67,26 @@ class modifyRecord():
 
     @staticmethod
     def addTrackToDatabase(trackID, apihelp):
-        if uniqueTrack(trackID):
+        if modifyRecord.uniqueTrack(trackID):
             dbop = db_operations()
             cursor = dbop.getCursor()
             connection = dbop.getConnection()
             trackdict = apihelp.getTrackDict(trackID)
-            tempt = getTrackInfo(trackdict)
-            insertAttributes(trackdict["id"], apihelp)
+            tempt = modifyRecord.getTrackInfo(trackdict)
             albumID = trackdict["album"]["id"]
-            if uniqueAlbum(albumID):
-              tempalb = getAlbumInfo(trackdict)
-              artistID = trackdict["artist"][0]["id"]
-              if uniqueArtist(artistID):
+            if modifyRecord.uniqueAlbum(albumID):
+              tempalb = modifyRecord.getAlbumInfo(trackdict)
+              #print(trackdict)
+              artistID = trackdict["artists"][0]["id"]
+              if modifyRecord.uniqueArtist(artistID):
                 tempartistdict = apihelp.getArtistDict(trackdict["artists"][0]["id"])
-                tempart = getArtistInfo(trackdict, tempartistdict)
+                tempart = modifyRecord.getArtistInfo(trackdict, tempartistdict)
                 for g in tempartistdict['genres']:
 
                     if "\'" in g:
                         g = g.replace("\'", "\\\'")
                         print(g)
-                    if uniqueGenre(g):
+                    if modifyRecord.uniqueGenre(g):
                         query = f'''INSERT INTO genre(genreName) Value (\'{g}\')'''
                         #print(query)
                         try:
@@ -96,16 +97,17 @@ class modifyRecord():
                                     if r[1] == g:
                                         dupList.append([counter, r[0]])
                                 print(f"DUPLICATE ENTRY: {g}")
-                    genreID = getGenreID(g)
+                    dbopGenre = db_operations()
+                    genreID = modifyRecord.getGenreID(g, dbopGenre)
                     query = f'''Insert INTO gajunction(genreID, artistID, gaUNIQUEID)
                     VALUES ({genreID}, \'{artistID}\', \'{genreID}{artistID}\');'''
                   #querystatement for inserting gajunction [tempdict["artists"][0]["id"], getGenreID(g, genreArr)]
                   #gajunction.append([tempdict["artists"][0]["id"], getGenreID(g, genreArr)])
-                if "\'" in tempArt[1]:
-                    tempArt[1] = tempArt[1].replace("\'", "\\\'")
-                    print(f"\,{tempArt}")
+                if "\'" in tempart[1]:
+                    tempart[1] = tempart[1].replace("\'", "\\\'")
+                    print(f"\,{tempart}")
                 query = f'''INSERT INTO artist(artistID, artistName, artistPopularity)
-                Value (\'{tempArt[0]}\', \'{tempArt[1]}\', {tempArt[2]});'''
+                Value (\'{tempart[0]}\', \'{tempart[1]}\', {tempart[2]});'''
                 #print(query)
                 try:
                     cursor.execute(query)
@@ -129,7 +131,7 @@ class modifyRecord():
                   cursor.execute(query)
               except mysql.connector.Error as e:
                   if e.errno == 1062:
-                     continue
+                     pass
                      #print(f"DUPLICATE ENTRY: {insertAlbum}")
                   else:
                      #print(insertAlbum)
@@ -138,11 +140,12 @@ class modifyRecord():
             #querystatement to insert trackid
 
             #insertArtists = row[1][1:-1] + row[1][-1]
-            if "\'" in tempt[4]:
-                tempt[4] = tempt[4].replace("\'", "\\\'")
+
+            if "\'" in tempt[3]:
+                tempt[3] = tempt[3].replace("\'", "\\\'")
                 print(f"\,{tempt}")
             query = f'''INSERT INTO track(trackID , albumID, artistID, trackName, trackLength, trackPopularity, explicit)
-            Value (\'{tempt[1]}\', \'{tempt[2]}\', \'{tempt[3]}\', \'{tempt[4]}\', {tempt[5]}, {tempt[6]}, {tempt[7]});'''
+            Value (\'{tempt[0]}\', \'{tempt[1]}\', \'{tempt[2]}\', \'{tempt[3]}\', {tempt[4]}, {tempt[5]}, {tempt[6]});'''
 
 
             #print(query)
@@ -152,9 +155,10 @@ class modifyRecord():
                 if e.errno == 1062:
                    print(f"DUPLICATE ENTRY: {insertTrack}")
                 else:
-                   print(insertTrack[1])
+                   print(tempt[1])
                    print(f"{e.msg}")
             connection.commit()
+            modifyRecord.insertAttributes(trackdict["id"], apihelp)
         else:
             pass
 
@@ -166,9 +170,25 @@ class modifyRecord():
 
     @staticmethod
     def insertAttributes(trackID, apihelp):
+        dbop = db_operations()
+        cursor = dbop.getCursor()
+        connection = dbop.getConnection()
         attrList = apihelp.getAudioAttributes(trackID)
-        #QUERY TO INSERT ATTR LIST
 
+        query = f'''INSERT INTO track_ATTRIBUTES(trackID, danceability, energy, loudness, speechiness, acousticness, instrumentalness, liveness, valence)
+        VALUES (\'{attrList[0]}\', \'{attrList[1]}\',\'{attrList[2]}\',\'{attrList[3]}\',\'{attrList[4]}\',\'{attrList[5]}\',\'{attrList[6]}\',\'{attrList[7]}\',\'{attrList[8]}\');'''
+
+
+        #print(query)
+        try:
+            cursor.execute(query)
+        except mysql.connector.Error as e:
+            if e.errno == 1062:
+               print(f"DUPLICATE ENTRY: {attrList}")
+            else:
+               print(attrList[1])
+               print(f"{e.msg}")
+        connection.commit()
     @staticmethod
     def updatePlaylist(playlistID, apihelp):
         hardDeletePlaylist(playlistID, apihelp)
@@ -272,7 +292,10 @@ class modifyRecord():
                 LIMIT 1;'''
       cursor.execute(query)
       ID = cursor.fetchone()
-      return ID[0]
+      try:
+        return ID[0]
+      except TypeError:
+          return ""
 
     #given the track dictionary, it will determine whether or not it is a unique album
     #this one can be written better
@@ -301,7 +324,7 @@ class modifyRecord():
       dbop = db_operations()
       cursor = dbop.getCursor()
       query = f'''Select Count(*) from artist
-                WHERE artist = \'{artistID}\';'''
+                WHERE artistID = \'{artistID}\';'''
       cursor.execute(query)
       count = cursor.fetchone()
       if count[0] == 0:

@@ -1,6 +1,5 @@
 # module defines operations to use with sqlite3 database
 import mysql.connector as mysql
-import creds
 
 
 class db_operations:
@@ -8,17 +7,23 @@ class db_operations:
     def __init__(self, conn_path):
         self.connection = mysql.connect(conn_path)
         self.cursor = self.connection.cursor()
-        print("connection made..")
+        #print("connection made..")
 
 
     #constructor for localhost mysql database use personal creds.py file to access
     def __init__(self):
-        self.connection = mysql.connect(user=creds.user, password=creds.pwd,
-                                        host='127.0.0.1',
-                                        database='spotifyDB')
+        youssef = True
+        if youssef:
+            self.connection = mysql.connect(user='root', password='yasso1123581321',
+                                            host='127.0.0.1',
+                                            database='spotifyDB')
 
+        else:
+            self.connection = mysql.connect(user=creds.user, password=creds.pwd,
+                                            host='127.0.0.1',
+                                            database='spotifyDB')
         self.cursor = self.connection.cursor()
-        print("connection made..")
+        #print("connection made..")
 
     # function for bulk inserting records
     def bulk_insert(self,query,records):
