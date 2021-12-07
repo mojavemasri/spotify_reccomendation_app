@@ -7,7 +7,7 @@ import mysql.connector
 import random
 from db_operations import db_operations
 from apihelper import apihelper
-#from modifyRecord import modifyRecord
+from modifyRecord import modifyRecord
 def convertDate(date):
     if len(date) == 4:
         return (date+"-01-01")
@@ -109,7 +109,7 @@ def genreartistalbumtrackinput():
             counter += 1
 
     #UNCOMMENT TO COMMIT DATABASES
-    connection.commit()
+    #connection.commit()
     #query = '''SELECT Count(*) FROM genre'''
     #print(dupList)
     #cursor.execute(query)
@@ -142,7 +142,7 @@ def genreartistalbumtrackinput():
                        print(f"{e.msg}")
             counter += 1
     #UNCOMMENT TO COMMIT DATABASES
-    connection.commit()
+    #connection.commit()
     #query = '''SELECT Count(*) FROM genre'''
     #print(dupList)
     #cursor.execute(query)
@@ -179,7 +179,7 @@ def genreartistalbumtrackinput():
                        print(f"{e.msg}")
             counter += 1
     #UNCOMMENT TO COMMIT DATABASES
-    connection.commit()
+    #connection.commit()
 
     fr.close()
     with open('../csvs/tracks.csv', 'r') as fr:
@@ -213,7 +213,7 @@ def genreartistalbumtrackinput():
     print(cursor.fetchone())
 
     #UNCOMMENT TO COMMIT DATABASES
-    connection.commit()
+    #connection.commit()
     counter = 0
     fr.close()
 
@@ -297,7 +297,7 @@ def playlistInput():
         print(line)
         line = cursor.fetchone()
     #UNCOMMENT TO COMMIT DATABASES
-    connection.commit()
+    #connection.commit()
     counter = 0
     fr.close()
 
@@ -343,42 +343,5 @@ def gaInput():
         line = cursor.fetchone()
         #print(line)
 
-def featureInput():
-    dbop = db_operations.db_operations()
-    cursor = dbop.getCursor()
-    connection = dbop.getConnection()
-    counter = 0
-    with open('../csvs/audioFeatureListNew.csv', 'r') as fr:
-        reader = csv.reader(fr)
-        firstRow = True
-        for row in reader:
-            if firstRow:
-                firstRow = False
-            else:
-                insertAttrs = row
-                #insertArtists = row[1][1:-1] + row[1][-1]
-                if "\'" in insertAttrs[1]:
-                    insertAttrs[1] = insertAttrs[1].replace("\'", "\\\'")
-                    #print(f"\,{insertAttrs}")
-                query = f'''INSERT INTO track_ATTRIBUTES(trackID, danceability, energy, loudness, speechiness, acousticness, instrumentalness, liveness, valence)
-                VALUES (\'{insertAttrs[0]}\', \'{insertAttrs[1]}\',\'{insertAttrs[2]}\',\'{insertAttrs[3]}\',\'{insertAttrs[4]}\',\'{insertAttrs[5]}\',\'{insertAttrs[6]}\',\'{insertAttrs[7]}\',\'{insertAttrs[8]}\');'''
 
-
-                print(query)
-                try:
-                    cursor.execute(query)
-                except mysql.connector.Error as e:
-                    if e.errno == 1062:
-                       print(f"DUPLICATE ENTRY: {insertAttrs}")
-                    else:
-                       print(insertAttrs[1])
-                       print(f"{e.msg}")
-            counter += 1
-    connection.commit()
-    query = '''SELECT Count(*) FROM track'''
-    cursor.execute(query)
-    print(cursor.fetchone())
-    fr.close()
-
-playlistInput()
-genreartistalbumtrackinput()
+gaInput()

@@ -1,4 +1,5 @@
 import random
+import math
 from apihelper import apihelper
 from db_operations import db_operations
 class reccomendation():
@@ -17,46 +18,46 @@ class reccomendation():
     def __init__(self, playlist, maxpopularity, minpopularity, maxartistpopularity, \
     minartistpopularity, vibechoice):
         self.playlist = playlist
-        self.samplePoolList, self.samplePool, self.sampleSize = initializeSamplePool(maxpopularity, minpopularity, maxartistpopularity, minartistpopularity, vibechoice)
-
+        self.samplePoolList, self.samplePool, self.sampleSize = reccomendation.initializeSamplePool(maxpopularity, minpopularity, maxartistpopularity, minartistpopularity, vibechoice, playlist)
+        print(f"sampleSize: {self.sampleSize}")
     @staticmethod
-    def initializeSamplePool(maxpopularity, minpopularity, maxartistpopularity,minartistpopularity, vibechoice):
+    def initializeSamplePool(maxpopularity, minpopularity, maxartistpopularity,minartistpopularity, vibechoice, playlist):
         dbop = db_operations()
         cursor = dbop.getCursor()
         if vibechoice == 1:
             query = f'''SELECT tA.trackID, tA.danceability, tA.energy, tA.speechiness, tA.acousticness, tA.instrumentalness, tA.liveness, tA.valence, a.artistPopularity
                         FROM (track_ATTRIBUTES tA
-                       INNER JOIN tracks t ON tA.trackID = t.trackID) INNER JOIN artist a ON t.artistID = artistID
+                       INNER JOIN track t ON tA.trackID = t.trackID) INNER JOIN artist a ON t.artistID = a.artistID
                        WHERE t.trackPopularity <= {maxpopularity} AND t.trackPopularity >= {minpopularity}
-                       AND a.aristPopularity <= {maxartistpopularity} AND a.artistPopularity >= {minartistpopularity}
+                       AND a.artistPopularity <= {maxartistpopularity} AND a.artistPopularity >= {minartistpopularity}
                        AND tA.danceability >= 0.55 AND tA.valence >= 0.5
                        LIMIT 1000;
                     '''
         elif vibechoice == 2:
             query = f'''SELECT tA.trackID, tA.danceability, tA.energy, tA.speechiness, tA.acousticness, tA.instrumentalness, tA.liveness, tA.valence, a.artistPopularity
                         FROM (track_ATTRIBUTES tA
-                       INNER JOIN tracks t ON tA.trackID = t.trackID) INNER JOIN artist a ON t.artistID = artistID
+                       INNER JOIN track t ON tA.trackID = t.trackID) INNER JOIN artist a ON t.artistID = a.artistID
                        WHERE t.trackPopularity <= {maxpopularity} AND t.trackPopularity >= {minpopularity}
-                       AND a.aristPopularity <= {maxartistpopularity} AND a.artistPopularity >= {minartistpopularity}
+                       AND a.artistPopularity <= {maxartistpopularity} AND a.artistPopularity >= {minartistpopularity}
                        AND tA.energy <= 0.55 AND tA.valence <= 0.5
                        LIMIT 1000;
                     '''
         elif vibechoice == 3:
             query = f'''SELECT tA.trackID, tA.danceability, tA.energy, tA.speechiness, tA.acousticness, tA.instrumentalness, tA.liveness, tA.valence, a.artistPopularity
                         FROM (track_ATTRIBUTES tA
-                       INNER JOIN tracks t ON tA.trackID = t.trackID) INNER JOIN artist a ON t.artistID = artistID
+                       INNER JOIN track t ON tA.trackID = t.trackID) INNER JOIN artist a ON t.artistID = a.artistID
                        WHERE t.trackPopularity <= {maxpopularity} AND t.trackPopularity >= {minpopularity}
-                       AND a.aristPopularity <= {maxartistpopularity} AND a.artistPopularity >= {minartistpopularity}
+                       AND a.artistPopularity <= {maxartistpopularity} AND a.artistPopularity >= {minartistpopularity}
                        AND tA.energy >= 0.72
                        LIMIT 1000;
                     '''
         elif vibechoice == 4:
             query = f'''SELECT tA.trackID, tA.danceability, tA.energy, tA.speechiness, tA.acousticness, tA.instrumentalness, tA.liveness, tA.valence, a.artistPopularity
                         FROM (track_ATTRIBUTES tA
-                       INNER JOIN tracks t ON tA.trackID = t.trackID) INNER JOIN artist a ON t.artistID = artistID
+                       INNER JOIN track t ON tA.trackID = t.trackID) INNER JOIN artist a ON t.artistID = a.artistID
                        WHERE t.trackPopularity <= {maxpopularity} AND t.trackPopularity >= {minpopularity}
-                       AND a.aristPopularity <= {maxartistpopularity} AND a.artistPopularity >= {minartistpopularity}
-                       AND tA.energy <= 0.55 AND tA.valence >= 0.5
+                       AND a.artistPopularity <= {maxartistpopularity} AND a.artistPopularity >= {minartistpopularity}
+                       AND tA.energy <= 0.55 AND tA.valence >= 0.3
                        LIMIT 1000;
                     '''
         cursor.execute(query)
@@ -73,8 +74,30 @@ class reccomendation():
                     tempID = a
                     firstVal = False
                 else:
-                    tempattributeList.append(a)
+                    tempattributeList.append(float(a))
+            tempattributeList[-1] = float(tempattributeList[-1])/100
             initsamplePool[tempID] = tempattributeList
+        for p in playlist:
+            if not p in initsamplePool.keys():
+                query = f'''SELECT tA.trackID, tA.danceability, tA.energy, tA.speechiness, tA.acousticness, tA.instrumentalness, tA.liveness, tA.valence, a.artistPopularity
+                            FROM (track_ATTRIBUTES tA
+                           INNER JOIN track t ON tA.trackID = t.trackID) INNER JOIN artist a ON t.artistID = a.artistID
+                           WHERE t.trackID = \'{p}\''''
+                #print(p)
+                cursor.execute(query)
+                temptrackInfo = cursor.fetchall()[0]
+                firstTrack = True
+                initsamplePoolList.append(temptrackInfo[0])
+                tempattributeList = []
+                for t in temptrackInfo:
+                    if firstTrack:
+                        tempID = t
+                        firstTrack = False
+                        continue
+                    else:
+                        tempattributeList.append(float(t))
+                tempattributeList[-1] = float(tempattributeList[-1])/100
+                initsamplePool[tempID] = tempattributeList
         #QUERY THAT RETURNS track ATTRIBUTES ARTIST POPULARITY, and NUM ITEMS RETURNED
         #LIMIT AT 1000
         #NORMALIZE ARTIST POPULARITY BY /100
@@ -82,15 +105,15 @@ class reccomendation():
 
 
     #USED TO GENERATE INITIAL SOLUTIONS
-    def genPop(popSize, numItems):
+    def genPop(self, popSize, numItems):
       population = []
       for _ in range(popSize):
         temp = []
         for _ in range(numItems):
-          tempID = samplePoolList[random.randint(0,self.sampleSize-1)]
+          tempID = self.samplePoolList[random.randint(0,self.sampleSize-1)]
           for k in self.playlist:
             if tempID == k:
-              tempID = samplePoolList[random.randint(0,self.sampleSize-1)]
+              tempID = self.samplePoolList[random.randint(0,self.sampleSize-1)]
           temp.append(tempID)
         population.append(temp)
       return population
@@ -99,7 +122,7 @@ class reccomendation():
 
     #SELECTS RANDOM SOLUTTIONS FROM POPULATION
     #FIXED
-    def roulette_selection(population, numParents):
+    def roulette_selection(self, population, numParents):
       parentSelect = []
       numParents = int(numParents)
       for _ in range (numParents):
@@ -107,13 +130,13 @@ class reccomendation():
       return parentSelect
 
 
-    def simpleCrossover(p1,p2):
+    def simpleCrossover(self,p1,p2):
 
       c1 = []
       c2 = []
       plength = len(p1)
       #print(random.randint(0,1))
-      if p1[0] > 0.5:
+      if random.random() > 0.5:
         index1 = random.randint(plength // 2,plength-1)
         index2 = random.randint(0, index1-1)
         for i in range(plength):
@@ -138,16 +161,16 @@ class reccomendation():
 
       return c1,c2
 
-    def simpleMutation(sol, mut, playlist):
+    def simpleMutation(self,sol, mut, playlist):
       for i in range(len(sol)):
         if random.random() < mut:
-          sol[0][i] = simpleMutateVal(playlist)
+          sol[0][i] = self.simpleMutateVal(playlist)
 
         if random.random() < mut:
-          sol[1][i] = simpleMutateVal(playlist)
+          sol[1][i] = self.simpleMutateVal(playlist)
       return sol
 
-    def simpleMutateVal(playlist):
+    def simpleMutateVal(self,playlist):
       validMut = False
       while not validMut:
         tempVal = self.samplePoolList[random.randint(0,self.sampleSize-1)]
@@ -158,7 +181,7 @@ class reccomendation():
             break
       return tempVal
 
-    def generateChildren(numParents, population, mut, numChildren, playlistItemsIndex):
+    def generateChildren(self, numParents, population, mut, numChildren, playlist):
       #print(f"Population length = {len(population)}")
       #print(f"numParents = {numParents}")
 
@@ -171,65 +194,73 @@ class reccomendation():
       for i in range(iterRange):
         p1 = parentList[i]
         p2 = parentList[i+1]
-        sol = simpleCrossover(p1,p2)
-        mutsol= simpleMutation(sol,mut, playlistItemsIndex)
+        sol = self.simpleCrossover(p1,p2)
+        mutsol= self.simpleMutation(sol,mut, playlist)
         childPopulation.append(mutsol[0])
         childPopulation.append(mutsol[1])
-      childPopulation = roulette_selection(childPopulation, numChildren)
+      childPopulation = self.roulette_selection(childPopulation, numChildren)
       population = childPopulation + population
 
       return population
 
 
-    def checkDupID(sol, playlistIndexes, sampleSize):
+    def checkDupID(self, sol, playlist, sampleSize):
       for j in range(len(sol)):
-        for i in range(len(sol)):
-          if sol[j] == playlistIndexes[i] or (sol[j] == sol[i] and not i == j):
-            sol[j] = random.randint(0, sampleSize-1)
+        for p in range(len(sol)):
+          if sol[j] == p:
+            sol[j] = self.samplePoolList(random.randint(0, sampleSize-1))
       return sol
 
 
 
-    def tournament_survival(population, numSurvive, playlist, playlistAvg, weight, sampleSize, playlistVars):
+    def tournament_survival(self, population, numSurvive, playlistAvg, weight, sampleSize, playlistVars):
       newpop = []
-      playlistAvg = avgVal(playlistIndices)
+      playlistAvg = self.avgVal(self.playlist)
       if len(population) < numSurvive:
         numSurvive = len(population)
       for i in range(numSurvive):
         ind1 = random.randint(0,len(population)-1)
         ind2 = random.randint(0,len(population)-1)
-        newpop.append(winner(population[ind1], population[ind2], playlistAvg, weight, playlistVars))
+        newpop.append(self.winner(population[ind1], population[ind2], playlistAvg, weight, playlistVars))
       return newpop
 
 
-    def winner(s1, s2, playlistAvg, weight, playlistVars):
-      v1 = calcVal(s1, playlistAvg, weight, playlistVars)
-      v2 = calcVal(s2, playlistAvg, weight, playlistVars)
+    def winner(self, s1, s2, playlistAvg, weight, playlistVars):
+      v1 = self.calcVal(s1, playlistAvg, weight, playlistVars)
+      v2 = self.calcVal(s2, playlistAvg, weight, playlistVars)
       if v1 > v2:
         return s1
       else:
         return s2
 
-    def avgVal(sol):
-      avgList = [0,0,0,0,0,0,0]
+
+    def avgVal(self, sol):
+      avgList = [0,0,0,0,0,0,0,0]
       numtracks = len(sol)
       for s in sol:
-          for i in range(len(samplePool[s])):
-              avgList[i] += ((samplePool[s][i])/numtracks)
+          for i in range(len(self.samplePool[s])):
+              #print(len(self.samplePool[s]))
+              #print(len(avgList))
+              avgList[i] += ((self.samplePool[s][i])/numtracks)
       return avgList
 
-    def calcVal(sol, playlistAvg, weight, playlistVars):
-      avgTestSol = avgVal(sol)
-      avgVar = findVar(sol)
-      diffList = compareVectors(playlistAvg, avgTestSol, weight)
-      varList = compareVectors(avgVar, playlistVars, [0,0,0,0,0,0,0])#CAN BE REPLACED WITH WEIGHT
-      return(calcDistance(diffList)+calcDistance(avgVar))
+    def calcVal(self, sol, playlistAvg, weight, playlistVars):
+      avgTestSol = self.avgVal(sol)
+      avgVar = self.findVar(sol)
+      diffList = reccomendation.compareVectors(playlistAvg, avgTestSol, weight)
+      varList = reccomendation.compareVectors(avgVar, playlistVars, [0,0,0,0,0,0,0,0])#CAN BE REPLACED WITH WEIGHT
+      return(reccomendation.calcDistance(diffList)+reccomendation.calcDistance(varList))
 
+    @staticmethod
     def compareVectors(s1, s2, weight):
       diffList = []
       if not len(s1) == len(s2):
+        print(f"len(s1): {len(s1)}")
+        print(f"len(s2): {len(s2)}")
         return -1
       if not len(s1) == len(weight):
+        print(f"len(s1): {len(s1)}")
+        print(f"len(weight): {len(weight)}")
         return -1
       for i in range(len(s2)):
         #print(f"i = {i}")
@@ -242,27 +273,27 @@ class reccomendation():
         diffList.append(tempDiff)
       return diffList
 
-
-    def findVar(sol):
-      varList = [0,0,0,0,0,0,0]
-      avgVals = avgVal(sol)
+    def findVar(self, sol):
+      varList = [0,0,0,0,0,0,0,0]
+      avgVals = self.avgVal(sol)
       numtracks = len(sol)
       for s in sol:
-          for i in range(len(samplePool[s])):
-              varList[i] += (((samplePool[s][i] - avgVal[i])**2)/(numtracks-1))
+          for i in range(len(self.samplePool[s])):
+              varList[i] += (((self.samplePool[s][i] - avgVals[i])**2)/(numtracks-1))
       return varList
 
-
+    @staticmethod
     def calcDistance(diffList):
       sum = 0
+      #print(diffList)
       for d in diffList:
         sum += (d**2)
       sum = sum**0.5
       return sum
 
-
+    @staticmethod
     def normalizeArr(vector):
-      distance = calcDistance(vector)
+      distance = reccomendation.calcDistance(vector)
       for i in range(len(vector)):
         vector[i] /= distance
       return vector
@@ -270,11 +301,17 @@ class reccomendation():
 
     @staticmethod
     def prettyPrint(sol):
-        counter = 0
-      for track in sol:
-        #QUERY TO GET track NAME AND ARTIST NAME GIVEN track ID
-        print(f"Track {counter}: {respDict['artists'][0]['name']} - {respDict['name']}")
-        counter+=1
+        dbop = db_operations()
+        cursor = dbop.getCursor()
+        counter = 1
+        for track in sol:
+            query = f'''SELECT t.trackName, a.artistName FROM
+                    track t INNER JOIN artist a on t.artistID = a.artistID
+                    WHERE t.trackID = \'{track}\';'''
+            cursor.execute(query)
+            result = cursor.fetchall()[0]
+            print(f"Track {counter}: {result[1]} - {result[0]}")
+            counter+=1
 
 #NEW ATTRIBUTES
 #danceability
@@ -285,13 +322,13 @@ class reccomendation():
 #liveness
 #valence
 #artistPopularity
-    def runGA():
-        print(trackList)
+    def runGA(self):
+        #print(trackList)
         print("--------INITIAL PLAYLIST----------\n")
-        prettyPrint(self.playlist)
+        reccomendation.prettyPrint(self.playlist)
         NUM_TRIALS = 500
         MUT_RATE = 0.1
-        POP_SIZE = 2000
+        POP_SIZE = 1000
         NUM_PARENTS = 200
         NUM_CHILDREN = (NUM_PARENTS/2)
         BASE_POP = 1000
@@ -299,46 +336,46 @@ class reccomendation():
         AFTERCONVERG = 1.04
         bestVal = 0
         bestSol = []
-        MAX_RESETS = 100
-        ACCURACY = 1.4
+        MAX_RESETS = 1
+        ACCURACY = -10000
         currBestSol = []
-        varPlaylist = findVar(self.playlist)
+        varPlaylist = self.findVar(self.playlist)
         #['danceability', 'energy', 'speechiness', 'acousticness', 'liveness', 'valence','artistPopularity']
-        WEIGHT = [0.5,0.5,0.5,0.5,0.5,0.5,0.5]
-        print(varPlaylist)
+        WEIGHT = [0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5]
+        #print(varPlaylist)
         for w in range(len(WEIGHT)):
           if varPlaylist[w] < 0.002:
             WEIGHT[w] *= 500
           else:
             WEIGHT[w] *= (varPlaylist[w] ** -1)
-        WEIGHT = normalizeArr(WEIGHT)
-        print(WEIGHT)
+        WEIGHT = reccomendation.normalizeArr(WEIGHT)
+        #print(WEIGHT)
         #print(pop)
-        updatepop = genPop(BASE_POP, 10)
-        updatepop = roulette_selection(updatepop, NUM_PARENTS)
-        updatepop = generateChildren(NUM_PARENTS, pop, MUT_RATE, NUM_CHILDREN, playlist)
-        playlistAvg = avgVal(self.playlist)
-        print(pop)
+        updatepop = self.genPop(BASE_POP, 10)
+        updatepop = self.roulette_selection(updatepop, NUM_PARENTS)
+        updatepop = self.generateChildren(NUM_PARENTS, updatepop, MUT_RATE, NUM_CHILDREN, self.playlist)
+        playlistAvg = self.avgVal(self.playlist)
+        #print(updatepop)
         resetcounter = 0
         currConverg = FIRSTCONVERG
 
-        while(bestVal < ACCURACY or resetcounter >= MAX_RESETS):
+        while(resetcounter <= MAX_RESETS):
           #bestVal = 0
           #bestSol = []
           resetcounter += 1
           currBestVal = 0
           currBestSol = []
           for i in range(NUM_TRIALS):
-            updatepop = tournament_survival(updatepop, BASE_POP, playlistInit, playlistAvg, WEIGHT, SAMPLE_SIZE, varPlaylist)
+            updatepop = self.tournament_survival(updatepop, BASE_POP, playlistAvg, WEIGHT, self.sampleSize, varPlaylist)
             random.shuffle(updatepop)
-            updatepop = generateChildren(NUM_PARENTS, updatepop, MUT_RATE, NUM_CHILDREN, playlist)
+            updatepop = self.generateChildren(NUM_PARENTS, updatepop, MUT_RATE, NUM_CHILDREN, self.playlist)
             if(i%10 == 0):
               print(f"i == {i}")
               convNum = 0
               for k in range(len(updatepop)):
-                updatepop[k] = checkDupID(updatepop[k], playlistIndexes, SAMPLE_SIZE)
+                updatepop[k] = self.checkDupID(updatepop[k], self.playlist, self.sampleSize)
               for sol in updatepop:
-                temp = calcVal(sol, playlistAvg, WEIGHT, varPlaylist)
+                temp = self.calcVal(sol, playlistAvg, WEIGHT, varPlaylist)
                 #print(temp)
 
                 if temp > bestVal:
@@ -354,11 +391,14 @@ class reccomendation():
                 elif temp == bestVal or temp == currBestVal:
                   convNum += 1
               print(f"convRate = {convNum/len(updatepop)}")
+              if (convNum/len(updatepop)) == 1:
+                  print(f"RESETTING AT {i}")
+                  break
               if convNum * 2 >= len(updatepop) and not currBestSol == bestSol:
-                print("ADDING THE SPECIAL SAUCE 10x")
+                #print("ADDING THE SPECIAL SAUCE 10x")
                 for x in range(10):
                   updatepop.append(bestSol)
-              elif convNum * currConverg >= len(updatepop):
+              elif convNum  >= len(updatepop):
                 print(f"RESETTING AT {i}, convNum == {convNum}, len(updatepop) == {len(updatepop)}")
                 currConverg = AFTERCONVERG
                 break
@@ -368,20 +408,20 @@ class reccomendation():
 
           print("Adding new Pop, BEST SOLUTION: ")
           print(bestSol)
-          prettyPrint(bestSol)
-          pop = genPop((POP_SIZE*2), 10, playlistInit)
+          reccomendation.prettyPrint(bestSol)
+          pop = self.genPop((POP_SIZE*2), 10)
           #print(pop)
           pop.append(bestSol)
-          pop = roulette_selection(pop, (NUM_PARENTS*2))
+          pop = self.roulette_selection(pop, (NUM_PARENTS*2))
 
           random.shuffle(pop)
-          pop = generateChildren((NUM_PARENTS*2), pop, MUT_RATE, (NUM_CHILDREN*2), playlist)
+          pop = self.generateChildren((NUM_PARENTS*2), pop, MUT_RATE, (NUM_CHILDREN*2), self.playlist)
           print(len(updatepop))
           updatepop = pop
           print(len(updatepop))
 
         for sol in updatepop:
-          temp = calcVal(sol, playlistAvg, WEIGHT, varPlaylist)
+          temp = self.calcVal(sol, playlistAvg, WEIGHT, varPlaylist)
           #print(temp)
           if temp > bestVal:
             bestVal = temp
@@ -390,4 +430,4 @@ class reccomendation():
             bestSol = sol
 
         print("-------SIMILAR PLAYLIST--------")
-        prettyPrint(bestSol)
+        reccomendation.prettyPrint(bestSol)

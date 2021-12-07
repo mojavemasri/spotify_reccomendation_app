@@ -4,7 +4,7 @@ class apihelper():
     def __init__(self, authToken):
         self.authToken = authToken
     #gets playlist dictionary from spotify api
-    def getPlaylistDict(url):
+    def getPlaylistDict(self, url):
       if url[0:10] == 'https://op':
         ID = url[url.index("playlist/")+9:url.index("?")]
       else:
@@ -15,7 +15,7 @@ class apihelper():
       headers = {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-        'Authorization': f'Bearer {AuthToken}',
+        'Authorization': f'Bearer {self.authToken}',
       }
       offsetNum = 0
       while True:
@@ -35,7 +35,7 @@ class apihelper():
       return results
 
     #returns a list of playlist track dictionaries from spotify api
-    def returnPlaylistTracks(url):
+    def returnPlaylistTracks(self, url):
       print(url)
       if url[0:10] == 'https://op':
         ID = url[34:56]
@@ -48,7 +48,7 @@ class apihelper():
       headers = {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-        'Authorization': f'Bearer {AuthToken}',
+        'Authorization': f'Bearer {self.authToken}',
       }
       offsetNum = 0
       while True:
@@ -79,13 +79,13 @@ class apihelper():
       return trackArr
 
     #given a user profile, it will add the first 50 user playlists to the database
-    def extractUserPlaylists(url):
+    def extractUserPlaylists(self, url):
       ID = url[url.index('user/')+5:url.index('?')]
 
       headers = {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-        'Authorization': f'Bearer {AuthToken}',
+        'Authorization': f'Bearer {self.authToken}',
       }
       params = (
         ('limit', '50'),
@@ -108,11 +108,11 @@ class apihelper():
 
 
     #given a spotify track id, this gets the track dictionary from spotify's api
-    def getTrackDict(songID):
+    def getTrackDict(self, songID):
       headers = {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-        'Authorization': f'Bearer {AuthToken}',
+        'Authorization': f'Bearer {self.authToken}',
       }
 
 
@@ -126,11 +126,11 @@ class apihelper():
       return result
 
     #given an artist id, this gets the artist dictionary from spotify's api
-    def getArtistDict(artistID):
+    def getArtistDict(self, artistID):
       headers = {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-        'Authorization': f'Bearer {AuthToken}',
+        'Authorization': f'Bearer {self.authToken}',
       }
 
 
@@ -144,13 +144,13 @@ class apihelper():
       return result
 
     #given a track id, get relevant track audio attributes
-    def getAudioAttributes(trackID):
+    def getAudioAttributes(self, trackID):
         import requests
 
         headers = {
     'Accept': 'application/json',
     'Content-Type': 'application/json',
-    'Authorization': f'Bearer {authToken}',
+    'Authorization': f'Bearer {self.authToken}',
     }
 
         response = requests.get(f'https://api.spotify.com/v1/audio-features/{trackID}', headers=headers)
@@ -168,27 +168,27 @@ class apihelper():
         return attrList
 
     #given an albumID, get the albumDictionary
-    def getAlbumDict(albumID):
+    def getAlbumDict(self, albumID):
         import requests
 
         headers = {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-        'Authorization': f'Bearer {authToken}',
+        'Authorization': f'Bearer {self.authToken}',
         }
 
         response = requests.get(f'https://api.spotify.com/v1/albums/{albumID}/tracks', headers=headers)
         return(response.json())
 
-    def getAuthToken():
-        return authToken
+    def getAuthToken(self):
+        return self.authToken
     #given a test token, returns whether or not it is valid
     @staticmethod
     def testToken(token):
         headers = {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
-          'Authorization': f'Bearer {AuthToken}',
+          'Authorization': f'Bearer {token}',
         }
         response = requests.get(f'https://api.spotify.com/v1/artists/2WoVwexZuODvclzULjPQtm', headers=headers)
         if str(response) == '<Response [200]>':

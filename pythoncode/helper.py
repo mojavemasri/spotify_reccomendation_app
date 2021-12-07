@@ -1,13 +1,37 @@
 import random
 import math
-import numpy as np
 import csv
 import requests
 import json
 import ast
 
-class helper():
+class helper:
 
+
+    def convertDate(date):
+        if len(date) == 4:
+            return (date+"-01-01")
+        else:
+            if len(date) > 5:
+                if date[4] == "-":
+                    return date + "-01"
+            if int(date[-2:-1]+date[-1]) < 22:
+                datetemp = "20"
+            else:
+                datetemp = "19"
+            datetemp = datetemp + date[-2:-1]+date[-1]
+            date = date[0:-3]
+            if date.index('/') == 1:
+                datetemp = datetemp + "-0"+date[0]
+                date = date[2:-1] + date[-1]
+            elif date.index('/') == 2:
+                datetemp = datetemp + "-"+date[0:2]
+                date = date[3:-1] + date[-1]
+            if len(date) == 1:
+                datetemp = datetemp + "-0"+ date
+            else:
+                datetemp = datetemp + "-" + date
+            return datetemp
     #takes in a spotify url and an item type and returns if it is a valid url
     # 1: track
     # 2: album
@@ -44,11 +68,11 @@ class helper():
     @staticmethod
     def convertURLtoURI(url):
         if url[25:30] == "track" or url[25:30] == "album":
-            return url[32:url.index(?)]
+            return url[32:url.index('?')]
         elif url[25:31] == "artist":
-            return url[33:url.index(?)]
+            return url[32:url.index('?')]
         elif url[25:33] == "playlist":
-            return url[35:url.index(?)]
+            return url[34:url.index('?')]
         else:
             return ""
 
@@ -59,13 +83,14 @@ class helper():
     # 4: playlist
     @staticmethod
     def getURLFromUser(itemtype):
-        while True
+        while True:
             url = input("Enter url:")
             if helper.checkURL(url, itemtype):
                 break
             else:
                 print("Invalid url, please try again")
-        return convertURLtoURI(url)
+        URI = helper.convertURLtoURI(url)
+        return URI
 
     #takes in a spotify url and an item type and returns if it is a valid url
     # ITEM TYPES
@@ -111,4 +136,3 @@ class helper():
             print("Incorrect option. Try again")
             choice = input("Enter choice number: ")
         return int(choice)
-    
