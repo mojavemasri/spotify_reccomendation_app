@@ -54,7 +54,7 @@ CONSTRAINT FK_ptID_genreID FOREIGN KEY (genreID) REFERENCES genre(genreID)
 
 CREATE TABLE track_ATTRIBUTES
 (
-  trackID CHAR(22) PRIMARY KEY,
+  trackID CHAR(22) PRIMARY KEY UNIQUE NOT NULL,
   danceability FLOAT,
   energy FLOAT,
   loudness FLOAT,
