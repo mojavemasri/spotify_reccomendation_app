@@ -7,7 +7,7 @@ import mysql.connector
 import random
 from db_operations import db_operations
 from apihelper import apihelper
-from modifyRecord import modifyRecord
+#from modifyRecord import modifyRecord
 def convertDate(date):
     if len(date) == 4:
         return (date+"-01-01")
@@ -109,7 +109,7 @@ def genreartistalbumtrackinput():
             counter += 1
 
     #UNCOMMENT TO COMMIT DATABASES
-    #connection.commit()
+    connection.commit()
     #query = '''SELECT Count(*) FROM genre'''
     #print(dupList)
     #cursor.execute(query)
@@ -142,7 +142,7 @@ def genreartistalbumtrackinput():
                        print(f"{e.msg}")
             counter += 1
     #UNCOMMENT TO COMMIT DATABASES
-    #connection.commit()
+    connection.commit()
     #query = '''SELECT Count(*) FROM genre'''
     #print(dupList)
     #cursor.execute(query)
@@ -179,7 +179,7 @@ def genreartistalbumtrackinput():
                        print(f"{e.msg}")
             counter += 1
     #UNCOMMENT TO COMMIT DATABASES
-    #connection.commit()
+    connection.commit()
 
     fr.close()
     with open('../csvs/tracks.csv', 'r') as fr:
@@ -213,7 +213,7 @@ def genreartistalbumtrackinput():
     print(cursor.fetchone())
 
     #UNCOMMENT TO COMMIT DATABASES
-    #connection.commit()
+    connection.commit()
     counter = 0
     fr.close()
 
@@ -297,7 +297,7 @@ def playlistInput():
         print(line)
         line = cursor.fetchone()
     #UNCOMMENT TO COMMIT DATABASES
-    #connection.commit()
+    connection.commit()
     counter = 0
     fr.close()
 
@@ -380,4 +380,5 @@ def featureInput():
     print(cursor.fetchone())
     fr.close()
 
-featureInput()
+playlistInput()
+genreartistalbumtrackinput()

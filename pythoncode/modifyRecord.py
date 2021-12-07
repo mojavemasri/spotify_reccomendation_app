@@ -129,7 +129,7 @@ class modifyRecord():
                   cursor.execute(query)
               except mysql.connector.Error as e:
                   if e.errno == 1062:
-                     continue
+                     print("")
                      #print(f"DUPLICATE ENTRY: {insertAlbum}")
                   else:
                      #print(insertAlbum)
