@@ -6,6 +6,7 @@ import csv
 import mysql.connector
 import random
 from db_operations import db_operations
+from apihelper import apihelper
 def convertDate(date):
     if len(date) == 4:
         return (date+"-01-01")
@@ -71,144 +72,234 @@ def clean(data):
             cleaned.append(i)
     return cleaned
 
-dbop = db_operations()
-cursor = dbop.getCursor()
-connection = dbop.getConnection()
-dupList = []
-counter = 0
-genreList = []
-with open('../csvs/genres.csv', 'r') as fr:
-    reader = csv.reader(fr)
-    firstRow = True
-    for row in reader:
 
-        if firstRow:
-            firstRow = False
-        else:
-            insertGenre = row[1][1:-1] + row[1][-1]
-            if "\'" in insertGenre:
-                insertGenre = insertGenre.replace("\'", "\\\'")
-                print(insertGenre)
+def genreartistalbumtrackinput():
+    dbop = db_operations()
+    cursor = dbop.getCursor()
+    connection = dbop.getConnection()
+    dupList = []
+    counter = 0
+    genreList = []
+    with open('../csvs/genres.csv', 'r') as fr:
+        reader = csv.reader(fr)
+        firstRow = True
+        for row in reader:
 
-            query = f'''INSERT INTO genre(genreName) Value (\'{insertGenre}\')'''
+            if firstRow:
+                firstRow = False
+            else:
+                insertGenre = row[1][1:-1] + row[1][-1]
+                if "\'" in insertGenre:
+                    insertGenre = insertGenre.replace("\'", "\\\'")
+                    print(insertGenre)
 
-            #print(query)
-            try:
-                cursor.execute(query)
-                genreList.append([row[0], insertGenre])
-            except mysql.connector.Error as e:
-                if e.errno == 1062:
-                    for r in genreList:
-                        if r[1] == insertGenre:
-                            dupList.append([counter, r[0]])
-                    print(f"DUPLICATE ENTRY: {insertGenre}")
-        counter += 1
+                query = f'''INSERT INTO genre(genreName) Value (\'{insertGenre}\')'''
 
-#UNCOMMENT TO COMMIT DATABASES
-#connection.commit()
-#query = '''SELECT Count(*) FROM genre'''
-#print(dupList)
-#cursor.execute(query)
-counter = 0
-fr.close()
-with open('../csvs/artists.csv', 'r') as fr:
-    reader = csv.reader(fr)
-    firstRow = True
-    for row in reader:
-        if firstRow:
-            firstRow = False
-        else:
-            insertArtist = row
-            #insertArtists = row[1][1:-1] + row[1][-1]
-            if "\'" in insertArtist[1]:
-                insertArtist[1] = insertArtist[1].replace("\'", "\\\'")
-                print(f"\,{insertArtist}")
-            query = f'''INSERT INTO artist(artistID, artistName, artistPopularity)
-            Value (\'{insertArtist[0]}\', \'{insertArtist[1]}\', {insertArtist[2]});'''
+                #print(query)
+                try:
+                    cursor.execute(query)
+                    genreList.append([row[0], insertGenre])
+                except mysql.connector.Error as e:
+                    if e.errno == 1062:
+                        for r in genreList:
+                            if r[1] == insertGenre:
+                                dupList.append([counter, r[0]])
+                        print(f"DUPLICATE ENTRY: {insertGenre}")
+            counter += 1
 
-
-            #print(query)
-            try:
-                cursor.execute(query)
-            except mysql.connector.Error as e:
-                if e.errno == 1062:
-                   print(f"DUPLICATE ENTRY: {insertArtist}")
-                else:
-                   print(insertArtist[1])
-                   print(f"{e.msg}")
-        counter += 1
-#UNCOMMENT TO COMMIT DATABASES
-#connection.commit()
-#query = '''SELECT Count(*) FROM genre'''
-#print(dupList)
-#cursor.execute(query)
-
-counter = 0
-fr.close()
-with open('../csvs/albums.csv', 'r') as fr:
-    reader = csv.reader(fr)
-    firstRow = True
-    for row in reader:
-        if firstRow:
-            firstRow = False
-        else:
-            insertAlbum = row
-            #insertArtists = row[1][1:-1] + row[1][-1]
-            if "\'" in insertAlbum[2]:
-                insertAlbum[2] = insertAlbum[2].replace("\'", "\\\'")
-                #print(f"\,{insertAlbum}")
-
-            #print(f"COMPARING {insertAlbum[-1]},{convertDate(insertAlbum[-1])}")
-            insertAlbum[-1] = convertDate(insertAlbum[-1])
-            query = f'''INSERT INTO album(albumID, artistID, albumName, numTracks, albumType, releaseDate)
-            Value (\'{insertAlbum[0]}\', \'{insertAlbum[1]}\', \'{insertAlbum[2]}\', {insertAlbum[3]}, \'{insertAlbum[4]}\', \'{insertAlbum[5]}\');'''
-            #print(query)
-            try:
-                cursor.execute(query)
-            except mysql.connector.Error as e:
-                if e.errno == 1062:
-                   continue
-                   #print(f"DUPLICATE ENTRY: {insertAlbum}")
-                else:
-                   #print(insertAlbum)
-                   #print(insertAlbum[-1])
-                   print(f"{e.msg}")
-        counter += 1
-#UNCOMMENT TO COMMIT DATABASES
-#connection.commit()
-
-fr.close()
-with open('../csvs/tracks.csv', 'r') as fr:
-    reader = csv.reader(fr)
-    firstRow = True
-    for row in reader:
-        if firstRow:
-            firstRow = False
-        else:
-            insertTrack = row
-            #insertArtists = row[1][1:-1] + row[1][-1]
-            if "\'" in insertTrack[4]:
-                insertTrack[4] = insertTrack[4].replace("\'", "\\\'")
-                print(f"\,{insertTrack}")
-            query = f'''INSERT INTO track(trackID , albumID, artistID, trackName, trackLength, trackPopularity, explicit)
-            Value (\'{insertTrack[1]}\', \'{insertTrack[2]}\', \'{insertTrack[3]}\', \'{insertTrack[4]}\', {insertTrack[5]}, {insertTrack[6]}, {insertTrack[7]});'''
+    #UNCOMMENT TO COMMIT DATABASES
+    #connection.commit()
+    #query = '''SELECT Count(*) FROM genre'''
+    #print(dupList)
+    #cursor.execute(query)
+    counter = 0
+    fr.close()
+    with open('../csvs/artists.csv', 'r') as fr:
+        reader = csv.reader(fr)
+        firstRow = True
+        for row in reader:
+            if firstRow:
+                firstRow = False
+            else:
+                insertArtist = row
+                #insertArtists = row[1][1:-1] + row[1][-1]
+                if "\'" in insertArtist[1]:
+                    insertArtist[1] = insertArtist[1].replace("\'", "\\\'")
+                    print(f"\,{insertArtist}")
+                query = f'''INSERT INTO artist(artistID, artistName, artistPopularity)
+                Value (\'{insertArtist[0]}\', \'{insertArtist[1]}\', {insertArtist[2]});'''
 
 
-            #print(query)
-            try:
-                cursor.execute(query)
-            except mysql.connector.Error as e:
-                if e.errno == 1062:
-                   print(f"DUPLICATE ENTRY: {insertTrack}")
-                else:
-                   print(insertTrack[1])
-                   print(f"{e.msg}")
-        counter += 1
-query = '''SELECT Count(*) FROM track'''
-cursor.execute(query)
-print(cursor.fetchone())
+                #print(query)
+                try:
+                    cursor.execute(query)
+                except mysql.connector.Error as e:
+                    if e.errno == 1062:
+                       print(f"DUPLICATE ENTRY: {insertArtist}")
+                    else:
+                       print(insertArtist[1])
+                       print(f"{e.msg}")
+            counter += 1
+    #UNCOMMENT TO COMMIT DATABASES
+    #connection.commit()
+    #query = '''SELECT Count(*) FROM genre'''
+    #print(dupList)
+    #cursor.execute(query)
 
-#UNCOMMENT TO COMMIT DATABASES
-#connection.commit()
-counter = 0
-fr.close()
+    counter = 0
+    fr.close()
+    with open('../csvs/albums.csv', 'r') as fr:
+        reader = csv.reader(fr)
+        firstRow = True
+        for row in reader:
+            if firstRow:
+                firstRow = False
+            else:
+                insertAlbum = row
+                #insertArtists = row[1][1:-1] + row[1][-1]
+                if "\'" in insertAlbum[2]:
+                    insertAlbum[2] = insertAlbum[2].replace("\'", "\\\'")
+                    #print(f"\,{insertAlbum}")
+
+                #print(f"COMPARING {insertAlbum[-1]},{convertDate(insertAlbum[-1])}")
+                insertAlbum[-1] = convertDate(insertAlbum[-1])
+                query = f'''INSERT INTO album(albumID, artistID, albumName, numTracks, albumType, releaseDate)
+                Value (\'{insertAlbum[0]}\', \'{insertAlbum[1]}\', \'{insertAlbum[2]}\', {insertAlbum[3]}, \'{insertAlbum[4]}\', \'{insertAlbum[5]}\');'''
+                #print(query)
+                try:
+                    cursor.execute(query)
+                except mysql.connector.Error as e:
+                    if e.errno == 1062:
+                       continue
+                       #print(f"DUPLICATE ENTRY: {insertAlbum}")
+                    else:
+                       #print(insertAlbum)
+                       #print(insertAlbum[-1])
+                       print(f"{e.msg}")
+            counter += 1
+    #UNCOMMENT TO COMMIT DATABASES
+    #connection.commit()
+
+    fr.close()
+    with open('../csvs/tracks.csv', 'r') as fr:
+        reader = csv.reader(fr)
+        firstRow = True
+        for row in reader:
+            if firstRow:
+                firstRow = False
+            else:
+                insertTrack = row
+                #insertArtists = row[1][1:-1] + row[1][-1]
+                if "\'" in insertTrack[4]:
+                    insertTrack[4] = insertTrack[4].replace("\'", "\\\'")
+                    print(f"\,{insertTrack}")
+                query = f'''INSERT INTO track(trackID , albumID, artistID, trackName, trackLength, trackPopularity, explicit)
+                Value (\'{insertTrack[1]}\', \'{insertTrack[2]}\', \'{insertTrack[3]}\', \'{insertTrack[4]}\', {insertTrack[5]}, {insertTrack[6]}, {insertTrack[7]});'''
+
+
+                #print(query)
+                try:
+                    cursor.execute(query)
+                except mysql.connector.Error as e:
+                    if e.errno == 1062:
+                       print(f"DUPLICATE ENTRY: {insertTrack}")
+                    else:
+                       print(insertTrack[1])
+                       print(f"{e.msg}")
+            counter += 1
+    query = '''SELECT Count(*) FROM track'''
+    cursor.execute(query)
+    print(cursor.fetchone())
+
+    #UNCOMMENT TO COMMIT DATABASES
+    #connection.commit()
+    counter = 0
+    fr.close()
+
+def playlistInput():
+    dbop = db_operations()
+    cursor = dbop.getCursor()
+    connection = dbop.getConnection()
+    counter = 0
+    with open('../csvs/playlists.csv', 'r') as fr:
+        reader = csv.reader(fr)
+        firstRow = True
+        for row in reader:
+            if firstRow:
+                firstRow = False
+            else:
+                insertPlaylist = row
+                #insertArtists = row[1][1:-1] + row[1][-1]
+                if "\'" in insertPlaylist[1]:
+                    insertPlaylist[1] = insertPlaylist[1].replace("\'", "\\\'")
+                    print(f"\,{insertPlaylist}")
+                query = f'''INSERT INTO playlist(playlistID , playlistName, numTracks)
+                Value (\'{insertPlaylist[0]}\', \'{insertPlaylist[1]}\', {insertPlaylist[2]});'''
+
+
+                print(query)
+                try:
+                    cursor.execute(query)
+                except mysql.connector.Error as e:
+                    if e.errno == 1062:
+                       print(f"DUPLICATE ENTRY: {insertPlaylist}")
+                    else:
+                       print(insertPlaylist[1])
+                       print(f"{e.msg}")
+            counter += 1
+    connection.commit()
+    query = '''SELECT Count(*) FROM track'''
+    cursor.execute(query)
+    print(cursor.fetchone())
+    #NEED TO GET NEW AUTH TOKEN BEFORE DOING THIS STEP
+    playlistArr = []
+    apihelp = apihelper('BQBy6wJH8UCY5pIapCVunXyZvHhifhbNYgjS2oQ4AufHonEPJwooiM4CKQns3uErrhGk6AeDsbFLy9Mk73rP91BvSexalux9Aj3rct19W8TkuUFEvO6fJ-z1wddW7BMjh7CD5PgeOCUnUGqh9CkAcSvI0EzU-xhCMWGcAXfUrC4')
+    with open('../csvs/playlistTrackJunction.csv', 'r') as fr:
+        reader = csv.reader(fr)
+        firstRow = True
+        for row in reader:
+            if firstRow:
+                firstRow = False
+            else:
+                insertpt = row
+                inList = False
+                for p in playlistArr:
+                    #print(f"\'{p}\' = \'{row[1].strip()}\'")
+                    if p == row[1].strip():
+                        inList = True
+                        break
+                if not inList:
+                    playlistTrackList = apihelp.returnPlaylistTracks(row[1].strip())
+                    countPlaylist = 0
+                    #insertArtists = row[1][1:-1] + row[1][-1]
+                    for tDict in playlistTrackList:
+                        tID = tDict["id"]
+                        query = f'''INSERT INTO ptjunction(playlistID , trackID, trackPlace)
+                        Value (\'{row[1].strip()}\', \'{tID}\', {countPlaylist});'''
+                        countPlaylist += 1
+                        print(query)
+                        try:
+                            cursor.execute(query)
+                        except mysql.connector.Error as e:
+                            if e.errno == 1062:
+                               print(f"DUPLICATE ENTRY: {insertpt}")
+                            else:
+                               print(f"{e.msg}")
+                    playlistArr.append(row[1].strip())
+
+            counter += 1
+    connection.commit()
+    query = '''SELECT * FROM ptjunction'''
+    cursor.execute(query)
+    line = cursor.fetchone()
+    while line:
+        print(line)
+        line = cursor.fetchone()
+
+
+    #UNCOMMENT TO COMMIT DATABASES
+    #connection.commit()
+    counter = 0
+    fr.close()
+
+playlistInput()
