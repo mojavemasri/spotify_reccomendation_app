@@ -2,23 +2,23 @@ CREATE DATABASE IF NOT EXISTS spotifyDB;
 USE spotifyDB;
 CREATE TABLE artist(
 artistID VARCHAR(22) NOT NULL PRIMARY KEY,
-artistName VARCHAR(50),
+artistName VARCHAR(100),
 artistPopularity Integer
 );
 CREATE TABLE album(
 albumID VARCHAR(22) NOT NULL PRIMARY KEY,
-artistID VARCHAR(22) NOT NULL,
-albumName VARCHAR(50) NOT NULL,
+artistID VARCHAR(22) NOT NULL UNIQUE,
+albumName VARCHAR(140) NOT NULL,
 numTracks Integer,
 albumType VARCHAR(30),
 releaseDate Date,
 CONSTRAINT FK_albumID_artistID FOREIGN KEY (artistID) REFERENCES artist(artistID)
 );
 CREATE TABLE track(
-trackID VARCHAR(22) NOT NULL PRIMARY KEY,
-albumID VARCHAR(22) NOT NULL,
-artistID VARCHAR(22) NOT NULL,
-trackName VARCHAR(50) NOT NULL,
+trackID VARCHAR(22) NOT NULL UNIQUE PRIMARY KEY,
+albumID VARCHAR(22) NOT NULL UNIQUE,
+artistID VARCHAR(22) NOT NULL UNIQUE,
+trackName VARCHAR(140) NOT NULL,
 trackLength Float,
 trackPopularity Integer,
 explicit Boolean,
@@ -27,7 +27,7 @@ CONSTRAINT FK_trackID_artistID FOREIGN KEY (artistID) REFERENCES artist(artistID
 );
 CREATE TABLE genre(
 genreID INTEGER AUTO_INCREMENT NOT NULL PRIMARY KEY,
-genreName VARCHAR(50)
+genreName VARCHAR(50) UNIQUE NOT NULL
 );
 
 CREATE TABLE playlist(
