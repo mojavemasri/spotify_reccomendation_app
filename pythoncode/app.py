@@ -4,6 +4,11 @@ from printRecord import printRecord
 from modifyRecord import modifyRecord
 from db_operations import db_operations
 from reccomendation import reccomendation
+import spotipy
+from spotipy.oauth2 import SpotifyClientCredentials
+clientID = '78a5356a63c04168858c0e650e53c66b'
+clientSecret = 'b7a600370d754ac1a62a10e5e54a29cb'
+
 def startscreen():
     print("")
     print("")
@@ -17,7 +22,7 @@ def startscreen():
     print("WELCOME TO SPOTIFY RECCOMENDATIONS")
     print("")
 
-def textRequestToken():
+def textRequestTokenOld():
     print("To begin, input a spotify authentication token. You can do so at: ")
     print("https://developer.spotify.com/console/get-playlists/")
     token = ""
@@ -30,89 +35,86 @@ def textRequestToken():
             print("Try again. ")
     return ""
 
+def textRequestToken():
+    tokenRequester = SpotifyClientCredentials(client_id = clientID, client_secret = clientSecret)
+    token = tokenRequester.get_access_token(as_dict = False, check_cache = True)
+    print(token)
+    return token
+
 def viewlibrary():
     print('''What would you like to view:
             1) Tracks
             2) Albums
-            3) Artists
-            4) Genres
-            5) Playlists
-            6) Users(NOT IMPLEMENTED YET IT WONT LET YOU CHOOSE THIS)
-            7) Return to main menu
+            3) Genres
+            4) Playlists
+            5) Users(NOT IMPLEMENTED YET IT WONT LET YOU CHOOSE THIS)
+            6) Return to main menu
     ''')
-    typechoice = helper.get_choice([1,2,3,4,5,7])
+    typechoice = helper.get_choice([1,2,3,4,6])
     if typechoice == 1:
         print('''
         Would you like to:
         1)Enter the Spotify url to display your track
-        2)Enter the name of the track and search for it''')
-        searchChoice = helper.get_choice([1,2])
+        2)Enter the trackID on the track you want to display
+        3)Enter the name of the track and search for it''')
+        searchChoice = helper.get_choice([1,2,3])
         if searchChoice == 1:
             trackID = helper.getURLFromUser(1)
+            modifyRecord.addTrackToDatabase(trackID, apihelp)
             printRecord.printFancyTrack(trackID)
         if searchChoice == 2:
+            trackID = helper.getURIFromUser()
+            modifyRecord.addTrackToDatabase(trackID, apihelp)
+            printRecord.printFancyTrack(trackID)
+        elif searchChoice == 3:
             searchName = input("Enter name:")
 
-            queryResult = searchDB(searchName, 1) #search DB needs to be implemented
-
-            for q in queryResult:
-                printRecord.printSimpleTrack(q[0])
+            queryResult = helper.searchDB(searchName, 1) #search DB needs to be implemented
             if len(queryResult) == 0:
                 print("Sorry, no tracks of this record were found. Please try again.")
+            else:
+                print(f"SEARCH RESULTS FOR \'{searchName}\'")
+                print("====================================")
+                print("trackID , trackName")
+                for q in queryResult:
+                    printRecord.printSimpleTrack(q)
+
 
     elif typechoice == 2:
         print('''
         Would you like to:
         1)Enter the album Spotify url to display your album
-        2)Enter an artist Spotify url and print all of their (database) albums
-        3)Enter the name of the album and search for it
-        4) Return to main menu''')
-        searchChoice = helper.get_choice([1,2,3, 4])
+        2)Enter the name of the album and search for it
+        3) Return to main menu''')
+        searchChoice = helper.get_choice([1,2,3])
         if searchChoice == 1:
             albumID = helper.getURLFromUser(2)
+            modifyRecord.addAlbumToDatabase(albumID, apihelp)
             printRecord.printFancyAlbum(albumID)
         elif searchChoice == 2:
-            artistID = helper.getURLFromUser(3)
-            #write query to get each album where this artist is the artist
-            queryResult = []
-            for q in queryResult:
-                printRecord.printFancyAlbum(q[0])
-        elif searchChoice == 3:
             searchName = input("Enter name:")
 
-            queryResult = searchDB(searchName, 2) #search DB needs to be implemented
+            queryResult = helper.searchDB(searchName, 2) #search DB needs to be implemented
             print("SEARCH RESULTS: ")
             for q in queryResult:
-                printRecord.printSimpleAlbum(q[0])
+                printRecord.printSimpleAlbum(q)
             if len(queryResult) == 0:
-                print("Sorry, no albums witht this name were found. Please try again.")
+                print("Sorry, no albums with this name were found. Please try again.")
     elif typechoice == 3:
-        print('''
-        Would you like to:
-        1)Enter the Spotify url to display your artist
-        2)Enter the name of the artist and search for it
-        3) Return to main menu''')
-        searchChoice = helper.get_choice([1,2, 3])
-        if searchChoice == 1:
-            artistID = helper.getURLFromUser(3)
-            printRecord.printFancyArtist(artistID)
-        if searchChoice == 2:
-            searchName = input("Enter name:")
-
-            queryResult = searchDB(searchName, 3) #search DB needs to be implemented
-            print("SEARCH RESULTS: ")
-            for q in queryResult:
-                printRecord.printSimpleArtist(q[0])
-            if len(queryResult) == 0:
-                print("Sorry, no artists with this name were found. Please try again.")
-    elif typechoice == 4:
-        name = input("Enter a name of a genre to search for it here")
-        #WRITE A QUERY THAT DISPLAYS SIMILAR NAMES
-        queryResult = []
+        searchName = input("Enter a name of a genre to search for it here")
+        queryResult = helper.searchDB(searchName, 5)
         print("SEARCH RESULTS: ")
         for q in queryResult:
-            printRecord.printSimpleGenre(q[0])
-    elif typechoice == 5:
+            printRecord.printSimpleGenre(q)
+        print('''
+        Would you like to:
+        1) Get the artists that make music of a specific genre(search by ID)
+        2) Return to main menu''')
+        genreChoice= helper.get_choice([1,2])
+        if genreChoice == 1:
+            genreID = input("Enter genre ID: ")
+            printRecord.printFancyGenre(g)
+    elif typechoice == 4:
         print('''
         Would you like to:
         1)Enter the Spotify url to display your playlist
@@ -125,7 +127,7 @@ def viewlibrary():
         if searchChoice == 2:
             searchName = input("Enter name:")
 
-            queryResult = searchDB(searchName, 5) #search DB needs to be implemented
+            queryResult = helper.searchDB(searchName, 5) #search DB needs to be implemented
             print("SEARCH RESULTS: ")
             for q in queryResult:
                 printRecord.printSimpleArtist(q[0])

@@ -48,7 +48,7 @@ class reccomendation():
                        INNER JOIN track t ON tA.trackID = t.trackID) INNER JOIN artist a ON t.artistID = a.artistID
                        WHERE t.trackPopularity <= {maxpopularity} AND t.trackPopularity >= {minpopularity}
                        AND a.artistPopularity <= {maxartistpopularity} AND a.artistPopularity >= {minartistpopularity}
-                       AND tA.energy >= 0.72
+                       AND tA.energy >= 0.72 AND tA.danceability >= 0.55
                        LIMIT 1000;
                     '''
         elif vibechoice == 4:
@@ -326,7 +326,7 @@ class reccomendation():
         #print(trackList)
         print("--------INITIAL PLAYLIST----------\n")
         reccomendation.prettyPrint(self.playlist)
-        NUM_TRIALS = 500
+        NUM_TRIALS = 300
         MUT_RATE = 0.1
         POP_SIZE = 1000
         NUM_PARENTS = 200
@@ -391,7 +391,7 @@ class reccomendation():
                 elif temp == bestVal or temp == currBestVal:
                   convNum += 1
               print(f"convRate = {convNum/len(updatepop)}")
-              if (convNum/len(updatepop)) == 1:
+              if (convNum/len(updatepop)) >= 0.99:
                   print(f"RESETTING AT {i}")
                   break
               if convNum * 2 >= len(updatepop) and not currBestSol == bestSol:

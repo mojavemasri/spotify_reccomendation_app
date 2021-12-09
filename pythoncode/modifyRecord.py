@@ -21,8 +21,8 @@ class modifyRecord():
           playlistDict = apihelp.getPlaylistDict(playlistID)
           playlistInfo = modifyRecord.getPlaylistInfo(playlistDict)
           if "\'" in playlistInfo[1]:
-              insertPlaylist[1] = insertPlaylist[1].replace("\'", "\\\'")
-              print(f"\,{insertPlaylist}")
+              playlistInfo[1] = playlistInfo[1].replace("\'", "\\\'")
+              #print(f"\,{insertPlaylist}")
           query = f'''INSERT INTO playlist(playlistID , playlistName, numTracks)
           Value (\'{playlistInfo[0]}\', \'{playlistInfo[1]}\', {playlistInfo[2]});'''
           #print(query)
@@ -30,11 +30,12 @@ class modifyRecord():
               cursor.execute(query)
           except mysql.connector.Error as e:
               if e.errno == 1062:
-                 print(f"DUPLICATE ENTRY: {insertPlaylist}")
+                 #print(f"DUPLICATE ENTRY: {insertPlaylist}")
+                 pass
               else:
                  print(insertPlaylist[1])
                  print(f"{e.msg}")
-          print(playlistArr)
+          #print(playlistArr)
           counter = 0
           countPlaylist =0
 
@@ -45,6 +46,7 @@ class modifyRecord():
             #print(t)
             if modifyRecord.uniqueTrack(t):
                 modifyRecord.addTrackToDatabase(t, apihelp)
+                connection.commit()
             query = f'''INSERT INTO ptjunction(playlistID , trackID, trackPlace)
             Value (\'{playlistID}\', \'{t}\', {countPlaylist});'''
             countPlaylist += 1
@@ -53,7 +55,8 @@ class modifyRecord():
                 cursor.execute(query)
             except mysql.connector.Error as e:
                 if e.errno == 1062:
-                   print(f"DUPLICATE ENTRY: {insertpt}")
+                    pass
+                   #print(f"DUPLICATE ENTRY: {insertpt}")
                 else:
                    print(f"{e.msg}")
             counter += 1
@@ -63,8 +66,12 @@ class modifyRecord():
           #--------------------------------
           #this return statement wont be necessary if u r already adding the items to the database
           #return[playlistInfo, trackArr, albumArr, artistArr, genreArr, gajunction, ptjunction]
+          connection.commit()
+          print(f"Successfully added {playlistInfo[1]} :)")
           pass
-
+      else:
+          print("Playlist is already in database.")
+      #print(modifyRecord.uniquePlaylist(playlist))
     @staticmethod
     def addTrackToDatabase(trackID, apihelp):
         if modifyRecord.uniqueTrack(trackID):
@@ -85,7 +92,7 @@ class modifyRecord():
 
                     if "\'" in g:
                         g = g.replace("\'", "\\\'")
-                        print(g)
+                        #print(g)
                     if modifyRecord.uniqueGenre(g):
                         query = f'''INSERT INTO genre(genreName) Value (\'{g}\')'''
                         #print(query)
@@ -96,7 +103,7 @@ class modifyRecord():
                                 for r in genreList:
                                     if r[1] == g:
                                         dupList.append([counter, r[0]])
-                                print(f"DUPLICATE ENTRY: {g}")
+                                #print(f"DUPLICATE ENTRY: {g}")
                     dbopGenre = db_operations()
                     genreID = modifyRecord.getGenreID(g, dbopGenre)
                     query = f'''Insert INTO gajunction(genreID, artistID, gaUNIQUEID)
@@ -105,7 +112,7 @@ class modifyRecord():
                   #gajunction.append([tempdict["artists"][0]["id"], getGenreID(g, genreArr)])
                 if "\'" in tempart[1]:
                     tempart[1] = tempart[1].replace("\'", "\\\'")
-                    print(f"\,{tempart}")
+                    #print(f"\,{tempart}")
                 query = f'''INSERT INTO artist(artistID, artistName, artistPopularity)
                 Value (\'{tempart[0]}\', \'{tempart[1]}\', {tempart[2]});'''
                 #print(query)
@@ -113,9 +120,10 @@ class modifyRecord():
                     cursor.execute(query)
                 except mysql.connector.Error as e:
                     if e.errno == 1062:
-                       print(f"DUPLICATE ENTRY: {insertArtist}")
+                        pass
+                       #print(f"DUPLICATE ENTRY: {insertArtist}")
                     else:
-                       print(insertArtist[1])
+                       #print(insertArtist[1])
                        print(f"{e.msg}")
               #insertArtists = row[1][1:-1] + row[1][-1]
               if "\'" in tempalb[2]:
@@ -143,7 +151,7 @@ class modifyRecord():
 
             if "\'" in tempt[3]:
                 tempt[3] = tempt[3].replace("\'", "\\\'")
-                print(f"\,{tempt}")
+                #print(f"\,{tempt}")
             query = f'''INSERT INTO track(trackID , albumID, artistID, trackName, trackLength, trackPopularity, explicit)
             Value (\'{tempt[0]}\', \'{tempt[1]}\', \'{tempt[2]}\', \'{tempt[3]}\', {tempt[4]}, {tempt[5]}, {tempt[6]});'''
 
@@ -153,12 +161,14 @@ class modifyRecord():
                 cursor.execute(query)
             except mysql.connector.Error as e:
                 if e.errno == 1062:
-                   print(f"DUPLICATE ENTRY: {insertTrack}")
+                    pass
+                   #print(f"DUPLICATE ENTRY: {insertTrack}")
                 else:
-                   print(tempt[1])
+                   #print(tempt[1])
                    print(f"{e.msg}")
             connection.commit()
             modifyRecord.insertAttributes(trackdict["id"], apihelp)
+            connection.commit()
         else:
             pass
 
@@ -166,7 +176,8 @@ class modifyRecord():
     def addAlbumToDatabase(albumID, apihelp):
         albumDict = apihelp.getAlbumDict(albumID)
         for track in albumDict['items']:
-            addTrackToDatabase(track)
+            #print(track)
+            modifyRecord.addTrackToDatabase(track['id'], apihelp)
 
     @staticmethod
     def insertAttributes(trackID, apihelp):
@@ -184,9 +195,10 @@ class modifyRecord():
             cursor.execute(query)
         except mysql.connector.Error as e:
             if e.errno == 1062:
-               print(f"DUPLICATE ENTRY: {attrList}")
+                pass
+               #print(f"DUPLICATE ENTRY: {attrList}")
             else:
-               print(attrList[1])
+               #print(attrList[1])
                print(f"{e.msg}")
         connection.commit()
     @staticmethod
@@ -375,6 +387,7 @@ class modifyRecord():
                 WHERE playlistID = \'{playlist}\';'''
       cursor.execute(query)
       count = cursor.fetchone()
+      #print(count)
       if count[0] == 0:
           return True
       else:

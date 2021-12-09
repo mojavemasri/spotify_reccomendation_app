@@ -1,5 +1,6 @@
 import requests
 import json
+
 class apihelper():
     def __init__(self, authToken):
         self.authToken = authToken
@@ -29,19 +30,19 @@ class apihelper():
           break
         else:
           print(str(response))
-          print("playlistDict")
+          print("...")
 
       results = response.json()
       return results
 
     #returns a list of playlist track dictionaries from spotify api
     def returnPlaylistTracks(self, url):
-      print(url)
+      #rint(url)
       if url[0:10] == 'https://op':
         ID = url[34:56]
       else:
         ID = url
-      print(ID)
+      #print(ID)
       playlistIndexes = []
       playlistIDList = []
       trackArr = []
@@ -62,19 +63,20 @@ class apihelper():
           if str(response) == '<Response [200]>':
            break
           else:
-            print(str(response))
-            print(f"ID: {ID}")
-            print("playlistTracks")
+            #print(str(response))
+            #print(f"ID: {ID}")
+            #print("playlistTracks")
+            print(...)
 
         offsetNum += 20
         results = response.json()
         #print(f"results: {results}")
 
-        print(results)
+        #print(results)
         if len(results['items']) == 0:
           break
         for track in results['items']:
-          print(track["track"])
+          #print(track["track"])
           trackArr.append(track["track"])
       return trackArr
 
@@ -97,14 +99,14 @@ class apihelper():
          break
         else:
           print(str(response))
-          print(f"EXTRACT USER PLAYLIST {ID}")
+          #print(f"EXTRACT USER PLAYLIST {ID}")
+          print("...")
       results = response.json()
       playlistArr = []
       somecounter = 0
       for playlist in results['items']:
-        if uniquePlaylist(playlist['id']):
-          p = addPlaylistToDatabase(playlist["id"])
-      pass
+        playlistArr.append(playlist)
+      return playlistArr
 
 
     #given a spotify track id, this gets the track dictionary from spotify's api
@@ -121,7 +123,10 @@ class apihelper():
         if str(response) == '<Response [200]>':
            break
         else:
-          print(f"{str(response)}, {songID}")
+          print(str(response))
+          print(songID)
+          #print(f"{str(response)}, {songID}")
+          print("...")
       result = response.json()
       return result
 
@@ -140,6 +145,7 @@ class apihelper():
            break
         else:
           print(f"{str(response)}, {artistID}")
+          print("...")
       result = response.json()
       return result
 
@@ -152,9 +158,11 @@ class apihelper():
     'Content-Type': 'application/json',
     'Authorization': f'Bearer {self.authToken}',
     }
+        #print(trackID)
 
         response = requests.get(f'https://api.spotify.com/v1/audio-features/{trackID}', headers=headers)
         results =  response.json()
+        #print(str(response))
         attrList = []
         attrList.append(results["id"])
         attrList.append(results["danceability"])

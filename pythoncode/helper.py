@@ -4,7 +4,7 @@ import csv
 import requests
 import json
 import ast
-
+from db_operations import db_operations
 class helper:
 
 
@@ -68,7 +68,7 @@ class helper:
     @staticmethod
     def convertURLtoURI(url):
         if url[25:30] == "track" or url[25:30] == "album":
-            return url[32:url.index('?')]
+            return url[31:url.index('?')]
         elif url[25:31] == "artist":
             return url[32:url.index('?')]
         elif url[25:33] == "playlist":
@@ -92,6 +92,16 @@ class helper:
         URI = helper.convertURLtoURI(url)
         return URI
 
+    @staticmethod
+    def getURIFromUser():
+        while True:
+            uri = input("Enter ID:")
+            if len(uri) == 22:
+                break
+            else:
+                print("Invalid ID, please try again")
+
+        return uri
     #takes in a spotify url and an item type and returns if it is a valid url
     # ITEM TYPES
     # 1: track
@@ -105,6 +115,9 @@ class helper:
 
     @staticmethod
     def searchDB(searchTerm, itemtype):
+        dbop = db_operations()
+        cursor = dbop.getCursor()
+        searchTerm = searchTerm.strip()
         queryItem = ""
         searchItem = ""
         if itemtype == 1:
@@ -117,9 +130,20 @@ class helper:
             queryItem = 'playlist'
         elif itemtype == 5:
             queryItem = 'genre'
-        searchItem = queryItem + "Name"
-        query = ''''''
-        queryResult = []
+        searchItemName = queryItem + "Name"
+        searchItemID = queryItem + "ID"
+        query = f'''
+            SELECT {searchItemID} FROM {queryItem}
+            WHERE {searchItemName} LIKE \'%{searchTerm.lower()}%\'
+            LIMIT 50;
+        '''
+        print(query)
+        cursor.execute(query)
+        queryResult = cursor.fetchall()
+        #print(queryResult)
+        for i in range(len(queryResult)):
+            queryResult[i] = queryResult[i][0]
+            #print(queryResult[i])
         #implement query
         return queryResult
 
