@@ -83,8 +83,8 @@ genreName:{data[1]}
     def printFancyArtist(self, artistID):
         data = self.printSimplePlaylist(artistID)
         print(f'''spotifyArtistID:{data[1]}
-artistID:{data[0]}
-artistPopularity:{data[2]}
+playlistID:{data[0]}
+numTracks:{data[2]}
                ''')
 
 
