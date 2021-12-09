@@ -123,7 +123,7 @@ class printRecord:
         cursor = dbop.getCursor()
         connection = dbop.getConnection()
         query = f'''
-                    SELECT genreID, genreName
+                    SELECT genreID, genreName FROM genre
                     WHERE genreID = \'{genreID}\';
                 '''
         cursor.execute(query)
@@ -133,7 +133,7 @@ class printRecord:
         print(f"Name: {track[1]}")
 
         query = f'''
-                    SELECT a.artistName FROM artist
+                    SELECT artistName FROM artist
                     WHERE artistID IN (
                     SELECT artistID FROM gajunction
                     WHERE genreID = \'{genreID}\')

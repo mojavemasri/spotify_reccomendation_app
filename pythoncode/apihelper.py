@@ -159,10 +159,16 @@ class apihelper():
     'Authorization': f'Bearer {self.authToken}',
     }
         #print(trackID)
+        while True:
+            response = requests.get(f'https://api.spotify.com/v1/audio-features/{trackID}', headers=headers)
 
-        response = requests.get(f'https://api.spotify.com/v1/audio-features/{trackID}', headers=headers)
-        results =  response.json()
+            if str(response) == '<Response [200]>':
+               break
+            else:
+              print(f"{str(response)}")
+              print("...")
         #print(str(response))
+        results =  response.json()
         attrList = []
         attrList.append(results["id"])
         attrList.append(results["danceability"])

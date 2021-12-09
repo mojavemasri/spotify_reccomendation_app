@@ -168,6 +168,7 @@ class modifyRecord():
                    print(f"{e.msg}")
             connection.commit()
             modifyRecord.insertAttributes(trackdict["id"], apihelp)
+            print(f"Successfully added {tempt[3]}")
             connection.commit()
         else:
             pass

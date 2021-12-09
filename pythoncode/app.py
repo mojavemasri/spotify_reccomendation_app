@@ -113,7 +113,7 @@ def viewlibrary():
         genreChoice= helper.get_choice([1,2])
         if genreChoice == 1:
             genreID = input("Enter genre ID: ")
-            printRecord.printFancyGenre(g)
+            printRecord.printFancyGenre(genreID)
     elif typechoice == 4:
         print('''
         Would you like to:
@@ -163,8 +163,17 @@ def editlibrary(apihelp):
             albumID = helper.getURLFromUser(2)
             modifyRecord.addAlbumToDatabase(albumID, apihelp)
         elif mediumchoice == 3:
-            playlistID = helper.getURLFromUser(4)
-            modifyRecord.addPlaylistToDatabase(playlistID, apihelp)
+            while True:
+                playlistID = helper.getURLFromUser(4)
+                modifyRecord.addPlaylistToDatabase(playlistID, apihelp)
+                print('''
+                Would you like to:
+                1)Enter another playlist
+                2) Return to main menu
+                ''')
+                contchoice = helper.get_choice([1,2])
+                if contchoice == 2:
+                    break
     elif typechoice == 2:
         print('''
         Would you like to:
@@ -244,6 +253,7 @@ def getreccomendations(apihelp):
             else:
                 print("Invalid input, input a numerical value")
         print(f"Setting minpopularity as {minpopularity}...")
+        minpopularity = 0
         print('''What is the maximum artist popularity you would like for the playlist reccs(1-100)
                 For reference:
                 popularity of OUTKAST: 76
