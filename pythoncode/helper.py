@@ -61,6 +61,11 @@ class helper:
                 return False
             else:
                 return True
+        elif itemtype == 5:
+            if not url[25:29] == "user":
+                return False
+            else:
+                return True
         else:
             return False
 

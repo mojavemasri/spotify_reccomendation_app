@@ -16,7 +16,7 @@ class modifyRecord():
         playlistID = playlist[34:56]
       else:
         playlistID = playlist
-      if modifyRecord.uniquePlaylist(playlist):
+      if modifyRecord.uniquePlaylist(playlist, dbop):
           playlistArr = apihelp.returnPlaylistTracks(playlistID)
           playlistDict = apihelp.getPlaylistDict(playlistID)
           playlistInfo = modifyRecord.getPlaylistInfo(playlistDict)
@@ -45,7 +45,7 @@ class modifyRecord():
                 continue
             t = tempdict['id']
             #print(t)
-            if modifyRecord.uniqueTrack(t):
+            if modifyRecord.uniqueTrack(t, dbop):
                 modifyRecord.addTrackToDatabase(t, apihelp)
                 connection.commit()
             query = f'''INSERT INTO ptjunction(playlistID , trackID, trackPlace)
@@ -75,45 +75,21 @@ class modifyRecord():
       #print(modifyRecord.uniquePlaylist(playlist))
     @staticmethod
     def addTrackToDatabase(trackID, apihelp):
-        if modifyRecord.uniqueTrack(trackID):
-            dbop = db_operations()
-            cursor = dbop.getCursor()
-            connection = dbop.getConnection()
+        dbop = db_operations()
+        cursor = dbop.getCursor()
+        connection = dbop.getConnection()
+        if modifyRecord.uniqueTrack(trackID, dbop):
+
             trackdict = apihelp.getTrackDict(trackID)
             tempt = modifyRecord.getTrackInfo(trackdict)
             albumID = trackdict["album"]["id"]
-            if modifyRecord.uniqueAlbum(albumID):
+            if modifyRecord.uniqueAlbum(albumID, dbop):
               tempalb = modifyRecord.getAlbumInfo(trackdict)
               #print(trackdict)
               artistID = trackdict["artists"][0]["id"]
-              if modifyRecord.uniqueArtist(artistID):
+              if modifyRecord.uniqueArtist(artistID, dbop):
                 tempartistdict = apihelp.getArtistDict(trackdict["artists"][0]["id"])
                 tempart = modifyRecord.getArtistInfo(trackdict, tempartistdict)
-                gaquery = '''BEGIN TRANSACTION;'''
-                for g in tempartistdict['genres']:
-
-                    if "\'" in g:
-                        g = g.replace("\'", "\\\'")
-                        #print(g)
-                    if modifyRecord.uniqueGenre(g):
-                        query = f'''INSERT INTO genre(genreName) Value (\'{g}\')'''
-                        #print(query)
-                        try:
-                            cursor.execute(query)
-                        except mysql.connector.Error as e:
-                            if e.errno == 1062:
-                                for r in genreList:
-                                    if r[1] == g:
-                                        dupList.append([counter, r[0]])
-                                #print(f"DUPLICATE ENTRY: {g}")
-                    dbopGenre = db_operations()
-                    genreID = modifyRecord.getGenreID(g, dbopGenre)
-                    gaquery = gaquery + f'''Insert INTO gajunction VALUES ({genreID}, \'{artistID}\', \'{genreID}{artistID}\')
-                    '''
-                  #querystatement for inserting gajunction [tempdict["artists"][0]["id"], getGenreID(g, genreArr)]
-                  #gajunction.append([tempdict["artists"][0]["id"], getGenreID(g, genreArr)])
-                gaquery = gaquery + "COMMIT TRANSACTION"
-                cursor.execute(gaquery)
                 if "\'" in tempart[1]:
                     tempart[1] = tempart[1].replace("\'", "\\\'")
                     #print(f"\,{tempart}")
@@ -129,6 +105,30 @@ class modifyRecord():
                     else:
                        #print(insertArtist[1])
                        print(f"{e.msg}")
+                for g in tempartistdict['genres']:
+
+                    if "\'" in g:
+                        g = g.replace("\'", "\\\'")
+                        #print(g)
+                    if modifyRecord.uniqueGenre(g, dbop):
+                        query = f'''INSERT INTO genre(genreName) Value (\'{g}\')'''
+                        #print(query)
+                        try:
+                            cursor.execute(query)
+                        except mysql.connector.Error as e:
+                            if e.errno == 1062:
+                                for r in genreList:
+                                    if r[1] == g:
+                                        dupList.append([counter, r[0]])
+                                #print(f"DUPLICATE ENTRY: {g}")
+                    genreID = modifyRecord.getGenreID(g, dbop)
+                    gaquery = f'''Insert INTO gajunction(genreID, artistID, gaUNIQUEID) VALUES ({genreID}, \'{artistID}\', \'{genreID}{artistID}\');'''
+                    #print(gaquery)
+                    cursor.execute(gaquery)
+                  #querystatement for inserting gajunction [tempdict["artists"][0]["id"], getGenreID(g, genreArr)]
+                  #gajunction.append([tempdict["artists"][0]["id"], getGenreID(g, genreArr)])
+
+
               #insertArtists = row[1][1:-1] + row[1][-1]
               if "\'" in tempalb[2]:
                   tempalb[2] = tempalb[2].replace("\'", "\\\'")
@@ -293,8 +293,7 @@ class modifyRecord():
     #needs to be integrated into database
     #when we integrate into the database we will remove the second arguement
     @staticmethod
-    def getGenreID(genre):
-      dbop = db_operations()
+    def getGenreID(genre, dbop):
       cursor = dbop.getCursor()
       query = f'''Select genreID from genre
                 WHERE genreName = \'{genre}\'
@@ -305,26 +304,13 @@ class modifyRecord():
 
 
 
-    @staticmethod
-    def getGenreID(genre,dbop):
-      cursor = dbop.getCursor()
-      query = f'''Select genreID from genre
-                WHERE genreName = \'{genre}\'
-                LIMIT 1;'''
-      cursor.execute(query)
-      ID = cursor.fetchone()
-      try:
-        return ID[0]
-      except TypeError:
-          return ""
 
     #given the track dictionary, it will determine whether or not it is a unique album
     #this one can be written better
     #needs to be integrated into database
     #when we integrate into the database we will remove the second arguement
     @staticmethod
-    def uniqueAlbum(albumID):
-      dbop = db_operations()
+    def uniqueAlbum(albumID, dbop):
       cursor = dbop.getCursor()
       query = f'''Select Count(*) from album
                 WHERE albumID = \'{albumID}\';'''
@@ -341,8 +327,7 @@ class modifyRecord():
     #needs to be integrated into database
     #when we integrate into the database we will remove the second arguement
     @staticmethod
-    def uniqueArtist(artistID):
-      dbop = db_operations()
+    def uniqueArtist(artistID,dbop):
       cursor = dbop.getCursor()
       query = f'''Select Count(*) from artist
                 WHERE artistID = \'{artistID}\';'''
@@ -357,8 +342,7 @@ class modifyRecord():
     #needs to be integrated into database
     #when we integrate into the database we will remove the second arguement
     @staticmethod
-    def uniqueGenre(genre):
-      dbop = db_operations()
+    def uniqueGenre(genre,dbop):
       cursor = dbop.getCursor()
       query = f'''Select Count(*) from genre
                 WHERE genreName = \'{genre}\';'''
@@ -373,8 +357,7 @@ class modifyRecord():
     #needs to be integrated into database
     #when we integrate into the database we will remove the second arguement
     @staticmethod
-    def uniqueTrack(trackID):
-      dbop = db_operations()
+    def uniqueTrack(trackID, dbop):
       cursor = dbop.getCursor()
       query = f'''Select Count(*) from track
                 WHERE trackID = \'{trackID}\';'''
@@ -389,8 +372,7 @@ class modifyRecord():
     #given the spotify playlistID, it will determine whether or not it is a unique playlist
     #needs to be integrated into database
     @staticmethod
-    def uniquePlaylist(playlist):
-      dbop = db_operations()
+    def uniquePlaylist(playlist, dbop):
       cursor = dbop.getCursor()
       query = f'''Select Count(*) from playlist
                 WHERE playlistID = \'{playlist}\';'''

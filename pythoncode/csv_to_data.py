@@ -8,6 +8,51 @@ import random
 from db_operations import db_operations
 from apihelper import apihelper
 from modifyRecord import modifyRecord
+import spotipy
+from spotipy.oauth2 import SpotifyClientCredentials
+
+
+clientID = '78a5356a63c04168858c0e650e53c66b'
+clientSecret = 'b7a600370d754ac1a62a10e5e54a29cb'
+
+
+def featureInput():
+    dbop = db_operations()
+    cursor = dbop.getCursor()
+    connection = dbop.getConnection()
+    counter = 0
+    with open('../csvs/audioFeatureListNew.csv', 'r') as fr:
+        reader = csv.reader(fr)
+        firstRow = True
+        for row in reader:
+            if firstRow:
+                firstRow = False
+            else:
+                insertAttrs = row
+                #insertArtists = row[1][1:-1] + row[1][-1]
+                if "\'" in insertAttrs[1]:
+                    insertAttrs[1] = insertAttrs[1].replace("\'", "\\\'")
+                    #print(f"\,{insertAttrs}")
+                query = f'''INSERT INTO track_ATTRIBUTES(trackID, danceability, energy, loudness, speechiness, acousticness, instrumentalness, liveness, valence)
+                VALUES (\'{insertAttrs[0]}\', {insertAttrs[1]},{insertAttrs[2]},{insertAttrs[3]},{insertAttrs[4]},{insertAttrs[5]},{insertAttrs[6]},{insertAttrs[7]},{insertAttrs[8]});'''
+
+
+                print(query)
+                try:
+                    cursor.execute(query)
+                except mysql.connector.Error as e:
+                    if e.errno == 1062:
+                       print(f"DUPLICATE ENTRY: {insertAttrs}")
+                    else:
+                       print(insertAttrs[1])
+                       print(f"{e.msg}")
+            counter += 1
+    connection.commit()
+    query = '''SELECT Count(*) FROM track'''
+    cursor.execute(query)
+    print(cursor.fetchone())
+    fr.close()
+
 def convertDate(date):
     if len(date) == 4:
         return (date+"-01-01")
@@ -96,7 +141,7 @@ def genreartistalbumtrackinput():
 
                 query = f'''INSERT INTO genre(genreName) Value (\'{insertGenre}\')'''
 
-                #print(query)
+                print(query)
                 try:
                     cursor.execute(query)
                     genreList.append([row[0], insertGenre])
@@ -109,7 +154,7 @@ def genreartistalbumtrackinput():
             counter += 1
 
     #UNCOMMENT TO COMMIT DATABASES
-    #connection.commit()
+    connection.commit()
     #query = '''SELECT Count(*) FROM genre'''
     #print(dupList)
     #cursor.execute(query)
@@ -131,7 +176,7 @@ def genreartistalbumtrackinput():
                 Value (\'{insertArtist[0]}\', \'{insertArtist[1]}\', {insertArtist[2]});'''
 
 
-                #print(query)
+                print(query)
                 try:
                     cursor.execute(query)
                 except mysql.connector.Error as e:
@@ -142,7 +187,7 @@ def genreartistalbumtrackinput():
                        print(f"{e.msg}")
             counter += 1
     #UNCOMMENT TO COMMIT DATABASES
-    #connection.commit()
+    connection.commit()
     #query = '''SELECT Count(*) FROM genre'''
     #print(dupList)
     #cursor.execute(query)
@@ -166,7 +211,7 @@ def genreartistalbumtrackinput():
                 insertAlbum[-1] = convertDate(insertAlbum[-1])
                 query = f'''INSERT INTO album(albumID, artistID, albumName, numTracks, albumType, releaseDate)
                 Value (\'{insertAlbum[0]}\', \'{insertAlbum[1]}\', \'{insertAlbum[2]}\', {insertAlbum[3]}, \'{insertAlbum[4]}\', \'{insertAlbum[5]}\');'''
-                #print(query)
+                print(query)
                 try:
                     cursor.execute(query)
                 except mysql.connector.Error as e:
@@ -179,7 +224,7 @@ def genreartistalbumtrackinput():
                        print(f"{e.msg}")
             counter += 1
     #UNCOMMENT TO COMMIT DATABASES
-    #connection.commit()
+    connection.commit()
 
     fr.close()
     with open('../csvs/tracks.csv', 'r') as fr:
@@ -198,7 +243,7 @@ def genreartistalbumtrackinput():
                 Value (\'{insertTrack[1]}\', \'{insertTrack[2]}\', \'{insertTrack[3]}\', \'{insertTrack[4]}\', {insertTrack[5]}, {insertTrack[6]}, {insertTrack[7]});'''
 
 
-                #print(query)
+                print(query)
                 try:
                     cursor.execute(query)
                 except mysql.connector.Error as e:
@@ -213,7 +258,7 @@ def genreartistalbumtrackinput():
     print(cursor.fetchone())
 
     #UNCOMMENT TO COMMIT DATABASES
-    #connection.commit()
+    connection.commit()
     counter = 0
     fr.close()
 
@@ -254,7 +299,7 @@ def playlistInput():
     print(cursor.fetchone())
     #NEED TO GET NEW AUTH TOKEN BEFORE DOING THIS STEP
     playlistArr = []
-    apihelp = apihelper('BQBy6wJH8UCY5pIapCVunXyZvHhifhbNYgjS2oQ4AufHonEPJwooiM4CKQns3uErrhGk6AeDsbFLy9Mk73rP91BvSexalux9Aj3rct19W8TkuUFEvO6fJ-z1wddW7BMjh7CD5PgeOCUnUGqh9CkAcSvI0EzU-xhCMWGcAXfUrC4')
+    apihelp = apihelper('BQC0w5oxd5kBN28ljWLwkWgO7Fh2Oywu9bsyXjZBOtd7ej1bW6lL2lMfEEj3wgHjb12Wdh0LIhUbQ7hC2Rg')
     with open('../csvs/playlistTrackJunction.csv', 'r') as fr:
         reader = csv.reader(fr)
         firstRow = True
@@ -302,22 +347,51 @@ def playlistInput():
     fr.close()
 
 def gaInput():
+    tokenRequester = SpotifyClientCredentials(client_id = clientID, client_secret = clientSecret)
+    token = tokenRequester.get_access_token(as_dict = False, check_cache = True)
     dbop = db_operations()
     loopdbop = db_operations()
     executeDB = db_operations()
     executecursor = executeDB.getCursor()
     executeconnection = executeDB.getConnection()
+    genreDB = db_operations()
+    genrecursor = genreDB.getCursor()
     cursor = dbop.getCursor()
     connection = dbop.getConnection()
-    apihelp =  apihelper('BQCJ2e14X1Ecgb46elZaPEXiYRPGAETidpXHZd2ZKYqXt4cJFwHQZetI1SU5_nkwx0yVJsiBUtNmeL6zIzq_oSaWzW5AL-E6cxT0EUiAIJw9RqzQkYARNudx1rCu-c3JVctm6BQpzK0Jr_UBoMo7CSMkhyPzFgqsOhWvEG2UFZE')
+    apihelp =  apihelper(token)
     query = '''SELECT artistID FROM artist'''
     cursor.execute(query)
     line = cursor.fetchone()
     queryList = []
     counter = 0
+    lastArtistID = 0
+    genreDict = {}
+    query1 = '''SELECT * from genre WHERE genreID < 5000;'''
+    query2 = '''SELECT * from genre WHERE genreID >= 5000;'''
+    genrecursor.execute(query1)
+    genline = genrecursor.fetchone()
+    while genline:
+        print(genline[0])
+        genreDict[genline[1]] = genline[0]
+        genline = genrecursor.fetchone()
+
+    genrecursor.execute(query2)
+    genline = genrecursor.fetchone()
+    while genline:
+        genreDict[genline[1]] = genline[0]
+        genline = genrecursor.fetchone()
+
+
+    for _ in range(1780):
+        line = cursor.fetchone()
+        counter += 1
+
     while line:
         if counter%10 == 0:
             print(f"i = {counter}")
+        if counter%100 == 0:
+            print("REFRESHING ACCESS TOKEN: ")
+            apihelp = apihelper(tokenRequester.get_access_token(as_dict = False))
         counter += 1
         artistID = line[0]
         artistDict = apihelp.getArtistDict(line[0])
@@ -326,7 +400,16 @@ def gaInput():
             if "\'" in genreName:
                 genreName = genreName.replace("\'", "\\\'")
                 print(genreName)
-            genreID = modifyRecord.getGenreID(genreName, loopdbop)
+            try:
+                genreID = genreDict[g]
+            except KeyError:
+                querytemp = f'''INSERT INTO genre(genreName) Value (\'{g}\')'''
+                executecursor.execute(querytemp)
+                querytemp = f'''SELECT genreID FROM genre WHERE genreName = \'{g}\''''
+                executecursor.execute(querytemp)
+                tempgen = executecursor.fetchone()
+                genreID = tempgen
+                genreDict[g] = genreID
             query = f'''Insert INTO gajunction(genreID, artistID, gaUNIQUEID)
             VALUES ({genreID}, \'{artistID}\', \'{genreID}{artistID}\');'''
             if counter%10 == 0:
@@ -341,7 +424,9 @@ def gaInput():
                    print("INVALID")
                    print(f"{e.msg}")
         line = cursor.fetchone()
+        lastArtistID = artistID
         #print(line)
-
-
+#genreartistalbumtrackinput()
+#featureInput()
 gaInput()
+playlistInput()

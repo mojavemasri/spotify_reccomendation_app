@@ -182,9 +182,10 @@ def editlibrary(apihelp):
         1)Enter a track
         2)Enter an album
         3)Enter a playlist
-        4) Return to main menu
+        4)Enter a User profile and add all playlists
+        5) Return to main menu
         ''')
-        mediumchoice = helper.get_choice([1,2,3])
+        mediumchoice = helper.get_choice([1,2,3,4])
         if mediumchoice == 1:
             trackID = helper.getURLFromUser(1)
             modifyRecord.addTrackToDatabase(trackID, apihelp)
@@ -203,6 +204,12 @@ def editlibrary(apihelp):
                 contchoice = helper.get_choice([1,2])
                 if contchoice == 2:
                     break
+        elif mediumchoice == 4:
+            userID = helper.getURLFromUser(5)
+            playlistArr = apihelp.extractUserPlaylists(userID)
+            for playlist in playlistArr:
+                modifyRecord.addPlaylistToDatabase(playlist, apihelp)
+
     elif typechoice == 2:
         print('''
         Would you like to:
@@ -229,6 +236,7 @@ def editlibrary(apihelp):
         updateChoice = helper.get_choice([1,2])
         playlistID = helper.getURLFromUser(4)
         modifyRecord.hardDeletePlaylist(playlistID)
+
 
 def getreccomendations(apihelp):
     dbop = db_operations()

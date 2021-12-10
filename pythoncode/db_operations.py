@@ -1,8 +1,12 @@
 # module defines operations to use with sqlite3 database
 import mysql.connector as mysql
-
+m_user = "rao"
+m_password = "raoisthegoat"
+m_host = "34.121.244.17"
+m_database = "spotifyreccomendationapp"
 
 class db_operations:
+
     # constructor with connection path to db
     def __init__(self, conn_path):
         self.connection = mysql.connect(conn_path)
@@ -14,9 +18,9 @@ class db_operations:
     def __init__(self):
         youssef = True
         if youssef:
-            self.connection = mysql.connect(user='root', password='yasso1123581321',
-                                            host='127.0.0.1',
-                                            database='spotifyDB')
+            self.connection = mysql.connect(user=m_user, password=m_password,
+                                            host=m_host,
+                                            database=m_database)
 
         else:
             self.connection = mysql.connect(user=creds.user, password=creds.pwd,

@@ -81,31 +81,39 @@ class apihelper():
       return trackArr
 
     #given a user profile, it will add the first 50 user playlists to the database
-    def extractUserPlaylists(self, url):
-      ID = url[url.index('user/')+5:url.index('?')]
-
-      headers = {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'Authorization': f'Bearer {self.authToken}',
-      }
-      params = (
-        ('limit', '50'),
-        ('offset', '0'),
-      )
+    def extractUserPlaylists(self, ID):
+      offsetNum = 0
       while True:
-        response = requests.get(f'https://api.spotify.com/v1/users/{ID}/playlists', headers=headers, params=params)
-        if str(response) == '<Response [200]>':
-         break
-        else:
-          print(str(response))
-          #print(f"EXTRACT USER PLAYLIST {ID}")
-          print("...")
-      results = response.json()
-      playlistArr = []
-      somecounter = 0
-      for playlist in results['items']:
-        playlistArr.append(playlist)
+          headers = {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': f'Bearer {self.authToken}',
+          }
+          params = (
+            ('limit', '50'),
+            ('offset', f'{offsetNum}'),
+          )
+          offsetNum += 50
+          while True:
+            response = requests.get(f'https://api.spotify.com/v1/users/{ID}/playlists', headers=headers, params=params)
+            if str(response) == '<Response [200]>':
+             break
+            else:
+              print(str(response))
+              #print(f"EXTRACT USER PLAYLIST {ID}")
+              print("...")
+          results = response.json()
+          print(results['total'])
+
+          #rint(offsetNum)
+          playlistArr = []
+          somecounter = 0
+          for playlist in results['items']:
+            print(playlist['id'])
+            playlistArr.append(playlist['id'])
+          if results['total'] < 50:
+              print("BREAK")
+              break
       return playlistArr
 
 
