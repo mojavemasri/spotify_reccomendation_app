@@ -6,6 +6,7 @@ from db_operations import db_operations
 from reccomendation import reccomendation
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
+import csv
 clientID = '78a5356a63c04168858c0e650e53c66b'
 clientSecret = 'b7a600370d754ac1a62a10e5e54a29cb'
 
@@ -42,6 +43,9 @@ def textRequestToken():
     return token
 
 def viewlibrary():
+    dbop = db_operations()
+    cursor = dbop.getCursor()
+    connection = dbop.getConnection()
     print('''What would you like to view:
             1) Tracks
             2) Albums
@@ -102,10 +106,23 @@ def viewlibrary():
                 print("Sorry, no albums with this name were found. Please try again.")
     elif typechoice == 3:
         searchName = input("Enter a name of a genre to search for it here")
-        queryResult = helper.searchDB(searchName, 5)
         print("SEARCH RESULTS: ")
+        dbop = db_operations()
+        cursor = dbop.getCursor()
+        connection = dbop.getConnection()
+        query = f'''
+                    SELECT g.genreID, g.genreName, COUNT(ga.artistID) FROM gajunction ga
+                    INNER JOIN genre g ON g.genreID = ga.genreID
+                    WHERE g.genreName LIKE \'%{searchName}%\'
+                    GROUP BY g.genreID
+                    ORDER BY COUNT(ga.artistID) DESC
+                    LIMIT 60;
+                '''
+        cursor.execute(query)
+        queryResult = cursor.fetchall()
+        print("genreID, Name, number of artists within genre")
         for q in queryResult:
-            printRecord.printSimpleGenre(q)
+            print(f"{q[0]}, {q[1]} ({q[2]})")
         print('''
         Would you like to:
         1) Get the artists that make music of a specific genre(search by ID)
@@ -119,12 +136,14 @@ def viewlibrary():
         Would you like to:
         1)Enter the Spotify url to display your playlist
         2)Enter the name of the playlist and search for it
-        3) Return to main menu''')
-        searchChoice = helper.get_choice([1,2])
+        3)Print all playlists
+        4)Return to main menu''')
+        searchChoice = helper.get_choice([1,2,3,4])
         if searchChoice == 1:
-            playlistID = helper.getURLFromUser(5)
+            playlistID = helper.getURLFromUser(4)
+            modifyRecord.addPlaylistToDatabase(playlistID, apihelp)
             printRecord.printFancyPlaylist(playlistID)
-        if searchChoice == 2:
+        elif searchChoice == 2:
             searchName = input("Enter name:")
 
             queryResult = helper.searchDB(searchName, 5) #search DB needs to be implemented
@@ -133,6 +152,12 @@ def viewlibrary():
                 printRecord.printSimpleArtist(q[0])
             if len(queryResult) == 0:
                 print("Sorry, no playlist with this name were found. Please try again.")
+        elif searchChoice == 3:
+            query = '''SELECT playlistID, playlistName FROM playlist'''
+            cursor.execute(query)
+            queryResults = cursor.fetchall()
+            for playlist in queryResults:
+                print(f"{playlist[0]}, {playlist[1]}")
 
     print("Redirecting back to main menu, keep track of any useful information")
     input("Press any key to continue")
@@ -199,7 +224,7 @@ def editlibrary(apihelp):
         ''')
         updateChoice = helper.get_choice([1,2])
         playlistID = helper.getURLFromUser(4)
-        modifyRecord.updatePlaylist(playlistID, apihelp)
+        modifyRecord.hardDeletePlaylist(playlistID)
 
 def getreccomendations(apihelp):
     dbop = db_operations()
@@ -295,16 +320,98 @@ def getreccomendations(apihelp):
         reccomendationObj =  reccomendation(playlistInput, maxpopularity, minpopularity, maxartistpopularity, \
         minartistpopularity, vibechoice)
         reccomendedPlaylist = reccomendationObj.runGA()
+
 def menuoptions():
     print('''Menu Options:
             1) View library
             2) Edit library
             3) Get reccomendations
-            4) Input new Authentication Token
+            4) Export CSV
             5) Exit
         ''')
     return helper.get_choice([1,2,3,4,5])
 
+def exportToCSV():
+    dbop =  db_operations()
+    cursor = dbop.getCursor()
+    connection = dbop.getConnection()
+    constraint = ";"
+    beginning = "SELECT * FROM "
+    print('''What would you like to export:
+            1) Tracks
+            2) Albums
+            3) Artists
+            4) Genres
+            5) Playlists
+            6) Return to main menu
+    ''')
+    typechoice = helper.get_choice([1,2,3,4,5,6])
+    while True:
+        fname = input("ENTER FILE NAME in .csv form (ex. track.csv)")
+        if '.csv' in fname:
+            break
+        else:
+            print("INVALID FILE NAME. PLEASE TRY AGAIN")
+    if typechoice == 1:
+        tableName = 'track'
+        header = ['trackID', 'albumID', 'artistID', 'trackName', 'trackLength', 'trackPopularity', 'explicit']
+        print('''Would you like to:
+            1) export ALL tracks
+            2) export tracks of a specific album(enter albumID)
+            3) export a specific artist(enter artistID)
+            4) export tracks of a specific genre(enter genreID)
+        ''')
+        constraintchoice = helper.get_choice([1,2,3,4])
+        if constraintchoice == 2:
+            albumID = helper.getURIFromUser()
+            constraint = f'''WHERE albumID = \'{albumID}\';'''
+        elif constraintchoice == 3:
+            artistID = helper.getURIFromUser()
+            constraint = f'''WHERE artistID = \'{artistID}\';'''
+        elif constraintchoice == 4:
+            genreID = input("Input genreID: ")
+            constraint = f'''WHERE artistID in (
+            SELECT artistID FROM gajunction ga INNER JOIN genre g
+            on g.genreID = ga.genreID
+            WHERE g.genreID = \'{genreID}\';'''
+    elif typechoice == 2:
+        tableName = 'album'
+        header = ['albumID', 'artistID', 'albumName', 'numTracks', 'albumType', 'releaseDate']
+    elif typechoice == 3:
+        tableName = 'artist'
+        header = ['artistID', 'artistName', 'artistPopularity']
+    elif typechoice == 4:
+        tableName = 'genre'
+        header = ['genreID', 'genreName']
+    elif typechoice == 5:
+        print('''Would you like to:
+            1) export ALL playlists
+            2) export tracks from a playlist(enter playlistID)
+        ''')
+        playlistChoice = helper.get_choice([1,2,3,4])
+        if playlistChoice == 1:
+            tableName = 'playlist'
+            header = ['playlistID', 'playlistName', 'numTracks']
+        elif playlistChoice == 2:
+            tableName = '(ptjunction pt INNER JOIN track on pt.trackID = track.trackID) INNER JOIN playlist p on p.playlistID = pt.playlistID '
+            playlistID = helper.getURIFromUser()
+            beginning = 'SELECT track.trackID, track.albumID, track.artistID, track.trackName, track.trackLength, p.playlistID, p.playlistName FROM '
+            constraint = f'''WHERE pt.playlistID = {playlistID}'''
+    query = f'''{beginning} {tableName} {constraint}'''
+    cursor.execute(query)
+    csvData = cursor.fetchall()
+    for i in range(len(csvData)):
+        newRow = []
+        for ent in csvData[i]:
+            newRow.append(ent)
+        csvData[i] = newRow
+
+    with open(f"../exportcsvs/{fname}", 'w') as fw:
+        csvwriter= csv.writer(fw)
+        csvwriter.writerow(header)
+        for row in csvData:
+            csvwriter.writerow(row)
+    print("Successfully exported records. ")
 def exitmessage():
     print("Goodbye! Happy Listening!")
 
@@ -320,8 +427,7 @@ while True:
     elif choice == 3:
         getreccomendations(apihelp)
     elif choice == 4:
-        authToken = textRequestToken()
-        apihelp = apihelper(authToken)
+        exportToCSV()
     elif choice == 5:
         exitmessage()
         break

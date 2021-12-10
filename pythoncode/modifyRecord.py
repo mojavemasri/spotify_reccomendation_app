@@ -40,9 +40,10 @@ class modifyRecord():
           countPlaylist =0
 
           for tempdict in playlistArr:
-            t = tempdict['id']
+
             if tempdict["is_local"]:
-              continue
+                continue
+            t = tempdict['id']
             #print(t)
             if modifyRecord.uniqueTrack(t):
                 modifyRecord.addTrackToDatabase(t, apihelp)
@@ -88,6 +89,7 @@ class modifyRecord():
               if modifyRecord.uniqueArtist(artistID):
                 tempartistdict = apihelp.getArtistDict(trackdict["artists"][0]["id"])
                 tempart = modifyRecord.getArtistInfo(trackdict, tempartistdict)
+                gaquery = '''BEGIN TRANSACTION;'''
                 for g in tempartistdict['genres']:
 
                     if "\'" in g:
@@ -106,10 +108,12 @@ class modifyRecord():
                                 #print(f"DUPLICATE ENTRY: {g}")
                     dbopGenre = db_operations()
                     genreID = modifyRecord.getGenreID(g, dbopGenre)
-                    query = f'''Insert INTO gajunction(genreID, artistID, gaUNIQUEID)
-                    VALUES ({genreID}, \'{artistID}\', \'{genreID}{artistID}\');'''
+                    gaquery = gaquery + f'''Insert INTO gajunction VALUES ({genreID}, \'{artistID}\', \'{genreID}{artistID}\')
+                    '''
                   #querystatement for inserting gajunction [tempdict["artists"][0]["id"], getGenreID(g, genreArr)]
                   #gajunction.append([tempdict["artists"][0]["id"], getGenreID(g, genreArr)])
+                gaquery = gaquery + "COMMIT TRANSACTION"
+                cursor.execute(gaquery)
                 if "\'" in tempart[1]:
                     tempart[1] = tempart[1].replace("\'", "\\\'")
                     #print(f"\,{tempart}")
@@ -204,16 +208,20 @@ class modifyRecord():
         connection.commit()
     @staticmethod
     def updatePlaylist(playlistID, apihelp):
-        hardDeletePlaylist(playlistID, apihelp)
-        addPlaylistToDatabase(playlistID, apihelp)
+        modifyRecord.hardDeletePlaylist(playlistID)
+        modifyRecord.addPlaylistToDatabase(playlistID, apihelp)
 
 
 #NEEDS TO BE IMPLEMENTED
     @staticmethod
-    def hardDeletePlaylist(playlistID, apihelp):
-        #query to remove all values from ptjunction where playlistID = playlistID
-        #query to remove playlist from the playlist function where playlistID = playlistID
-        pass
+    def hardDeletePlaylist(playlistID):
+        dbop = db_operations()
+        cursor = dbop.getCursor()
+        connection = dbop.getConnection()
+        query = f'''DELETE FROM playlist WHERE playlistID = \'{playlistID}\' '''
+        cursor.execute(query)
+        connection.commit()
+        print(f"Successfully deleted playlist {playlistID}")
 
     #given the artist dictionary, returns a list of genres the artist falls under
     @staticmethod

@@ -145,6 +145,8 @@ class helper:
             queryResult[i] = queryResult[i][0]
             #print(queryResult[i])
         #implement query
+        if len(queryResult) == 0:
+            print("Sorry, no items were found with this name. Please try again with a different search term.")
         return queryResult
 
 

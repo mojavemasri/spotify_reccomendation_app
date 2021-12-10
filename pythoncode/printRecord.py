@@ -172,10 +172,30 @@ class printRecord:
         tracks = cursor.fetchall()
         for t in tracks:
             printRecord.printSimpleTrack(t[0])
+    @staticmethod
+    def printFancyPlaylist(playlistID):
+        dbop = db_operations.db_operations()
+        cursor = dbop.getCursor()
+        connection = dbop.getConnection()
+        query = f'''
+                    SELECT playlistID, playlistName, numTracks FROM playlist
+                    WHERE playlistID = \'{playlistID}\';
+                '''
+        cursor.execute(query)
+        playlist = cursor.fetchone()
+        print("===========PLAYLIST INFO===========")
+        print(f"playlistID: {playlist[0]}")
+        print(f"Name: {playlist[1]}")
+        print(f"Number of Tracks: {playlist[2]}")
 
-    def printFancyPlaylist(self, playlistID):
-        data = self.printSimplePlaylist(playlistID)
-        print(f'''playlistName:{data[1]}
-playlistID:{data[0]}
-numTracks:{data[2]}
-               ''')
+        query = f'''
+                    SELECT pt.trackPlace, pt.trackID, t.trackName, art.artistName  FROM (ptjunction pt
+                    INNER JOIN track t ON t.trackID = pt.trackID)
+                    INNER JOIN artist art on t.artistID = art.artistID
+                    WHERE pt.playlistID = \'{playlist[0]}\';
+                '''
+        cursor.execute(query)
+        tracks = cursor.fetchall()
+        print("TRACKS:")
+        for tr in tracks:
+            print(f"TRACK {tr[0] + 1}: {tr[1]}, {tr[2]} by {tr[3]}")
