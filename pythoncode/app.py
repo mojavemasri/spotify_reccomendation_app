@@ -51,10 +51,9 @@ def viewlibrary():
             2) Albums
             3) Genres
             4) Playlists
-            5) Users(NOT IMPLEMENTED YET IT WONT LET YOU CHOOSE THIS)
-            6) Return to main menu
+            5) Return to main menu
     ''')
-    typechoice = helper.get_choice([1,2,3,4,6])
+    typechoice = helper.get_choice([1,2,3,4,5])
     if typechoice == 1:
         print('''
         Would you like to:
@@ -135,15 +134,20 @@ def viewlibrary():
         print('''
         Would you like to:
         1)Enter the Spotify url to display your playlist
-        2)Enter the name of the playlist and search for it
-        3)Print all playlists
-        4)Return to main menu''')
-        searchChoice = helper.get_choice([1,2,3,4])
+        2)Enter the ID of the playlist you want to display
+        3)Enter the name of the playlist and search for it
+        4)Print all playlists
+        5)Return to main menu''')
+        searchChoice = helper.get_choice([1,2,3,4,5])
         if searchChoice == 1:
             playlistID = helper.getURLFromUser(4)
             modifyRecord.addPlaylistToDatabase(playlistID, apihelp)
             printRecord.printFancyPlaylist(playlistID)
         elif searchChoice == 2:
+            playlistID = helper.getURIFromUser(4)
+            modifyRecord.addPlaylistToDatabase(playlistID, apihelp)
+            printRecord.printFancyPlaylist(playlistID)
+        elif searchChoice == 3:
             searchName = input("Enter name:")
 
             queryResult = helper.searchDB(searchName, 5) #search DB needs to be implemented
@@ -152,7 +156,7 @@ def viewlibrary():
                 printRecord.printSimpleArtist(q[0])
             if len(queryResult) == 0:
                 print("Sorry, no playlist with this name were found. Please try again.")
-        elif searchChoice == 3:
+        elif searchChoice == 4:
             query = '''SELECT playlistID, playlistName FROM playlist'''
             cursor.execute(query)
             queryResults = cursor.fetchall()
