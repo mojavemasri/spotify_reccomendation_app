@@ -2,6 +2,7 @@ import random
 import math
 from apihelper import apihelper
 from db_operations import db_operations
+from modifyRecord import modifyRecord
 class reccomendation():
 
 #NEW ATTRIBUTES
@@ -16,12 +17,12 @@ class reccomendation():
 
 
     def __init__(self, playlist, maxpopularity, minpopularity, maxartistpopularity, \
-    minartistpopularity, vibechoice):
+    minartistpopularity, vibechoice, apihelp):
         self.playlist = playlist
-        self.samplePoolList, self.samplePool, self.sampleSize = reccomendation.initializeSamplePool(maxpopularity, minpopularity, maxartistpopularity, minartistpopularity, vibechoice, playlist)
+        self.samplePoolList, self.samplePool, self.sampleSize = reccomendation.initializeSamplePool(maxpopularity, minpopularity, maxartistpopularity, minartistpopularity, vibechoice, playlist, apihelp)
         print(f"sampleSize: {self.sampleSize}")
     @staticmethod
-    def initializeSamplePool(maxpopularity, minpopularity, maxartistpopularity,minartistpopularity, vibechoice, playlist):
+    def initializeSamplePool(maxpopularity, minpopularity, maxartistpopularity,minartistpopularity, vibechoice, playlist,apihelp):
         dbop = db_operations()
         cursor = dbop.getCursor()
         if vibechoice == 1:
@@ -84,8 +85,18 @@ class reccomendation():
                            INNER JOIN track t ON tA.trackID = t.trackID) INNER JOIN artist a ON t.artistID = a.artistID
                            WHERE t.trackID = \'{p}\''''
                 #print(p)
+
                 cursor.execute(query)
-                temptrackInfo = cursor.fetchall()[0]
+                temptrackInfo = cursor.fetchall()
+                #print(f"p = {p}")
+                #print(temptrackInfo)
+                if temptrackInfo == []:
+                    #print("no attributes found")
+                    modifyRecord.insertAttributes(p, apihelp)
+                    cursor.execute(query)
+                    temptrackInfo = cursor.fetchall()
+                    #print(f"newTrackInfo: {temptrackInfo}")
+                temptrackInfo = temptrackInfo[0]
                 firstTrack = True
                 initsamplePoolList.append(temptrackInfo[0])
                 tempattributeList = []
@@ -245,11 +256,13 @@ class reccomendation():
       return avgList
 
     def calcVal(self, sol, playlistAvg, weight, playlistVars):
+      wavg = 0.5
+      wvar = 0.25
       avgTestSol = self.avgVal(sol)
       avgVar = self.findVar(sol)
       diffList = reccomendation.compareVectors(playlistAvg, avgTestSol, weight)
-      varList = reccomendation.compareVectors(avgVar, playlistVars, [0,0,0,0,0,0,0,0])#CAN BE REPLACED WITH WEIGHT
-      return(reccomendation.calcDistance(diffList)+reccomendation.calcDistance(varList))
+      varList = reccomendation.compareVectors(avgVar, playlistVars, weight)#CAN BE REPLACED WITH WEIGHT
+      return(((wavg*reccomendation.calcDistance(diffList))+(wvar*reccomendation.calcDistance(varList)))/(wavg+wvar))
 
     @staticmethod
     def compareVectors(s1, s2, weight):
@@ -332,11 +345,13 @@ class reccomendation():
         NUM_PARENTS = 200
         NUM_CHILDREN = (NUM_PARENTS/2)
         BASE_POP = 1000
+        MAX_CONVERG = 0.96
+        MAX_VAL = 0.995
         FIRSTCONVERG = 1.2
         AFTERCONVERG = 1.04
         bestVal = 0
         bestSol = []
-        MAX_RESETS = 1
+        MAX_RESETS = 5
         ACCURACY = -10000
         currBestSol = []
         varPlaylist = self.findVar(self.playlist)
@@ -391,11 +406,11 @@ class reccomendation():
                 elif temp == bestVal or temp == currBestVal:
                   convNum += 1
               print(f"convRate = {convNum/len(updatepop)}")
-              if (convNum/len(updatepop)) >= 0.99:
+              if (convNum/len(updatepop)) >= MAX_CONVERG:
                   print(f"RESETTING AT {i}")
                   break
               if convNum * 2 >= len(updatepop) and not currBestSol == bestSol:
-                #print("ADDING THE SPECIAL SAUCE 10x")
+                print("ADDING THE SPECIAL SAUCE 10x")
                 for x in range(10):
                   updatepop.append(bestSol)
               elif convNum  >= len(updatepop):
@@ -405,7 +420,8 @@ class reccomendation():
 
             if i == NUM_TRIALS-1:
               print(f"Conv num: {convNum}")
-
+          if bestVal >= MAX_VAL:
+              break
           print("Adding new Pop, BEST SOLUTION: ")
           print(bestSol)
           reccomendation.prettyPrint(bestSol)

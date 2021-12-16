@@ -78,6 +78,8 @@ class helper:
             return url[32:url.index('?')]
         elif url[25:33] == "playlist":
             return url[34:url.index('?')]
+        elif url[25:29] == "user":
+            return url[30:url.index('?')]
         else:
             return ""
 
@@ -94,6 +96,7 @@ class helper:
                 break
             else:
                 print("Invalid url, please try again")
+        #print(f"GET URLFROM USER: {url}")
         URI = helper.convertURLtoURI(url)
         return URI
 

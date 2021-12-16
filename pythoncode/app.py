@@ -175,7 +175,7 @@ def editlibrary(apihelp):
     3)Delete a record
     4) Return to main menu
     ''')
-    typechoice = helper.get_choice([1,2,3])
+    typechoice = helper.get_choice([1,2,3,4])
     if typechoice == 1:
         print('''
         Would you like to:
@@ -206,6 +206,8 @@ def editlibrary(apihelp):
                     break
         elif mediumchoice == 4:
             userID = helper.getURLFromUser(5)
+            print(userID)
+            print(len(userID))
             playlistArr = apihelp.extractUserPlaylists(userID)
             for playlist in playlistArr:
                 modifyRecord.addPlaylistToDatabase(playlist, apihelp)
@@ -330,7 +332,7 @@ def getreccomendations(apihelp):
                 4)Picnic music(ethereal and subdued)''')
         vibechoice = helper.get_choice([1,2,3,4])
         reccomendationObj =  reccomendation(playlistInput, maxpopularity, minpopularity, maxartistpopularity, \
-        minartistpopularity, vibechoice)
+        minartistpopularity, vibechoice, apihelp)
         reccomendedPlaylist = reccomendationObj.runGA()
 
 def menuoptions():

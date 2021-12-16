@@ -28,6 +28,7 @@ class modifyRecord():
           #print(query)
           try:
               cursor.execute(query)
+              print(f"Now adding playlist: {playlistInfo[1]}")
           except mysql.connector.Error as e:
               if e.errno == 1062:
                  #print(f"DUPLICATE ENTRY: {insertPlaylist}")
@@ -68,7 +69,7 @@ class modifyRecord():
           #this return statement wont be necessary if u r already adding the items to the database
           #return[playlistInfo, trackArr, albumArr, artistArr, genreArr, gajunction, ptjunction]
           connection.commit()
-          print(f"Successfully added {playlistInfo[1]} :)")
+          print(f"Successfully added playlist: {playlistInfo[1]}")
           pass
       else:
           print("Playlist is already in database.")
@@ -172,7 +173,7 @@ class modifyRecord():
                    print(f"{e.msg}")
             connection.commit()
             modifyRecord.insertAttributes(trackdict["id"], apihelp)
-            print(f"Successfully added {tempt[3]}")
+            print(f"Successfully added track: {tempt[3]}")
             connection.commit()
         else:
             pass
