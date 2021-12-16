@@ -3,6 +3,7 @@ README
 
 REPO LINK: 
 https://github.com/yhegab/mgsc532finalproject
+Let me know if you would prefer to have this as a github repo please let me know so I can give you access.
 
 SUMMARY:  
 My project seeks to use a Genetic Algorithm to generate music reccomendations. In this project, I use the Spotify API as well as my own database in order to implement this as an app. My app gives several menu options to the user, specifically the option to get reccomendations. Once selected, the app prompts the user to enter a playlist url, and once taken in will ask the user about specifications for their playlist(minimum and maximum artist popularity, playlist style, etc) and will then generate a sample population based on these preferences. At this stage the app runs the GA, and will print a playlist from the samples it got.  
