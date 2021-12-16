@@ -1,6 +1,9 @@
 # spotifyreccomendationapp
 README
 
+REPO LINK: 
+https://github.com/yhegab/mgsc532finalproject
+
 SUMMARY:  
 My project seeks to use a Genetic Algorithm to generate music reccomendations. In this project, I use the Spotify API as well as my own database in order to implement this as an app. My app gives several menu options to the user, specifically the option to get reccomendations. Once selected, the app prompts the user to enter a playlist url, and once taken in will ask the user about specifications for their playlist(minimum and maximum artist popularity, playlist style, etc) and will then generate a sample population based on these preferences. At this stage the app runs the GA, and will print a playlist from the samples it got.  
 
@@ -16,7 +19,7 @@ pip3 install spotipy --upgrade
 pip3 install mysql-connector-python  
 
 RUN THE CODE:
-After cloning the repo, cd into the repo and run the command "python3 pythoncode/app.py"  
+After cloning the repo(or unzipping the folder), cd into the folder and run the command "python3 pythoncode/app.py"  
 Once you run that, select the "reccomendations" menu option and follow the prompts.  
 The app will prompt you to enter your own spotify playlists to get a reccomendation. In case you don't use spotify, I will include some of my own playlists below for you to run(don't judge my music taste haha)  
 I have included some sample text chunk inputs you can run instead of having to select all the different options, just so you can see the genetic algorithm run without having to do all the commands.  
