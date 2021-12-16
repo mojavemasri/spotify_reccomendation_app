@@ -8,7 +8,7 @@ Let me know if you would prefer to have this as a github repo please let me know
 SUMMARY:  
 My project seeks to use a Genetic Algorithm to generate music reccomendations. In this project, I use the Spotify API as well as my own database in order to implement this as an app. My app gives several menu options to the user, specifically the option to get reccomendations. Once selected, the app prompts the user to enter a playlist url, and once taken in will ask the user about specifications for their playlist(minimum and maximum artist popularity, playlist style, etc) and will then generate a sample population based on these preferences. At this stage the app runs the GA, and will print a playlist from the samples it got.  
 
-The fitness of the algorithm is based on the track attributes, which is something Spotify created for each track. Each track attribute describes a sonic aspect of a track(energy, danceability, etc) by assignint it a value from 0 to 1 indicating how much of said quality a track has. The actual fitness is determined based on the variance of each attribute in a playlist, and the avg value of an attribute in a playlist, each of these values are weighted.  
+The fitness of the algorithm is based on the track attributes, which is something Spotify created for each track. Each track attribute describes a sonic aspect of a track(energy, danceability, etc) by assignint it a value from 0 to 1 indicating how much of said attribute a track has. The actual fitness is determined based on the variance of each attribute in a playlist, and the avg value of an attribute in a playlist, each of these values are weighted.  
 
 The selection is done using a tournament select.  
 
