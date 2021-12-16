@@ -44,7 +44,7 @@ https://open.spotify.com/playlist/7bXzIXuxZtVTwd28IeJQdd?si=a1a2da5a7a064cbc
 2  
 
 
-SPOTIFY PLAYLISTS:
+SPOTIFY PLAYLISTS:  
 https://open.spotify.com/playlist/5Z6UzaQDxgC9xrChuAA6DM?si=76f1630c5e0b4588
 https://open.spotify.com/playlist/40FRYg4xxA7co7lAeCdrh8?si=1d5e97e4a9044bdf
 https://open.spotify.com/playlist/7gFEStua1YiLRQWTBOXYtU?si=c583dc28cec749a1
