@@ -1,7 +1,7 @@
 # module defines operations to use with sqlite3 database
 import mysql.connector as mysql
 m_user = "rao"
-m_password = "raoisthegoat"
+m_password = "password1"
 m_host = "34.121.244.17"
 m_database = "spotifyreccomendationapp"
 
